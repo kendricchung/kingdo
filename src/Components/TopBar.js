@@ -12,23 +12,23 @@ class TopBar extends Component {
                         display: "flex", 
                         justifyContent: "space-between", 
                         backgroundColor: "white",
-                        alignItems: "center"
+                        alignItems: "center",
                     }}>
-                    <div style={{paddingLeft: "40px"}}>
+                    <div style={{paddingLeft: "40px", width: "15%"}}>
                             <h2>OPEN FOR TAKE OUT</h2>
                             <h3>Payment is accepted upon pickup</h3>
                         </div>
-                    <Button style={{ backgroundColor: "transparent"}} disableRipple={true}>
+                    <Button style={{ backgroundColor: "transparent", width: "20%"}} disableRipple={true}>
                         <div>
                             <h1>LOGO</h1>
                             <h3>Kingdo Restaurant</h3>
                         </div>
                     </Button>
-                    <div style={{display: "flex", paddingRight: "40px", alignItems: "center"}}>
+                    <div style={{display: "flex", paddingRight: "40px", justifyContent: "center", width: "15%"}}>
                         <div style={{paddingRight: "20px"}}>
                             <h3>7789999999</h3><h3>7789999997</h3>
                         </div>
-                        <IconButton>
+                        <IconButton style={{ backgroundColor: "transparent" }} disableRipple={true}>
                             <RoomIcon></RoomIcon>
                         </IconButton>
                     </div>
