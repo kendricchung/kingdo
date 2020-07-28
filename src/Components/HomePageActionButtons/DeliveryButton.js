@@ -27,7 +27,7 @@ class DeliveryButton extends Component {
             <Button
                 fullWidth
                 label="Submit"
-                color="primary"
+                color="#808080"
                 variant="contained"
                 size="large"
                 onClick={this.handleRedirecToDelivery}
