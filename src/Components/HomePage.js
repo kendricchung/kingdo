@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
-import TopBar from "./TopBar";
-import Menu from "./Menu/Menu";
-import CartBar from "../Components/Cart/CartBar";
+import HomePageTitle from "./HomePageTitle";
+import Center from "react-center";
+import PickUpButton from "./HomePageActionButtons/PickUpButton";
+import DeliveryButton from "./HomePageActionButtons/DeliveryButton";
 
 class HomePage extends Component {
     render() {
         return (
-            <div style={{background: "#d6bf89"}}>
-                <TopBar/>
-                <Menu/>
-                <CartBar/>
-            </div>
+            <Center>
+                <div style={{width: "100%", height: "100%"}}>
+                    <HomePageTitle/>
+                    <div style={{display: 'flex',  justifyContent:'center', alignItems:'center', paddingRight: "30%", paddingLeft: "30%"}}>
+                        <DeliveryButton/>
+                        <div style={{width: "10%"}}></div>
+                        <PickUpButton/>
+                    </div>
+                </div>
+            </Center>
         );
     }
 }
