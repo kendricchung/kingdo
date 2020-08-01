@@ -18,7 +18,10 @@ class MenuSection extends Component {
     return (
       <div>
         <h2 style={{ paddingLeft: "2%" }}>{this.state.sectionName}</h2>
-        <MenuStructure items={this.state.sectionItems} />
+        <MenuStructure
+          addMenuItemToCart={this.props.addMenuItemToCart}
+          items={this.state.sectionItems}
+        />
       </div>
     );
   }

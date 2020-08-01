@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import MenuItem from "./MenuItem";
-import Grid from "@material-ui/core/Grid";
 
 class MenuStructure extends Component {
   state = {
@@ -25,7 +24,10 @@ class MenuStructure extends Component {
         }}
       >
         {this.state.sectionItems.map((item) => (
-          <MenuItem itemInfo={item}></MenuItem>
+          <MenuItem
+            addMenuItemToCart={this.props.addMenuItemToCart}
+            itemInfo={item}
+          ></MenuItem>
         ))}
       </div>
     );
