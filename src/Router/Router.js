@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
-import { Switch, Redirect, Route } from "react-router-dom";
+import React from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
 import HomePage from "../Components/HomePage";
-import PickUp from "../Components/PickUp/PickUp";
-import Delivery from "../Components/Delivery/Delivery";
+import MenuPage from "../Components/Menu/MenuPage/MenuPage";
+import Generic404Page from "../Components/Generic404Page";
 
 const Router = () => {
-    return (
-        <Switch>
-            <Route component={HomePage} exact path="/"/>
-            <Route component={PickUp} exact path="/pickup"/>
-            <Route component={Delivery} exact path="/delivery"/>
-        </Switch>
-    );
-}
+  return (
+    <Switch>
+      <Route component={HomePage} exact path="/" />
+      <Route component={MenuPage} exact path="/:type" />
+      <Route path="/404" component={Generic404Page} />
+      <Redirect to="/404" />
+    </Switch>
+  );
+};
 
 export default Router;
