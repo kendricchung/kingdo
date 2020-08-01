@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TopBar from "./TopBar";
 import CarBar from "../../Cart/CartBar";
 import Menu from "../Menu";
+import ScrollToTop from "react-scroll-to-top";
 
 class MenuPage extends Component {
   constructor(props) {
@@ -28,6 +29,19 @@ class MenuPage extends Component {
     // TODO: if it is anything else, rediect to 404 page
     return (
       <div style={{ backgroundColor: "#FFCCCB" }}>
+        <ScrollToTop
+          smooth
+          style={{
+            position: "fixed",
+            bottom: "11%",
+            left: "47.5%",
+            width: "6%",
+            height: "6%",
+            borderStyle: "solid",
+            borderWidth: 1,
+          }}
+          component={<h4 style={{ fontSize: 14 }}>Back to Top</h4>}
+        />
         <TopBar />
         <Menu addMenuItemToCart={this.addMenuItemToCart} />
         <CarBar

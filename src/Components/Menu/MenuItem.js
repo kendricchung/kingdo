@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import AddIcon from "@material-ui/icons/Add";
-import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 class MenuItem extends Component {
@@ -24,10 +24,12 @@ class MenuItem extends Component {
         }}
       >
         <Card style={{ height: "95%" }}>
-          <CardContent>
-            <Typography>{this.state.name}</Typography>
-            <Typography>{this.state.price}</Typography>
-            <IconButton
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <CardContent>
+              <Typography>{this.state.name}</Typography>
+              <Typography>{this.state.price}</Typography>
+            </CardContent>
+            <Button
               onClick={() =>
                 this.props.addMenuItemToCart({
                   id: this.state.id,
@@ -37,8 +39,8 @@ class MenuItem extends Component {
               }
             >
               <AddIcon></AddIcon>
-            </IconButton>
-          </CardContent>
+            </Button>
+          </div>
         </Card>
       </div>
     );

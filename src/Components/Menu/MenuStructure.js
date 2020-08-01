@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import MenuItem from "./MenuItem";
-import Grid from "@material-ui/core/Grid";
 
 class MenuStructure extends Component {
   state = {

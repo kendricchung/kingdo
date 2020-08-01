@@ -12,6 +12,12 @@ const menu = [
       { id: 9, name: "Lettuce Wrap (Seafood)", price: 14.95 },
       { id: 10, name: "BBQ Pork", price: 8.95 },
       { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
+      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
+      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
+      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
+      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
+      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
+      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
     ],
   },
   {
@@ -20,7 +26,11 @@ const menu = [
   },
   {
     menuSectionName: "Beef and Port",
-    menuSectionItems: [{ id: 16, name: "Mandarin Pork Chops", price: 15.95 }],
+    menuSectionItems: [
+      { id: 16, name: "Mandarin Pork Chops", price: 15.95 },
+      { id: 16, name: "Mandarin Pork Chops", price: 15.95 },
+      { id: 16, name: "Mandarin Pork Chops", price: 15.95 },
+    ],
   },
 ];
 
