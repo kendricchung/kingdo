@@ -9,7 +9,7 @@ class CarBar extends Component {
         style={{
           backgroundColor: "white",
           textAlign: "center",
-          paddingBottom: "2.5%",
+          paddingBottom: "1.5%",
           position: "fixed",
           left: "0",
           bottom: "0",
@@ -30,18 +30,27 @@ class CarBar extends Component {
               display: "flex",
               alignItems: "center",
               paddingLeft: "1%",
+              width: "11%",
             }}
           >
-            <Button>
-              <ShoppingCartIcon fontSize="large" />
-              <h2 style={{ paddingLeft: "10%" }}>
-                {this.props.cartItems.length}
-              </h2>
-            </Button>
+            <ShoppingCartIcon fontSize="large" />
+            <h2 style={{ paddingLeft: "10%" }}>
+              {this.props.cartItems.length}
+            </h2>
           </div>
+          <Button
+            style={{ backgroundColor: "transparent", width: "11%" }}
+            disableRipple={true}
+          >
+            <h3>View Cart</h3>
+          </Button>
+
           <h2
             key={this.props.cartAmount}
-            style={{ paddingRight: "1%", fontSize: 20 }}
+            style={{
+              fontSize: 20,
+              width: "11%",
+            }}
           >
             Total Amount: ${this.props.cartAmount}
           </h2>

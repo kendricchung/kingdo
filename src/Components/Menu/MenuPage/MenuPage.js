@@ -39,6 +39,7 @@ class MenuPage extends Component {
             height: "6%",
             borderStyle: "solid",
             borderWidth: 1,
+            borderColor: "#83858a",
           }}
           component={<h4 style={{ fontSize: 14 }}>Back to Top</h4>}
         />
