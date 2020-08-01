@@ -16,7 +16,7 @@ class TopBar extends Component {
             alignItems: "center",
           }}
         >
-          <div style={{ paddingLeft: "40px", width: "15%" }}>
+          <div style={{ paddingLeft: "2%", width: "20%" }}>
             <h2>OPEN FOR TAKE OUT</h2>
             <h3>Payment is accepted upon pickup</h3>
           </div>
@@ -32,9 +32,9 @@ class TopBar extends Component {
           <div
             style={{
               display: "flex",
-              paddingRight: "40px",
+              paddingRight: "2%",
               justifyContent: "center",
-              width: "15%",
+              width: "20%",
             }}
           >
             <div style={{ paddingRight: "20px" }}>

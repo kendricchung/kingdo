@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
 import AddIcon from "@material-ui/icons/Add";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
@@ -17,6 +14,7 @@ class MenuItem extends Component {
       price: props.itemInfo.price,
     };
   }
+
   render() {
     return (
       <div
@@ -26,13 +24,18 @@ class MenuItem extends Component {
         }}
       >
         <Card style={{ height: "95%" }}>
-          <CardMedia
-            style={{ height: 180 }}
-            image={require("./photo.jpg")}
-          ></CardMedia>
           <CardContent>
             <Typography>{this.state.name}</Typography>
-            <IconButton>
+            <Typography>{this.state.price}</Typography>
+            <IconButton
+              onClick={() =>
+                this.props.addMenuItemToCart({
+                  id: this.state.id,
+                  name: this.state.name,
+                  price: this.state.price,
+                })
+              }
+            >
               <AddIcon></AddIcon>
             </IconButton>
           </CardContent>
