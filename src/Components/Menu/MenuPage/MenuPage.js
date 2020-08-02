@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TopBar from "./TopBar";
-import CarBar from "../../Cart/CartBar";
+import CartBar from "../../Cart/CartBar";
 import Menu from "../Menu";
 import ScrollToTop from "react-scroll-to-top";
 
@@ -12,7 +12,6 @@ class MenuPage extends Component {
     for (const item of items) {
       totalPrice += item.price;
     }
-
     this.state = {
       foodTransportation: props.location.pathname.substring(1),
       cartItems: sessionStorage.getItem("cartItems")
@@ -45,8 +44,8 @@ class MenuPage extends Component {
           style={{
             position: "fixed",
             bottom: "11%",
-            left: "47.5%",
-            width: "10%",
+            left: "46%",
+            width: "9%",
             height: "6%",
             borderStyle: "solid",
             borderWidth: 1,
@@ -56,7 +55,7 @@ class MenuPage extends Component {
         />
         <TopBar />
         <Menu addMenuItemToCart={this.addMenuItemToCart} />
-        <CarBar
+        <CartBar
           foodTransportationMethod={this.state.foodTransportation}
           cartAmount={this.state.cartAmount}
           cartItems={this.state.cartItems}

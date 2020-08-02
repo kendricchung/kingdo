@@ -3,7 +3,7 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 
-class CarBar extends Component {
+class CartBar extends Component {
   state = {
     mouseOverViewCart: false,
   };
@@ -76,7 +76,7 @@ class CarBar extends Component {
               width: "15%",
             }}
           >
-            Total Amount: ${this.props.cartAmount}
+            ${this.props.cartAmount}
           </h2>
         </div>
       </div>
@@ -84,4 +84,4 @@ class CarBar extends Component {
   }
 }
 
-export default CarBar;
+export default CartBar;
