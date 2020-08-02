@@ -11,13 +11,6 @@ const menu = [
       { id: 8, name: "Lettuce Wrap (Beef)", price: 14.95 },
       { id: 9, name: "Lettuce Wrap (Seafood)", price: 14.95 },
       { id: 10, name: "BBQ Pork", price: 8.95 },
-      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
-      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
-      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
-      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
-      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
-      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
-      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
     ],
   },
   {
@@ -28,8 +21,8 @@ const menu = [
     menuSectionName: "Beef and Port",
     menuSectionItems: [
       { id: 16, name: "Mandarin Pork Chops", price: 15.95 },
-      { id: 16, name: "Mandarin Pork Chops", price: 15.95 },
-      { id: 16, name: "Mandarin Pork Chops", price: 15.95 },
+      { id: 17, name: "Mandarin Pork Chops", price: 15.95 },
+      { id: 18, name: "Mandarin Pork Chops", price: 15.95 },
     ],
   },
 ];
@@ -70,13 +63,20 @@ class Menu extends Component {
               duration={500}
               onSetActive={this.handleSetActive}
             >
-              <MenuButton buttonName={section}></MenuButton>
+              <MenuButton
+                key={section.menuSectionName}
+                buttonName={section}
+              ></MenuButton>
             </Link>
           ))}
         </div>
         {menu.map((menuSection) => (
-          <Element name={menuSection.menuSectionName}>
+          <Element
+            key={menuSection.menuSectionName}
+            name={menuSection.menuSectionName}
+          >
             <MenuSection
+              key={menuSection.menuSectionName}
               addMenuItemToCart={this.props.addMenuItemToCart}
               menuSectionInfo={menuSection}
             ></MenuSection>

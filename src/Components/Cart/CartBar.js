@@ -1,8 +1,21 @@
 import React, { Component } from "react";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
 
 class CarBar extends Component {
+  state = {
+    mouseOverViewCart: false,
+  };
+
+  handleMouseEnterViewCart = () => {
+    this.setState({ mouseOverViewCart: true });
+  };
+
+  handleMouseLeavingViewCart = () => {
+    this.setState({ mouseOverViewCart: false });
+  };
+
   render() {
     return (
       <div
@@ -30,7 +43,7 @@ class CarBar extends Component {
               display: "flex",
               alignItems: "center",
               paddingLeft: "1%",
-              width: "11%",
+              width: "15%",
             }}
           >
             <ShoppingCartIcon fontSize="large" />
@@ -39,17 +52,28 @@ class CarBar extends Component {
             </h2>
           </div>
           <Button
-            style={{ backgroundColor: "transparent", width: "11%" }}
+            style={{
+              backgroundColor: "transparent",
+              width: "15%",
+            }}
             disableRipple={true}
+            onMouseEnter={this.handleMouseEnterViewCart}
+            onMouseLeave={this.handleMouseLeavingViewCart}
           >
-            <h3>View Cart</h3>
+            <Link
+              to={`/${this.props.foodTransportationMethod}/cart`}
+              style={{
+                textDecoration: "none",
+                color: this.state.mouseOverViewCart ? "grey" : "black",
+              }}
+            >
+              <h3>View Cart</h3>
+            </Link>
           </Button>
-
           <h2
-            key={this.props.cartAmount}
             style={{
               fontSize: 20,
-              width: "11%",
+              width: "15%",
             }}
           >
             Total Amount: ${this.props.cartAmount}
