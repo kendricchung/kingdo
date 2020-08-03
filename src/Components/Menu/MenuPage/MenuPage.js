@@ -23,15 +23,15 @@ class MenuPage extends Component {
   }
 
   addMenuItemToCart = (cartItem) => {
-    let currentCarItems = this.state.cartItems;
+    let currentCartItems = this.state.cartItems;
     let currentCartAmount = parseFloat(
       (Math.round(parseFloat(this.state.cartAmount, 10) * 100) / 100).toFixed(2)
     );
-    currentCarItems.push(cartItem);
+    currentCartItems.push(cartItem);
     currentCartAmount += cartItem.price;
-    sessionStorage.setItem("cartItems", JSON.stringify(currentCarItems));
+    sessionStorage.setItem("cartItems", JSON.stringify(currentCartItems));
     this.setState({
-      cartItems: currentCarItems,
+      cartItems: currentCartItems,
       cartAmount: (Math.round(currentCartAmount * 100) / 100).toFixed(2),
     });
   };

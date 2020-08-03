@@ -55,7 +55,6 @@ class CartPage extends Component {
         Math.round(parseFloat(subtotalPrice + taxPrice, 10) * 100) / 100
       ).toFixed(2)
     );
-
     this.state = {
       cartItems: storageCartItems,
       itemStack: listOfItems,
@@ -66,6 +65,7 @@ class CartPage extends Component {
         ? "delivery"
         : "pickup",
       redirectToOrderConfirmationPage: false,
+      buttonDisabled: storageCartItems.length === 0 ? true : false,
     };
   }
 
@@ -73,12 +73,133 @@ class CartPage extends Component {
     this.setState({ redirectToOrderConfirmationPage: true });
   };
 
+  calculateAmountsGivenStackItems(stackItems) {
+    let price = 0;
+    stackItems.forEach((value) => {
+      price +=
+        value.quantity *
+        parseFloat(
+          (Math.round(parseFloat(value.item.price, 10) * 100) / 100).toFixed(2)
+        );
+    });
+
+    const subtotalPrice = parseFloat(
+      (Math.round(parseFloat(price, 10) * 100) / 100).toFixed(2)
+    );
+    const taxPrice = parseFloat(
+      (Math.round(subtotalPrice * 0.05 * 100) / 100).toFixed(2)
+    );
+
+    const totalPrice = parseFloat(
+      (
+        Math.round(parseFloat(subtotalPrice + taxPrice, 10) * 100) / 100
+      ).toFixed(2)
+    );
+
+    return [subtotalPrice, taxPrice, totalPrice];
+  }
+
+  handleRemoveItems = (itemId) => {
+    let currentStackItems = this.state.itemStack;
+    let currentCartItems = this.state.cartItems;
+    // This creates the new stack of items
+    let newStackItems = [];
+    currentStackItems.forEach((value) => {
+      if (value.item.id !== itemId) {
+        newStackItems.push(value);
+      }
+    });
+    // This creates the new cart items
+    let newCartItems = [];
+    currentCartItems.forEach((value) => {
+      if (value.id !== itemId) {
+        newCartItems.push(value);
+      }
+    });
+    // Set to session storage
+    sessionStorage.setItem("cartItems", JSON.stringify(newCartItems));
+
+    // Calculate the new amounts
+    const [
+      subtotalPrice,
+      taxPrice,
+      totalPrice,
+    ] = this.calculateAmountsGivenStackItems(newStackItems);
+
+    this.setState({
+      itemStack: newStackItems,
+      cartItems: newCartItems,
+      subtotalPrice: subtotalPrice,
+      taxPrice: taxPrice,
+      totalPrice: totalPrice,
+    });
+  };
+
+  handleChangeQuantity = (item, newQuantity, oldQuantity) => {
+    if (item && newQuantity && oldQuantity) {
+      let currentCartItems = this.state.cartItems;
+      let currentStackItems = this.state.itemStack;
+      let newCartItems = [];
+      let numberOfItemsLeft = oldQuantity - newQuantity;
+
+      if (numberOfItemsLeft >= 0) {
+        let numberOfItemsToRemove = numberOfItemsLeft;
+        for (let i = 0; i < currentCartItems.length; i++) {
+          if (currentCartItems[i].id === item.id && numberOfItemsToRemove > 0) {
+            delete currentCartItems[i];
+            numberOfItemsToRemove--;
+          }
+        }
+        currentCartItems.forEach((value) => {
+          if (value !== null) {
+            newCartItems.push(value);
+          }
+        });
+      } else if (numberOfItemsLeft < 0) {
+        let numberToAdd = Math.abs(numberOfItemsLeft);
+        newCartItems = currentCartItems;
+        for (let i = 0; i < numberToAdd; i++) {
+          newCartItems.push(item);
+        }
+      }
+
+      currentStackItems.forEach((value) => {
+        if (value.item.id === item.id) {
+          if (numberOfItemsLeft > 0) {
+            value.quantity -= numberOfItemsLeft;
+          } else {
+            value.quantity += Math.abs(numberOfItemsLeft);
+          }
+        }
+      });
+
+      sessionStorage.setItem("cartItems", JSON.stringify(newCartItems));
+
+      const [
+        subtotalPrice,
+        taxPrice,
+        totalPrice,
+      ] = this.calculateAmountsGivenStackItems(currentStackItems);
+
+      this.setState({
+        itemStack: currentStackItems,
+        cartItems: newCartItems,
+        subtotalPrice: subtotalPrice,
+        taxPrice: taxPrice,
+        totalPrice: totalPrice,
+      });
+    }
+  };
+
   render() {
     if (this.state.redirectToOrderConfirmationPage) {
       return (
         <Redirect
           push
-          to={`/${this.state.foodTransportationMethod}/cart/order/confirmed`}
+          to={{
+            pathname: `/${this.state.foodTransportationMethod}/cart/order/confirmed`,
+            state: "token",
+          }}
         />
       );
     }
@@ -102,38 +223,62 @@ class CartPage extends Component {
         <TopBar />
         <div style={{ display: "flex" }}>
           <div>
-            {this.state.itemStack.map((value) => (
-              <div style={{ padding: "13%", width: "300%" }}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h5" component="h2">
-                      {value.item.name}
-                    </Typography>
-                    <Typography color="textSecondary">
-                      ${value.item.price}
-                    </Typography>
-                    <Typography color="textSecondary">Quantity:</Typography>
-                    <TextField
-                      variant="outlined"
-                      size="small"
-                      defaultValue={value.quantity}
-                    />
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="secondary">
-                      Remove Item
-                    </Button>
-                  </CardActions>
-                </Card>
+            {this.state.itemStack.length === 0 ? (
+              <div style={{ padding: 40 }}>
+                <Typography variant="h5" component="h2">
+                  You currently don't have any items in your cart.
+                </Typography>
+                <Typography variant="h5" component="h2">
+                  Please add them from the menu page to proceed to checkout.
+                </Typography>
               </div>
-            ))}
+            ) : (
+              this.state.itemStack.map((value) => (
+                <div style={{ padding: "13%", width: "200%" }}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h5" component="h2">
+                        {value.item.name}
+                      </Typography>
+                      <Typography color="textSecondary">
+                        ${value.item.price}
+                      </Typography>
+                      <Typography color="textSecondary">Quantity:</Typography>
+                      <TextField
+                        type="number"
+                        variant="outlined"
+                        size="small"
+                        InputProps={{ inputProps: { min: 0 } }}
+                        onChange={(event) =>
+                          this.handleChangeQuantity(
+                            value.item,
+                            parseInt(event.target.value, 10),
+                            value.quantity
+                          )
+                        }
+                        defaultValue={value.quantity}
+                      />
+                    </CardContent>
+                    <CardActions>
+                      <Button
+                        size="small"
+                        color="secondary"
+                        onClick={() => this.handleRemoveItems(value.item.id)}
+                      >
+                        Remove Item
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </div>
+              ))
+            )}
           </div>
           <div
             style={{
               width: "45%",
               position: "fixed",
               right: 0,
-              padding: "2%",
+              padding: 40,
             }}
           >
             <Card>
@@ -200,13 +345,16 @@ class CartPage extends Component {
               <div style={{ padding: "2%" }}>
                 <Button
                   fullWidth
+                  disabled={this.state.buttonDisabled}
                   onClick={this.handleRedirectToOrderConfirmationPage}
                   variant="contained"
                   style={{
                     padding: "2%",
                     fontSize: 20,
                     color: "white",
-                    backgroundColor: "green",
+                    backgroundColor: this.state.buttonDisabled
+                      ? "grey"
+                      : "green",
                   }}
                 >
                   Confirm Order
