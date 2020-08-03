@@ -8,6 +8,9 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { Redirect } from "react-router-dom";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
+import IconButton from "@material-ui/core/IconButton";
 
 class CartPage extends Component {
   constructor(props) {
@@ -25,13 +28,14 @@ class CartPage extends Component {
         map.set(item.id, listOfItemsWithGivenId);
       }
     }
-
+    let numberOfItemsCounter = 0;
     let listOfItems = [];
     map.forEach((value, key) => {
       listOfItems.push({
         quantity: value.length,
         item: value[0],
       });
+      numberOfItemsCounter += value.length;
     });
 
     let price = 0;
@@ -55,12 +59,13 @@ class CartPage extends Component {
         Math.round(parseFloat(subtotalPrice + taxPrice, 10) * 100) / 100
       ).toFixed(2)
     );
+
     this.state = {
-      cartItems: storageCartItems,
       itemStack: listOfItems,
       subtotalPrice: subtotalPrice,
       taxPrice: taxPrice,
       totalPrice: totalPrice,
+      totalNumberOfItems: numberOfItemsCounter,
       foodTransportationMethod: props.location.pathname.includes("delivery")
         ? "delivery"
         : "pickup",
@@ -74,6 +79,9 @@ class CartPage extends Component {
   };
 
   calculateAmountsGivenStackItems(stackItems) {
+    if (stackItems.length === 0) {
+      return [0, 0, 0];
+    }
     let price = 0;
     stackItems.forEach((value) => {
       price +=
@@ -101,7 +109,6 @@ class CartPage extends Component {
 
   handleRemoveItems = (itemId) => {
     let currentStackItems = this.state.itemStack;
-    let currentCartItems = this.state.cartItems;
     // This creates the new stack of items
     let newStackItems = [];
     currentStackItems.forEach((value) => {
@@ -111,9 +118,9 @@ class CartPage extends Component {
     });
     // This creates the new cart items
     let newCartItems = [];
-    currentCartItems.forEach((value) => {
-      if (value.id !== itemId) {
-        newCartItems.push(value);
+    newStackItems.forEach((value) => {
+      for (let i = 0; i < value.quantity; i++) {
+        newCartItems.push(value.item);
       }
     });
     // Set to session storage
@@ -127,68 +134,99 @@ class CartPage extends Component {
     ] = this.calculateAmountsGivenStackItems(newStackItems);
 
     this.setState({
+      buttonDisabled: newStackItems.length === 0,
       itemStack: newStackItems,
-      cartItems: newCartItems,
+      totalNumberOfItems: newCartItems.length,
       subtotalPrice: subtotalPrice,
       taxPrice: taxPrice,
       totalPrice: totalPrice,
     });
   };
 
-  handleChangeQuantity = (item, newQuantity, oldQuantity) => {
-    if (item && newQuantity && oldQuantity) {
-      let currentCartItems = this.state.cartItems;
-      let currentStackItems = this.state.itemStack;
-      let newCartItems = [];
-      let numberOfItemsLeft = oldQuantity - newQuantity;
-
-      if (numberOfItemsLeft >= 0) {
-        let numberOfItemsToRemove = numberOfItemsLeft;
-        for (let i = 0; i < currentCartItems.length; i++) {
-          if (currentCartItems[i].id === item.id && numberOfItemsToRemove > 0) {
-            delete currentCartItems[i];
-            numberOfItemsToRemove--;
-          }
-        }
-        currentCartItems.forEach((value) => {
-          if (value !== null) {
-            newCartItems.push(value);
-          }
-        });
-      } else if (numberOfItemsLeft < 0) {
-        let numberToAdd = Math.abs(numberOfItemsLeft);
-        newCartItems = currentCartItems;
-        for (let i = 0; i < numberToAdd; i++) {
-          newCartItems.push(item);
-        }
+  handleIncreaseQuantityByOne = (itemId) => {
+    let currentStackItems = this.state.itemStack;
+    currentStackItems.forEach((value) => {
+      if (value.item.id === itemId) {
+        value.quantity++;
+        return;
       }
+    });
 
+    let newCartItems = [];
+    currentStackItems.forEach((value) => {
+      for (let i = 0; i < value.quantity; i++) {
+        newCartItems.push(value.item);
+      }
+    });
+
+    // Set to session storage
+    sessionStorage.setItem("cartItems", JSON.stringify(newCartItems));
+
+    // Calculate the new amounts
+    const [
+      subtotalPrice,
+      taxPrice,
+      totalPrice,
+    ] = this.calculateAmountsGivenStackItems(currentStackItems);
+
+    this.setState({
+      itemStack: currentStackItems,
+      totalNumberOfItems: newCartItems.length,
+      subtotalPrice: subtotalPrice,
+      taxPrice: taxPrice,
+      totalPrice: totalPrice,
+    });
+  };
+
+  handleDecreaseQuantityByOne = (itemId) => {
+    let currentStackItems = this.state.itemStack;
+    let newStackItems = [];
+    let removeItem = false;
+    currentStackItems.forEach((value) => {
+      if (value.item.id === itemId) {
+        value.quantity--;
+        if (value.quantity === 0) {
+          removeItem = true;
+        }
+        return;
+      }
+    });
+    let updatedStackItems = [];
+
+    if (removeItem && currentStackItems.length > 1) {
       currentStackItems.forEach((value) => {
-        if (value.item.id === item.id) {
-          if (numberOfItemsLeft > 0) {
-            value.quantity -= numberOfItemsLeft;
-          } else {
-            value.quantity += Math.abs(numberOfItemsLeft);
-          }
+        if (value.item.id !== itemId) {
+          newStackItems.push(value);
         }
       });
-
-      sessionStorage.setItem("cartItems", JSON.stringify(newCartItems));
-
-      const [
-        subtotalPrice,
-        taxPrice,
-        totalPrice,
-      ] = this.calculateAmountsGivenStackItems(currentStackItems);
-
-      this.setState({
-        itemStack: currentStackItems,
-        cartItems: newCartItems,
-        subtotalPrice: subtotalPrice,
-        taxPrice: taxPrice,
-        totalPrice: totalPrice,
-      });
+      updatedStackItems = newStackItems;
+    } else if (!removeItem && currentStackItems.length > 0) {
+      updatedStackItems = currentStackItems;
     }
+
+    let newCartItems = [];
+    currentStackItems.forEach((value) => {
+      for (let i = 0; i < value.quantity; i++) {
+        newCartItems.push(value.item);
+      }
+    });
+    // Set to session storage
+    sessionStorage.setItem("cartItems", JSON.stringify(newCartItems));
+    // Calculate the new amounts
+    const [
+      subtotalPrice,
+      taxPrice,
+      totalPrice,
+    ] = this.calculateAmountsGivenStackItems(updatedStackItems);
+
+    this.setState({
+      buttonDisabled: updatedStackItems.length === 0,
+      itemStack: updatedStackItems,
+      totalNumberOfItems: newCartItems.length,
+      subtotalPrice: subtotalPrice,
+      taxPrice: taxPrice,
+      totalPrice: totalPrice,
+    });
   };
 
   render() {
@@ -211,8 +249,8 @@ class CartPage extends Component {
           style={{
             position: "fixed",
             bottom: "11%",
-            left: "47.5%",
-            width: "6%",
+            left: "46%",
+            width: "9%",
             height: "6%",
             borderStyle: "solid",
             borderWidth: 1,
@@ -244,20 +282,27 @@ class CartPage extends Component {
                         ${value.item.price}
                       </Typography>
                       <Typography color="textSecondary">Quantity:</Typography>
-                      <TextField
-                        type="number"
-                        variant="outlined"
-                        size="small"
-                        InputProps={{ inputProps: { min: 0 } }}
-                        onChange={(event) =>
-                          this.handleChangeQuantity(
-                            value.item,
-                            parseInt(event.target.value, 10),
-                            value.quantity
-                          )
-                        }
-                        defaultValue={value.quantity}
-                      />
+                      <div style={{ display: "flex" }}>
+                        <Typography style={{ fontSize: 20, padding: 10 }}>
+                          {value.quantity}
+                        </Typography>
+                        <IconButton
+                          color="primary"
+                          onClick={() =>
+                            this.handleIncreaseQuantityByOne(value.item.id)
+                          }
+                        >
+                          <AddCircleIcon />
+                        </IconButton>
+                        <IconButton
+                          color="secondary"
+                          onClick={() =>
+                            this.handleDecreaseQuantityByOne(value.item.id)
+                          }
+                        >
+                          <RemoveCircleIcon />
+                        </IconButton>
+                      </div>
                     </CardContent>
                     <CardActions>
                       <Button
@@ -265,7 +310,7 @@ class CartPage extends Component {
                         color="secondary"
                         onClick={() => this.handleRemoveItems(value.item.id)}
                       >
-                        Remove Item
+                        Delete
                       </Button>
                     </CardActions>
                   </Card>
@@ -298,7 +343,7 @@ class CartPage extends Component {
                       Items:
                     </Typography>
                     <Typography component="h2" style={{ fontSize: 30 }}>
-                      {this.state.cartItems.length}
+                      {this.state.totalNumberOfItems}
                     </Typography>
                   </div>
                   <div
