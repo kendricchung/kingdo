@@ -19,17 +19,21 @@ class MenuItem extends Component {
     return (
       <div
         style={{
-          width: "20%",
-          padding: "2%",
+          width: window.outerWidth*0.2,
+          paddingLeft: window.outerWidth*0.02,
+          paddingRight: window.outerWidth*0.02, 
+          paddingTop: window.outerHeight*0.02,
+          paddingBottom: window.outerHeight*0.02,
         }}
       >
-        <Card style={{ height: "95%" }}>
+        <Card style={{ height: window.outerHeight*0.18, }}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <CardContent>
               <Typography>{this.state.name}</Typography>
               <Typography>{this.state.price}</Typography>
             </CardContent>
             <Button
+            style={{height: window.outerHeight*0.18,}}
               onClick={() =>
                 this.props.addMenuItemToCart({
                   id: this.state.id,

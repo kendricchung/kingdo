@@ -45,10 +45,13 @@ class Menu extends Component {
 
   render() {
     return (
-      <div style={{ paddingBottom: "4%" }}>
+      <div style={{ paddingBottom: window.outerHeight*0.1, }}>
         <div
           style={{
-            padding: "2%",
+            paddingLeft: window.outerWidth*0.02,
+              paddingRight: window.outerWidth*0.02, 
+              paddingTop: window.outerHeight*0.02,
+              paddingBottom: window.outerHeight*0.02,
             display: "flex",
             justifyContent: "space-between",
           }}

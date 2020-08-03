@@ -250,8 +250,8 @@ class CartPage extends Component {
             position: "fixed",
             bottom: "11%",
             left: "46%",
-            width: "9%",
-            height: "6%",
+            width: window.outerWidth*0.09,
+            height: window.outerHeight * 0.09,
             borderStyle: "solid",
             borderWidth: 1,
             borderColor: "#83858a",
@@ -272,7 +272,12 @@ class CartPage extends Component {
               </div>
             ) : (
               this.state.itemStack.map((value) => (
-                <div style={{ padding: "13%", width: "200%" }}>
+                <div style={{ 
+                  paddingLeft: window.outerWidth*0.02,
+                  paddingRight: window.outerWidth*0.05, 
+                  paddingTop: window.outerHeight*0.05,
+                  paddingBottom: window.outerHeight*0.05,
+                  width: window.outerWidth*0.3,}}>
                   <Card>
                     <CardContent>
                       <Typography variant="h5" component="h2">
@@ -320,10 +325,13 @@ class CartPage extends Component {
           </div>
           <div
             style={{
-              width: "45%",
+              paddingLeft: window.outerWidth*0.05,
+              paddingRight: window.outerWidth*0.02, 
+              paddingTop: window.outerHeight*0.05,
+              paddingBottom: window.outerHeight*0.05,
+              width: window.outerWidth*0.45,
               position: "fixed",
               right: 0,
-              padding: 40,
             }}
           >
             <Card>
@@ -331,7 +339,7 @@ class CartPage extends Component {
                 <Typography
                   variant="h5"
                   component="h2"
-                  style={{ fontSize: 40 }}
+                  style={{ fontSize: 30 }}
                 >
                   Order Summary
                 </Typography>
@@ -339,34 +347,35 @@ class CartPage extends Component {
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <Typography component="h2" style={{ fontSize: 30 }}>
+                    <Typography component="h2" style={{ fontSize: 20 }}>
                       Items:
                     </Typography>
-                    <Typography component="h2" style={{ fontSize: 30 }}>
+                    <Typography component="h2" style={{ fontSize: 20 }}>
                       {this.state.totalNumberOfItems}
                     </Typography>
                   </div>
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <Typography component="h2" style={{ fontSize: 30 }}>
+                    <Typography component="h2" style={{ fontSize: 20 }}>
                       Subtotal:
                     </Typography>
-                    <Typography component="h2" style={{ fontSize: 30 }}>
+                    <Typography component="h2" style={{ fontSize: 20 }}>
                       ${this.state.subtotalPrice}
                     </Typography>
                   </div>
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <Typography component="h2" style={{ fontSize: 30 }}>
+                    <Typography component="h2" style={{ fontSize: 20 }}>
                       Tax (GST):
                     </Typography>
-                    <Typography component="h2" style={{ fontSize: 30 }}>
+                    <Typography component="h2" style={{ fontSize: 20 }}>
                       ${this.state.taxPrice}
                     </Typography>
                   </div>
-                  <div style={{ paddingTop: 20, paddingBottom: 20 }}>
+                  <div style={{ paddingTop: window.outerHeight*0.02,
+              paddingBottom: window.outerHeight*0.02,  }}>
                     <div
                       style={{
                         width: "100%",
@@ -378,10 +387,10 @@ class CartPage extends Component {
                   <div
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <Typography component="h2" style={{ fontSize: 40 }}>
+                    <Typography component="h2" style={{ fontSize: 30 }}>
                       Total:
                     </Typography>
-                    <Typography component="h2" style={{ fontSize: 40 }}>
+                    <Typography component="h2" style={{ fontSize: 30 }}>
                       ${this.state.totalPrice}
                     </Typography>
                   </div>
@@ -394,7 +403,6 @@ class CartPage extends Component {
                   onClick={this.handleRedirectToOrderConfirmationPage}
                   variant="contained"
                   style={{
-                    padding: "2%",
                     fontSize: 20,
                     color: "white",
                     backgroundColor: this.state.buttonDisabled
