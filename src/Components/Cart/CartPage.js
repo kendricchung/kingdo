@@ -7,12 +7,15 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import { Redirect } from "react-router-dom";
 
 class CartPage extends Component {
   constructor(props) {
     super(props);
     let map = new Map();
-    const storageCartItems = JSON.parse(sessionStorage.getItem("cartItems"));
+    const storageCartItems = JSON.parse(sessionStorage.getItem("cartItems"))
+      ? JSON.parse(sessionStorage.getItem("cartItems"))
+      : [];
     for (const item of storageCartItems) {
       if (!map.has(item.id)) {
         map.set(item.id, [item]);
@@ -54,17 +57,34 @@ class CartPage extends Component {
     );
 
     this.state = {
-      cartItems: JSON.parse(sessionStorage.getItem("cartItems")),
+      cartItems: storageCartItems,
       itemStack: listOfItems,
       subtotalPrice: subtotalPrice,
       taxPrice: taxPrice,
       totalPrice: totalPrice,
+      foodTransportationMethod: props.location.pathname.includes("delivery")
+        ? "delivery"
+        : "pickup",
+      redirectToOrderConfirmationPage: false,
     };
   }
 
+  handleRedirectToOrderConfirmationPage = () => {
+    this.setState({ redirectToOrderConfirmationPage: true });
+  };
+
   render() {
+    if (this.state.redirectToOrderConfirmationPage) {
+      return (
+        <Redirect
+          push
+          to={`/${this.state.foodTransportationMethod}/cart/order/confirmed`}
+        />
+      );
+    }
+
     return (
-      <div style={{ backgroundColor: "#FFCCCB" }}>
+      <div>
         <ScrollToTop
           smooth
           style={{
@@ -156,7 +176,7 @@ class CartPage extends Component {
                       ${this.state.taxPrice}
                     </Typography>
                   </div>
-                  <div style={{ paddingTop: 40, paddingBottom: 40 }}>
+                  <div style={{ paddingTop: 20, paddingBottom: 20 }}>
                     <div
                       style={{
                         width: "100%",
@@ -180,6 +200,7 @@ class CartPage extends Component {
               <div style={{ padding: "2%" }}>
                 <Button
                   fullWidth
+                  onClick={this.handleRedirectToOrderConfirmationPage}
                   variant="contained"
                   style={{
                     padding: "2%",
@@ -188,7 +209,7 @@ class CartPage extends Component {
                     backgroundColor: "green",
                   }}
                 >
-                  Place Order
+                  Confirm Order
                 </Button>
               </div>
             </Card>

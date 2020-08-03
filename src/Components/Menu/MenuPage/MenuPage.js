@@ -3,20 +3,21 @@ import TopBar from "./TopBar";
 import CartBar from "../../Cart/CartBar";
 import Menu from "../Menu";
 import ScrollToTop from "react-scroll-to-top";
+import { Redirect } from "react-router-dom";
 
 class MenuPage extends Component {
   constructor(props) {
     super(props);
-    const items = JSON.parse(sessionStorage.getItem("cartItems"));
+    const items = JSON.parse(sessionStorage.getItem("cartItems"))
+      ? JSON.parse(sessionStorage.getItem("cartItems"))
+      : [];
     let totalPrice = 0;
     for (const item of items) {
       totalPrice += item.price;
     }
     this.state = {
       foodTransportation: props.location.pathname.substring(1),
-      cartItems: sessionStorage.getItem("cartItems")
-        ? JSON.parse(sessionStorage.getItem("cartItems"))
-        : [],
+      cartItems: items,
       cartAmount: (Math.round(totalPrice * 100) / 100).toFixed(2),
     };
   }
@@ -36,9 +37,15 @@ class MenuPage extends Component {
   };
 
   render() {
-    // TODO: if it is anything else, rediect to 404 page
+    if (
+      this.state.foodTransportation !== "delivery" &&
+      this.state.foodTransportation !== "pickup"
+    ) {
+      return <Redirect to="/404" />;
+    }
+
     return (
-      <div style={{ backgroundColor: "#FFCCCB" }}>
+      <div>
         <ScrollToTop
           smooth
           style={{
