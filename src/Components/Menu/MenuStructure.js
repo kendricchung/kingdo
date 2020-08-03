@@ -25,6 +25,7 @@ class MenuStructure extends Component {
       >
         {this.state.sectionItems.map((item) => (
           <MenuItem
+            key={item.id}
             addMenuItemToCart={this.props.addMenuItemToCart}
             itemInfo={item}
           ></MenuItem>
