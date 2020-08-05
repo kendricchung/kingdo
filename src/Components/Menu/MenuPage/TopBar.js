@@ -37,6 +37,7 @@ class TopBar extends Component {
             alignItems: "center",
           }}
         >
+<<<<<<< HEAD
           <div style={{ paddingLeft: "2%", width: "20%" }}>
             <h1>
               {`This Order is for 
@@ -63,6 +64,15 @@ class TopBar extends Component {
                 )}
               ></Link>
             </h3>
+=======
+          <div style={{ paddingLeft: "2%", width: "15%" }}>
+            <h2>
+              Place order for{" "}
+              {this.props.foodTransportationMethod === "delivery"
+                ? "Delivery"
+                : "Pickup"}
+            </h2>
+>>>>>>> 17782fad6a282a9ecdcc7122d4a4081ef1e56010
           </div>
           <Button
             style={{
