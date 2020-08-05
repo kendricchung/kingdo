@@ -39,8 +39,12 @@ class TopBar extends Component {
           }}
         >
           <div style={{ paddingLeft: "2%", width: "15%" }}>
-            <h2>OPEN FOR TAKE OUT</h2>
-            <h3>Payment is accepted upon pickup</h3>
+            <h2>
+              Place order for{" "}
+              {this.props.foodTransportationMethod === "delivery"
+                ? "Delivery"
+                : "Pickup"}
+            </h2>
           </div>
           <Button
             style={{
