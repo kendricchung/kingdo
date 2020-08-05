@@ -5,7 +5,6 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { Redirect } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -237,6 +236,7 @@ class CartPage extends Component {
           to={{
             pathname: `/${this.state.foodTransportationMethod}/cart/order/confirmed`,
             state: "token",
+            foodTransportationMethod: this.state.foodTransportationMethod,
           }}
         />
       );
@@ -248,15 +248,10 @@ class CartPage extends Component {
           smooth
           style={{
             position: "fixed",
-            bottom: "11%",
-            left: "46%",
-            width: window.outerWidth*0.09,
-            height: window.outerHeight * 0.09,
             borderStyle: "solid",
             borderWidth: 1,
             borderColor: "#83858a",
           }}
-          component={<h4 style={{ fontSize: 14 }}>Back to Top</h4>}
         />
         <TopBar />
         <div style={{ display: "flex" }}>
@@ -272,12 +267,15 @@ class CartPage extends Component {
               </div>
             ) : (
               this.state.itemStack.map((value) => (
-                <div style={{ 
-                  paddingLeft: window.outerWidth*0.02,
-                  paddingRight: window.outerWidth*0.05, 
-                  paddingTop: window.outerHeight*0.05,
-                  paddingBottom: window.outerHeight*0.05,
-                  width: window.outerWidth*0.3,}}>
+                <div
+                  style={{
+                    paddingLeft: window.outerWidth * 0.02,
+                    paddingRight: window.outerWidth * 0.05,
+                    paddingTop: window.outerHeight * 0.05,
+                    paddingBottom: window.outerHeight * 0.05,
+                    width: window.outerWidth * 0.4,
+                  }}
+                >
                   <Card>
                     <CardContent>
                       <Typography variant="h5" component="h2">
@@ -311,7 +309,7 @@ class CartPage extends Component {
                     </CardContent>
                     <CardActions>
                       <Button
-                        size="small"
+                        size="large"
                         color="secondary"
                         onClick={() => this.handleRemoveItems(value.item.id)}
                       >
@@ -325,11 +323,11 @@ class CartPage extends Component {
           </div>
           <div
             style={{
-              paddingLeft: window.outerWidth*0.05,
-              paddingRight: window.outerWidth*0.02, 
-              paddingTop: window.outerHeight*0.05,
-              paddingBottom: window.outerHeight*0.05,
-              width: window.outerWidth*0.45,
+              paddingLeft: window.outerWidth * 0.05,
+              paddingRight: window.outerWidth * 0.02,
+              paddingTop: window.outerHeight * 0.05,
+              paddingBottom: window.outerHeight * 0.05,
+              width: window.outerWidth * 0.45,
               position: "fixed",
               right: 0,
             }}
@@ -374,8 +372,12 @@ class CartPage extends Component {
                       ${this.state.taxPrice}
                     </Typography>
                   </div>
-                  <div style={{ paddingTop: window.outerHeight*0.02,
-              paddingBottom: window.outerHeight*0.02,  }}>
+                  <div
+                    style={{
+                      paddingTop: window.outerHeight * 0.02,
+                      paddingBottom: window.outerHeight * 0.02,
+                    }}
+                  >
                     <div
                       style={{
                         width: "100%",

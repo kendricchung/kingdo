@@ -4,20 +4,22 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import PhoneInput from "material-ui-phone-number";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import Center from "react-center";
 
 class OrderConfirmationPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      disabledButton: true,
       firstNameText: "",
       lastNameText: "",
       phoneNumber: "",
       token: props.location.state,
+      foodTransportationMethod: props.location.foodTransportationMethod,
       disabled: true,
+      redirectToPlaceOrderConfirmPage: false,
     };
   }
 
@@ -51,9 +53,30 @@ class OrderConfirmationPage extends Component {
     });
   };
 
+  handleRedirectToPlaceOrderConfirmPage = () => {
+    this.setState({ redirectToPlaceOrderConfirmPage: true });
+  };
+
   render() {
     if (!this.state.token) {
-      return <Redirect to="/404" />;
+      return (
+        <Center>
+          <h1>
+            Please return to the main page <Link to="/">here</Link>.
+          </h1>
+        </Center>
+      );
+    }
+
+    if (this.state.redirectToPlaceOrderConfirmPage) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/${this.state.foodTransportationMethod}/cart/order/confirmed/checkout`,
+            state: "token",
+          }}
+        />
+      );
     }
 
     return (
@@ -123,6 +146,7 @@ class OrderConfirmationPage extends Component {
                 <Button
                   fullWidth
                   disabled={this.state.disabled}
+                  onClick={this.handleRedirectToPlaceOrderConfirmPage}
                   variant="contained"
                   style={{
                     padding: "2%",
