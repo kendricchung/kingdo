@@ -8,6 +8,7 @@ import { Redirect, Link } from "react-router-dom";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Center from "react-center";
+import Axios from "axios";
 
 class OrderConfirmationPage extends Component {
   constructor(props) {
@@ -54,6 +55,14 @@ class OrderConfirmationPage extends Component {
   };
 
   handleRedirectToPlaceOrderConfirmPage = () => {
+    try {
+      Axios("http://localhost:3001/twilio/sms", {
+        params: this.state.phoneNumber,
+        data: JSON.parse(sessionStorage.getItem("cartItems")),
+      }).then((response) => console.log(response));
+    } catch (error) {
+      console.log(error);
+    }
     this.setState({ redirectToPlaceOrderConfirmPage: true });
   };
 
@@ -74,6 +83,7 @@ class OrderConfirmationPage extends Component {
           to={{
             pathname: `/${this.state.foodTransportationMethod}/cart/order/confirmed/checkout`,
             state: "token",
+            phoneNumber: this.state.phoneNumber,
           }}
         />
       );

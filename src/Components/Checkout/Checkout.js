@@ -8,8 +8,8 @@ class Checkout extends Component {
     super(props);
     this.state = {
       token: props.location.state,
+      phoneNumber: props.location.phoneNumber,
     };
-    sessionStorage.removeItem("cartItems");
   }
 
   render() {
