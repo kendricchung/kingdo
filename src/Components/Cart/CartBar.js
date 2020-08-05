@@ -22,11 +22,10 @@ class CartBar extends Component {
         style={{
           backgroundColor: "white",
           textAlign: "center",
-          paddingBottom: "1.5%",
           position: "fixed",
           left: "0",
           bottom: "0",
-          height: "4%",
+          height: window.outerHeight * 0.1,
           width: "100%",
           boxShadow: "0px -1px 3px rgba(50, 50, 50, 0.50)",
         }}
