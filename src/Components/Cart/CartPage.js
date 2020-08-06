@@ -161,7 +161,7 @@ class CartPage extends Component {
       subtotalPrice,
       taxPrice,
       totalPrice,
-    ] = this.calculateAmountsGivenStackItems(currentStackItems);
+    ] = calculateAmountsGivenStackItems(currentStackItems);
 
     this.setState({
       itemStack: currentStackItems,
@@ -211,7 +211,7 @@ class CartPage extends Component {
       subtotalPrice,
       taxPrice,
       totalPrice,
-    ] = this.calculateAmountsGivenStackItems(updatedStackItems);
+    ] = calculateAmountsGivenStackItems(updatedStackItems);
 
     this.setState({
       buttonDisabled: updatedStackItems.length === 0,
@@ -287,7 +287,7 @@ class CartPage extends Component {
                           {value.quantity}
                         </Typography>
                         <IconButton
-                          color="primary"
+                          color="grey"
                           onClick={() =>
                             this.handleIncreaseQuantityByOne(value.item.id)
                           }
@@ -295,7 +295,7 @@ class CartPage extends Component {
                           <AddCircleIcon />
                         </IconButton>
                         <IconButton
-                          color="secondary"
+                          color="grey"
                           onClick={() =>
                             this.handleDecreaseQuantityByOne(value.item.id)
                           }

@@ -83,7 +83,7 @@ class TopBar extends Component {
           >
             <h1>LOGO</h1>
             {/* TODO: logo goes here */}
-            <h2>Kingdo Restaurant</h2>
+            <h2>King Do Restaurant</h2>
           </Link>
           <div
             style={{
@@ -94,7 +94,8 @@ class TopBar extends Component {
             }}
           >
             <h2>7 DAYS A WEEK</h2>
-            <h3>Monday-Sunday 10:30 am - 10:00 pm</h3>
+            <h3>Monday-Sunday</h3>
+            <h3>10:30am - 10:00pm</h3>
             <h3>604-582-6911</h3>
           </div>
         </div>

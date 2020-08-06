@@ -7,22 +7,30 @@ const menu = [
   {
     menuSectionName: "Appetizers",
     menuSectionItems: [
-      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
-      { id: 8, name: "Lettuce Wrap (Beef)", price: 14.95 },
-      { id: 9, name: "Lettuce Wrap (Seafood)", price: 14.95 },
-      { id: 10, name: "BBQ Pork", price: 8.95 },
+      {
+        id: 1,
+        name: "Three Kind Appetizer Combinations",
+        price: 32.8,
+        isSpicy: true,
+      },
+      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95, isSpicy: false },
+      { id: 8, name: "Lettuce Wrap (Beef)", price: 14.95, isSpicy: false },
+      { id: 9, name: "Lettuce Wrap (Seafood)", price: 14.95, isSpicy: false },
+      { id: 10, name: "BBQ Pork", price: 8.95, isSpicy: false },
     ],
   },
   {
     menuSectionName: "Soups",
-    menuSectionItems: [{ id: 15, name: "wonton soup", price: 10.95 }],
+    menuSectionItems: [
+      { id: 15, name: "wonton soup", price: 10.95, isSpicy: false },
+    ],
   },
   {
     menuSectionName: "Beef and Port",
     menuSectionItems: [
-      { id: 16, name: "Mandarin Pork Chops", price: 15.95 },
-      { id: 17, name: "Mandarin Pork Chops", price: 15.95 },
-      { id: 18, name: "Mandarin Pork Chops", price: 15.95 },
+      { id: 16, name: "Mandarin Pork Chops", price: 15.95, isSpicy: false },
+      { id: 17, name: "Mandarin Pork Chops", price: 15.95, isSpicy: false },
+      { id: 18, name: "Mandarin Pork Chops", price: 15.95, isSpicy: false },
     ],
   },
 ];

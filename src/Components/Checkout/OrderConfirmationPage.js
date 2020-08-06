@@ -11,6 +11,10 @@ import Center from "react-center";
 import Axios from "axios";
 import { Helmet } from "react-helmet";
 import { parseItemIntoStack } from "../Cart/CartPage";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 const hostEndpoint = process.env.KINGDO_HOST_ENDPOINT
   ? process.env.KINGDO_HOST_ENDPOINT
@@ -40,7 +44,9 @@ class OrderConfirmationPage extends Component {
         event.target.value.length === 0 ||
         this.state.lastNameText.length === 0 ||
         this.state.phoneNumber.length === 0 ||
-        this.state.deliveryAddress.length === 0,
+        this.state.foodTransportationMethod === "delivery"
+          ? this.state.deliveryAddress.length === 0
+          : false,
     });
   };
 
@@ -51,13 +57,15 @@ class OrderConfirmationPage extends Component {
         event.target.value.length === 0 ||
         this.state.firstNameText.length === 0 ||
         this.state.phoneNumber.length === 0 ||
-        this.state.deliveryAddress.length === 0,
+        this.state.foodTransportationMethod === "delivery"
+          ? this.state.deliveryAddress.length === 0
+          : false,
     });
   };
 
   handleDeliveryAddressEdit = (event) => {
     this.setState({
-      lastNameText: event.target.value,
+      deliveryAddress: event.target.value,
       disabled:
         event.target.value.length === 0 ||
         this.state.firstNameText.length === 0 ||
@@ -73,7 +81,9 @@ class OrderConfirmationPage extends Component {
         value.length === 0 ||
         this.state.lastNameText.length === 0 ||
         this.state.firstNameText.length === 0 ||
-        this.state.deliveryAddress.length === 0,
+        this.state.foodTransportationMethod === "delivery"
+          ? this.state.deliveryAddress.length === 0
+          : false,
     });
   };
 
@@ -93,6 +103,7 @@ class OrderConfirmationPage extends Component {
           firstName: this.state.firstNameText,
           lastName: this.state.lastNameText,
           transportationMethod: this.state.foodTransportationMethod,
+          deliveryAddress: this.state.deliveryAddress,
         },
         data: { stackItems, cartItemsAmount },
       }).then((response) => sessionStorage.removeItem("cartItems"));
@@ -101,6 +112,10 @@ class OrderConfirmationPage extends Component {
       console.log(error);
     }
     this.setState({ redirectToPlaceOrderConfirmPage: true });
+  };
+
+  handleFoodTransportationMethodChange = (event) => {
+    this.setState({ foodTransportationMethod: event.target.value });
   };
 
   render() {
@@ -154,6 +169,28 @@ class OrderConfirmationPage extends Component {
                     : " pick up"}
                   .
                 </Typography>
+                <Typography
+                  component="h2"
+                  style={{ fontSize: 20, paddingBottom: "1%" }}
+                >
+                  You can still change between delivery and pick up here:
+                </Typography>
+                <FormControl
+                  variant="outlined"
+                  style={{ width: "25%", paddingBottom: "2%" }}
+                >
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={this.state.foodTransportationMethod}
+                    onChange={(event) =>
+                      this.handleFoodTransportationMethodChange(event)
+                    }
+                  >
+                    <MenuItem value={"delivery"}>Delivery</MenuItem>
+                    <MenuItem value={"pickup"}>Pick Up</MenuItem>
+                  </Select>
+                </FormControl>
                 <div
                   style={{ width: "100%", height: 1, backgroundColor: "black" }}
                 ></div>
@@ -193,6 +230,7 @@ class OrderConfirmationPage extends Component {
                   disableDropdown="true"
                   countryCodeEditable="false"
                 />
+                {/* TODO: split by city name, street, and postal code */}
                 {this.state.foodTransportationMethod === "delivery" ? (
                   <Typography component="h2" style={{ fontSize: 20 }}>
                     Delivery Address
@@ -206,7 +244,7 @@ class OrderConfirmationPage extends Component {
                     autoComplete
                     variant="outlined"
                     style={{ paddingBottom: 10 }}
-                    onChange={this.handleLastNameEdit}
+                    onChange={this.handleDeliveryAddressEdit}
                   />
                 ) : (
                   ""

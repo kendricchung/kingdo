@@ -30,9 +30,15 @@ class Checkout extends Component {
           <title>King Do Restaurant | Thank You</title>
         </Helmet>
         <TopBar />
-        <div style={{ height: "20px", paddingTop: "14%" }} />
         <Center>
-          <div>
+          <div
+            style={{
+              height: "20px",
+              paddingTop: "14%",
+              paddingRight: "5%",
+              paddingLeft: "5%",
+            }}
+          >
             <h1>THANK YOU!</h1>
             <h3>
               We have sent you a text message to confirm that you will pick up

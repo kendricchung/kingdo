@@ -5,7 +5,6 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 
 class MenuItem extends Component {
@@ -15,6 +14,7 @@ class MenuItem extends Component {
       id: props.itemInfo.id,
       name: props.itemInfo.name,
       price: props.itemInfo.price,
+      isSpicy: props.itemInfo.isSpicy,
     };
   }
 
@@ -22,7 +22,9 @@ class MenuItem extends Component {
     return (
       <ListItem>
         <ListItemAvatar>
-          <WhatshotIcon style={{ color: "red" }} />
+          <WhatshotIcon
+            style={{ color: this.state.isSpicy ? "red" : "transparent" }}
+          />
         </ListItemAvatar>
         <div>
           <ListItemText primary={this.state.name} />
