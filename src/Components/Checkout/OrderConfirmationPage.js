@@ -9,6 +9,12 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Center from "react-center";
 import Axios from "axios";
+import { Helmet } from "react-helmet";
+import { parseItemIntoStack } from "../Cart/CartPage";
+
+const hostEndpoint = process.env.KINGDO_HOST_ENDPOINT
+  ? process.env.KINGDO_HOST_ENDPOINT
+  : "http://localhost:3001";
 
 class OrderConfirmationPage extends Component {
   constructor(props) {
@@ -17,8 +23,11 @@ class OrderConfirmationPage extends Component {
       firstNameText: "",
       lastNameText: "",
       phoneNumber: "",
+      deliveryAddress: "",
       token: props.location.state,
-      foodTransportationMethod: props.location.foodTransportationMethod,
+      foodTransportationMethod: props.location.pathname.includes("delivery")
+        ? "delivery"
+        : "pickup",
       disabled: true,
       redirectToPlaceOrderConfirmPage: false,
     };
@@ -30,7 +39,8 @@ class OrderConfirmationPage extends Component {
       disabled:
         event.target.value.length === 0 ||
         this.state.lastNameText.length === 0 ||
-        this.state.phoneNumber.length === 0,
+        this.state.phoneNumber.length === 0 ||
+        this.state.deliveryAddress.length === 0,
     });
   };
 
@@ -40,7 +50,19 @@ class OrderConfirmationPage extends Component {
       disabled:
         event.target.value.length === 0 ||
         this.state.firstNameText.length === 0 ||
-        this.state.phoneNumber.length === 0,
+        this.state.phoneNumber.length === 0 ||
+        this.state.deliveryAddress.length === 0,
+    });
+  };
+
+  handleDeliveryAddressEdit = (event) => {
+    this.setState({
+      lastNameText: event.target.value,
+      disabled:
+        event.target.value.length === 0 ||
+        this.state.firstNameText.length === 0 ||
+        this.state.phoneNumber.length === 0 ||
+        this.state.lastNameText.length === 0,
     });
   };
 
@@ -50,16 +72,31 @@ class OrderConfirmationPage extends Component {
       disabled:
         value.length === 0 ||
         this.state.lastNameText.length === 0 ||
-        this.state.firstNameText.length === 0,
+        this.state.firstNameText.length === 0 ||
+        this.state.deliveryAddress.length === 0,
     });
   };
 
   handleRedirectToPlaceOrderConfirmPage = () => {
     try {
-      Axios("http://localhost:3001/twilio/sms", {
-        params: this.state.phoneNumber,
-        data: JSON.parse(sessionStorage.getItem("cartItems")),
-      }).then((response) => console.log(response));
+      const [stackItems, cartItemsAmount] = parseItemIntoStack(
+        JSON.parse(sessionStorage.getItem("cartItems"))
+      );
+      Axios(`${hostEndpoint}/twilio/sms`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        params: {
+          customerPhoneNumber: this.state.phoneNumber,
+          firstName: this.state.firstNameText,
+          lastName: this.state.lastNameText,
+          transportationMethod: this.state.foodTransportationMethod,
+        },
+        data: { stackItems, cartItemsAmount },
+      }).then((response) => sessionStorage.removeItem("cartItems"));
+      // TODO: need to check if number of valid if not show that they need to pick up on next screen
     } catch (error) {
       console.log(error);
     }
@@ -91,6 +128,9 @@ class OrderConfirmationPage extends Component {
 
     return (
       <div>
+        <Helmet>
+          <title>King Do Restaurant | Order Confirm</title>
+        </Helmet>
         <TopBar />
         <div style={{ padding: "2%", paddingRight: "5%", paddingLeft: "5%" }}>
           <Card>
@@ -102,13 +142,17 @@ class OrderConfirmationPage extends Component {
               >
                 <Typography component="h2" style={{ fontSize: 20 }}>
                   Please fill in the following to confirm that you will be
-                  picking up the order.
+                  paying for your order.
                 </Typography>
                 <Typography
                   component="h2"
                   style={{ fontSize: 20, paddingBottom: "2%" }}
                 >
-                  Your payment will be received upon pick up.
+                  Your payment will be received upon
+                  {this.state.foodTransportationMethod === "deliver"
+                    ? " delivery"
+                    : " pick up"}
+                  .
                 </Typography>
                 <div
                   style={{ width: "100%", height: 1, backgroundColor: "black" }}
@@ -121,6 +165,8 @@ class OrderConfirmationPage extends Component {
                 </Typography>
                 <TextField
                   fullWidth
+                  autoFocus
+                  autoComplete
                   variant="outlined"
                   style={{ paddingBottom: 10 }}
                   onChange={this.handleFirstNameEdit}
@@ -130,6 +176,7 @@ class OrderConfirmationPage extends Component {
                 </Typography>
                 <TextField
                   fullWidth
+                  autoComplete
                   variant="outlined"
                   style={{ paddingBottom: 10 }}
                   onChange={this.handleLastNameEdit}
@@ -139,12 +186,31 @@ class OrderConfirmationPage extends Component {
                 </Typography>
                 <PhoneInput
                   fullWidth
+                  autoComplete
                   style={{ height: "40px", paddingTop: "5px" }}
                   onChange={this.handlePhoneNumberEdit}
                   defaultCountry="ca"
                   disableDropdown="true"
                   countryCodeEditable="false"
                 />
+                {this.state.foodTransportationMethod === "delivery" ? (
+                  <Typography component="h2" style={{ fontSize: 20 }}>
+                    Delivery Address
+                  </Typography>
+                ) : (
+                  ""
+                )}
+                {this.state.foodTransportationMethod === "delivery" ? (
+                  <TextField
+                    fullWidth
+                    autoComplete
+                    variant="outlined"
+                    style={{ paddingBottom: 10 }}
+                    onChange={this.handleLastNameEdit}
+                  />
+                ) : (
+                  ""
+                )}
               </div>
               <div
                 style={{

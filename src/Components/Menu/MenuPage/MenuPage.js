@@ -5,6 +5,7 @@ import Menu from "../Menu";
 import ScrollToTop from "react-scroll-to-top";
 import { Link } from "react-router-dom";
 import Center from "react-center";
+import { Helmet } from "react-helmet";
 
 class MenuPage extends Component {
   constructor(props) {
@@ -53,6 +54,9 @@ class MenuPage extends Component {
 
     return (
       <div>
+        <Helmet>
+          <title>King Do Restaurant | Menu</title>
+        </Helmet>
         <ScrollToTop
           smooth
           style={{

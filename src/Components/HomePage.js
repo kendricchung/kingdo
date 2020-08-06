@@ -4,6 +4,7 @@ import Center from "react-center";
 import PickUpButton from "./HomePageActionButtons/PickUpButton";
 import DeliveryButton from "./HomePageActionButtons/DeliveryButton";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 class HomePage extends Component {
   state = {
@@ -33,12 +34,19 @@ class HomePage extends Component {
           position: "fixed",
         }}
       >
+        <Helmet>
+          <title>King Do Restaurant</title>
+        </Helmet>
         <div style={{ paddingTop: "15%" }}>
           <Center>
             <HomePageTitle />
           </Center>
           <div
-            style={{ display: "flex", paddingRight: "30%", paddingLeft: "30%" }}
+            style={{
+              display: "flex",
+              paddingRight: "30%",
+              paddingLeft: "30%",
+            }}
           >
             <DeliveryButton />
             <div style={{ width: "10%" }}></div>

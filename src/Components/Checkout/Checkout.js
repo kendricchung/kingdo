@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TopBar from "../Menu/MenuPage/TopBar";
 import Center from "react-center";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 class Checkout extends Component {
   constructor(props) {
@@ -25,6 +26,9 @@ class Checkout extends Component {
 
     return (
       <div>
+        <Helmet>
+          <title>King Do Restaurant | Thank You</title>
+        </Helmet>
         <TopBar />
         <div style={{ height: "20px", paddingTop: "14%" }} />
         <Center>

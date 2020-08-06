@@ -65,6 +65,7 @@ class Menu extends Component {
               offset={50}
               duration={500}
               onSetActive={this.handleSetActive}
+              key={section.menuSectionName}
             >
               <MenuButton
                 key={section.menuSectionName}

@@ -10,54 +10,78 @@ import { Redirect } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import IconButton from "@material-ui/core/IconButton";
+import { Helmet } from "react-helmet";
+
+export const parseItemIntoStack = (items) => {
+  let map = new Map();
+  for (const item of items) {
+    if (!map.has(item.id)) {
+      map.set(item.id, [item]);
+    } else {
+      let listOfItemsWithGivenId = map.get(item.id);
+      listOfItemsWithGivenId.push(item);
+      map.set(item.id, listOfItemsWithGivenId);
+    }
+  }
+  let numberOfItemsCounter = 0;
+  let listOfItems = [];
+  map.forEach((value, key) => {
+    listOfItems.push({
+      quantity: value.length,
+      item: value[0],
+    });
+    numberOfItemsCounter += value.length;
+  });
+
+  return [listOfItems, numberOfItemsCounter];
+};
+
+export const calculateAmountsGivenStackItems = (stackItems) => {
+  if (stackItems.length === 0) {
+    return [0, 0, 0];
+  }
+  let price = 0;
+  stackItems.forEach((value) => {
+    price +=
+      value.quantity *
+      parseFloat(
+        (Math.round(parseFloat(value.item.price, 10) * 100) / 100).toFixed(2)
+      );
+  });
+
+  const subtotalPrice = parseFloat(
+    (Math.round(parseFloat(price, 10) * 100) / 100).toFixed(2)
+  );
+  const taxPrice = parseFloat(
+    (Math.round(subtotalPrice * 0.05 * 100) / 100).toFixed(2)
+  );
+
+  const totalPrice = parseFloat(
+    (Math.round(parseFloat(subtotalPrice + taxPrice, 10) * 100) / 100).toFixed(
+      2
+    )
+  );
+
+  return [subtotalPrice, taxPrice, totalPrice];
+};
 
 class CartPage extends Component {
   constructor(props) {
     super(props);
-    let map = new Map();
+
     const storageCartItems = JSON.parse(sessionStorage.getItem("cartItems"))
       ? JSON.parse(sessionStorage.getItem("cartItems"))
       : [];
-    for (const item of storageCartItems) {
-      if (!map.has(item.id)) {
-        map.set(item.id, [item]);
-      } else {
-        let listOfItemsWithGivenId = map.get(item.id);
-        listOfItemsWithGivenId.push(item);
-        map.set(item.id, listOfItemsWithGivenId);
-      }
-    }
-    let numberOfItemsCounter = 0;
-    let listOfItems = [];
-    map.forEach((value, key) => {
-      listOfItems.push({
-        quantity: value.length,
-        item: value[0],
-      });
-      numberOfItemsCounter += value.length;
-    });
 
-    let price = 0;
-    listOfItems.forEach((value) => {
-      price +=
-        value.quantity *
-        parseFloat(
-          (Math.round(parseFloat(value.item.price, 10) * 100) / 100).toFixed(2)
-        );
-    });
-
-    const subtotalPrice = parseFloat(
-      (Math.round(parseFloat(price, 10) * 100) / 100).toFixed(2)
-    );
-    const taxPrice = parseFloat(
-      (Math.round(subtotalPrice * 0.05 * 100) / 100).toFixed(2)
+    const [listOfItems, numberOfItemsCounter] = parseItemIntoStack(
+      storageCartItems
     );
 
-    const totalPrice = parseFloat(
-      (
-        Math.round(parseFloat(subtotalPrice + taxPrice, 10) * 100) / 100
-      ).toFixed(2)
-    );
+    const [
+      subtotalPrice,
+      taxPrice,
+      totalPrice,
+    ] = calculateAmountsGivenStackItems(listOfItems);
 
     this.state = {
       itemStack: listOfItems,
@@ -76,35 +100,6 @@ class CartPage extends Component {
   handleRedirectToOrderConfirmationPage = () => {
     this.setState({ redirectToOrderConfirmationPage: true });
   };
-
-  calculateAmountsGivenStackItems(stackItems) {
-    if (stackItems.length === 0) {
-      return [0, 0, 0];
-    }
-    let price = 0;
-    stackItems.forEach((value) => {
-      price +=
-        value.quantity *
-        parseFloat(
-          (Math.round(parseFloat(value.item.price, 10) * 100) / 100).toFixed(2)
-        );
-    });
-
-    const subtotalPrice = parseFloat(
-      (Math.round(parseFloat(price, 10) * 100) / 100).toFixed(2)
-    );
-    const taxPrice = parseFloat(
-      (Math.round(subtotalPrice * 0.05 * 100) / 100).toFixed(2)
-    );
-
-    const totalPrice = parseFloat(
-      (
-        Math.round(parseFloat(subtotalPrice + taxPrice, 10) * 100) / 100
-      ).toFixed(2)
-    );
-
-    return [subtotalPrice, taxPrice, totalPrice];
-  }
 
   handleRemoveItems = (itemId) => {
     let currentStackItems = this.state.itemStack;
@@ -130,7 +125,7 @@ class CartPage extends Component {
       subtotalPrice,
       taxPrice,
       totalPrice,
-    ] = this.calculateAmountsGivenStackItems(newStackItems);
+    ] = calculateAmountsGivenStackItems(newStackItems);
 
     this.setState({
       buttonDisabled: newStackItems.length === 0,
@@ -236,7 +231,6 @@ class CartPage extends Component {
           to={{
             pathname: `/${this.state.foodTransportationMethod}/cart/order/confirmed`,
             state: "token",
-            foodTransportationMethod: this.state.foodTransportationMethod,
           }}
         />
       );
@@ -244,6 +238,9 @@ class CartPage extends Component {
 
     return (
       <div>
+        <Helmet>
+          <title>King Do Restaurant | Cart</title>
+        </Helmet>
         <ScrollToTop
           smooth
           style={{

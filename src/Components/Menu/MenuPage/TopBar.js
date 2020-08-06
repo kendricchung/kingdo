@@ -33,11 +33,16 @@ class TopBar extends Component {
             display: "flex",
             justifyContent: "space-between",
             backgroundImage:
-              "linear-gradient( rgba(0, 0, 0, -0.5), rgba(0, 0, 0, -0.5) ), url(https://www.kingdorestaurant.com/wp-content/uploads/sites/177/2018/12/shutterstock_390619714.png)",
+              "url(https://www.kingdorestaurant.com/wp-content/uploads/sites/177/2018/12/shutterstock_390619714.png)",
             alignItems: "center",
           }}
         >
-          <div style={{ paddingLeft: "2%", width: "20%" }}>
+          <div
+            style={{
+              paddingLeft: "2%",
+              width: "20%",
+            }}
+          >
             <h1>
               {`This Order is for 
               ${
@@ -64,29 +69,22 @@ class TopBar extends Component {
               ></Link>
             </h3>
           </div>
-          <Button
-            style={{
-              backgroundColor: "transparent",
-              width: "20%",
-            }}
-            disableRipple={true}
+          <Link
             onMouseEnter={this.handleMouseEnterTitle}
             onMouseLeave={this.handleMouseLeavingTitle}
+            to="/"
+            style={{
+              fontSize: 18,
+              flexWrap: "wrap",
+              textDecoration: "none",
+              color: this.state.mouseOverTitle ? "grey" : "black",
+              textAlign: "center",
+            }}
           >
-            <Link
-              to="/"
-              style={{
-                fontSize: 18,
-                flexWrap: "wrap",
-                textDecoration: "none",
-                color: this.state.mouseOverTitle ? "grey" : "black",
-              }}
-            >
-              <h1>LOGO</h1>
-              {/* TODO: logo goes here */}
-              <h2>Kingdo Restaurant</h2>
-            </Link>
-          </Button>
+            <h1>LOGO</h1>
+            {/* TODO: logo goes here */}
+            <h2>Kingdo Restaurant</h2>
+          </Link>
           <div
             style={{
               justifyContent: "center",
