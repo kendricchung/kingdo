@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
 import AddIcon from "@material-ui/icons/Add";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemText from "@material-ui/core/ListItemText";
+import IconButton from "@material-ui/core/IconButton";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import WhatshotIcon from "@material-ui/icons/Whatshot";
 
 class MenuItem extends Component {
   constructor(props) {
@@ -12,41 +14,37 @@ class MenuItem extends Component {
       id: props.itemInfo.id,
       name: props.itemInfo.name,
       price: props.itemInfo.price,
+      isSpicy: props.itemInfo.isSpicy,
     };
   }
 
   render() {
     return (
-      <div
-        style={{
-          width: window.outerWidth*0.2,
-          paddingLeft: window.outerWidth*0.02,
-          paddingRight: window.outerWidth*0.02, 
-          paddingTop: window.outerHeight*0.02,
-          paddingBottom: window.outerHeight*0.02,
-        }}
-      >
-        <Card style={{ height: window.outerHeight*0.18, }}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <CardContent>
-              <Typography>{this.state.name}</Typography>
-              <Typography>{this.state.price}</Typography>
-            </CardContent>
-            <Button
-            style={{height: window.outerHeight*0.18,}}
-              onClick={() =>
-                this.props.addMenuItemToCart({
-                  id: this.state.id,
-                  name: this.state.name,
-                  price: this.state.price,
-                })
-              }
-            >
-              <AddIcon></AddIcon>
-            </Button>
-          </div>
-        </Card>
-      </div>
+      <ListItem>
+        <ListItemAvatar>
+          <WhatshotIcon
+            style={{ color: this.state.isSpicy ? "red" : "transparent" }}
+          />
+        </ListItemAvatar>
+        <div>
+          <ListItemText primary={this.state.name} />
+          <ListItemText primary="Chinese goes here" />
+        </div>
+        <ListItemSecondaryAction>
+          {this.state.price}
+          <IconButton
+            onClick={() =>
+              this.props.addMenuItemToCart({
+                id: this.state.id,
+                name: this.state.name,
+                price: this.state.price,
+              })
+            }
+          >
+            <AddIcon></AddIcon>
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>
     );
   }
 }

@@ -7,22 +7,30 @@ const menu = [
   {
     menuSectionName: "Appetizers",
     menuSectionItems: [
-      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95 },
-      { id: 8, name: "Lettuce Wrap (Beef)", price: 14.95 },
-      { id: 9, name: "Lettuce Wrap (Seafood)", price: 14.95 },
-      { id: 10, name: "BBQ Pork", price: 8.95 },
+      {
+        id: 1,
+        name: "Three Kind Appetizer Combinations",
+        price: 32.8,
+        isSpicy: true,
+      },
+      { id: 7, name: "Lettuce Wrap (Chicken)", price: 14.95, isSpicy: false },
+      { id: 8, name: "Lettuce Wrap (Beef)", price: 14.95, isSpicy: false },
+      { id: 9, name: "Lettuce Wrap (Seafood)", price: 14.95, isSpicy: false },
+      { id: 10, name: "BBQ Pork", price: 8.95, isSpicy: false },
     ],
   },
   {
     menuSectionName: "Soups",
-    menuSectionItems: [{ id: 15, name: "wonton soup", price: 10.95 }],
+    menuSectionItems: [
+      { id: 15, name: "wonton soup", price: 10.95, isSpicy: false },
+    ],
   },
   {
     menuSectionName: "Beef and Port",
     menuSectionItems: [
-      { id: 16, name: "Mandarin Pork Chops", price: 15.95 },
-      { id: 17, name: "Mandarin Pork Chops", price: 15.95 },
-      { id: 18, name: "Mandarin Pork Chops", price: 15.95 },
+      { id: 16, name: "Mandarin Pork Chops", price: 15.95, isSpicy: false },
+      { id: 17, name: "Mandarin Pork Chops", price: 15.95, isSpicy: false },
+      { id: 18, name: "Mandarin Pork Chops", price: 15.95, isSpicy: false },
     ],
   },
 ];
@@ -45,13 +53,13 @@ class Menu extends Component {
 
   render() {
     return (
-      <div style={{ paddingBottom: window.outerHeight*0.1, }}>
+      <div style={{ paddingBottom: 100 }}>
         <div
           style={{
-            paddingLeft: window.outerWidth*0.02,
-              paddingRight: window.outerWidth*0.02, 
-              paddingTop: window.outerHeight*0.02,
-              paddingBottom: window.outerHeight*0.02,
+            paddingLeft: window.outerWidth * 0.02,
+            paddingRight: window.outerWidth * 0.02,
+            paddingTop: window.outerHeight * 0.02,
+            paddingBottom: window.outerHeight * 0.02,
             display: "flex",
             justifyContent: "space-between",
           }}
@@ -65,6 +73,7 @@ class Menu extends Component {
               offset={50}
               duration={500}
               onSetActive={this.handleSetActive}
+              key={section.menuSectionName}
             >
               <MenuButton
                 key={section.menuSectionName}

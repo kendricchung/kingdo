@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import RoomIcon from "@material-ui/icons/Room";
 import Box from "@material-ui/core/Box";
 import { Link } from "react-router-dom";
 
 class TopBar extends Component {
   state = {
     mouseOverTitle: false,
-    mouseOverLocationIcon: false,
+    mouseOverLocation: false,
   };
 
   handleMouseEnterTitle = () => {
@@ -19,75 +17,86 @@ class TopBar extends Component {
     this.setState({ mouseOverTitle: false });
   };
 
-  handleMouseEnterLocationIcon = () => {
-    this.setState({ mouseOverLocationIcon: true });
+  handleMouseEnterLocation = () => {
+    this.setState({ mouseOverLocation: true });
   };
 
-  handleMouseLeavingLocationIcon = () => {
-    this.setState({ mouseOverLocationIcon: false });
+  handleMouseLeavingLocation = () => {
+    this.setState({ mouseOverLocation: false });
   };
 
   render() {
     return (
-      <Box boxShadow={2}>
+      <Box boxShadow={4}>
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
-            backgroundColor: "white",
+            backgroundImage:
+              "url(https://www.kingdorestaurant.com/wp-content/uploads/sites/177/2018/12/shutterstock_390619714.png)",
             alignItems: "center",
           }}
         >
-          <div style={{ paddingLeft: "2%", width: "15%" }}>
-            <h2>OPEN FOR TAKE OUT</h2>
-            <h3>Payment is accepted upon pickup</h3>
-          </div>
-          <Button
-            style={{
-              backgroundColor: "transparent",
-              width: "15%",
-            }}
-            disableRipple={true}
-            onMouseEnter={this.handleMouseEnterTitle}
-            onMouseLeave={this.handleMouseLeavingTitle}
-          >
-            <Link
-              to="/"
-              style={{
-                textDecoration: "none",
-                color: this.state.mouseOverTitle ? "grey" : "black",
-              }}
-            >
-              <div>
-                <h1>LOGO</h1>
-                {/* TODO: logo goes here */}
-                <h3>Kingdo Restaurant</h3>
-              </div>
-            </Link>
-          </Button>
           <div
             style={{
-              display: "flex",
-              justifyContent: "center",
-              paddingRight: "2%",
-              width: "15%",
+              paddingLeft: "2%",
+              width: "20%",
             }}
           >
-            <div style={{ paddingRight: "20px" }}>
-              <h3>7789999999</h3>
-              <h3>7789999997</h3>
-            </div>
-            <IconButton
-              style={{
-                backgroundColor: "transparent",
-                color: this.state.mouseOverLocationIcon ? "grey" : "black",
-              }}
-              disableRipple={true}
-              onMouseEnter={this.handleMouseEnterLocationIcon}
-              onMouseLeave={this.handleMouseLeavingLocationIcon}
-            >
-              <RoomIcon></RoomIcon>
-            </IconButton>
+            <h1>
+              {`This Order is for 
+              ${
+                this.props.foodTransportationMethod === "delivery"
+                  ? "Delivery"
+                  : "Pickup"
+              }`}
+            </h1>
+            <h3>
+              <Link
+                component={() => (
+                  <a
+                    onMouseEnter={this.handleMouseEnterLocation}
+                    onMouseLeave={this.handleMouseLeavingLocation}
+                    style={{
+                      textDecoration: "none",
+                      color: this.state.mouseOverLocation ? "grey" : "black",
+                    }}
+                    href="https://www.google.com/maps/place/New+King+Do+Seafood+Restaurant/@49.191253,-122.8387086,17z/data=!3m1!4b1!4m5!3m4!1s0x5485d77f3574a219:0x593120f0f17c1726!8m2!3d49.191253!4d-122.8365199"
+                  >
+                    13922-104 Avenue, Surrey, British Columbia V3T 1X2, Canada
+                  </a>
+                )}
+              ></Link>
+            </h3>
+          </div>
+          <Link
+            onMouseEnter={this.handleMouseEnterTitle}
+            onMouseLeave={this.handleMouseLeavingTitle}
+            to="/"
+            style={{
+              fontSize: 18,
+              flexWrap: "wrap",
+              textDecoration: "none",
+              color: this.state.mouseOverTitle ? "grey" : "black",
+              textAlign: "center",
+            }}
+          >
+            <h1>LOGO</h1>
+            {/* TODO: logo goes here */}
+            <h2>King Do Restaurant</h2>
+          </Link>
+          <div
+            style={{
+              justifyContent: "center",
+              paddingRight: "2%",
+              width: "20%",
+              textAlign: "right",
+            }}
+          >
+            <h2>7 DAYS A WEEK</h2>
+            <h3>Monday-Sunday</h3>
+            <h3>10:30am - 10:00pm</h3>
+            <h3>604-582-6911</h3>
           </div>
         </div>
       </Box>

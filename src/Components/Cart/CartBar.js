@@ -20,12 +20,13 @@ class CartBar extends Component {
     return (
       <div
         style={{
-          backgroundColor: "white",
+          backgroundImage:
+            "linear-gradient( rgba(0, 0, 0, -0.5), rgba(0, 0, 0, -0.5) ), url(https://www.kingdorestaurant.com/wp-content/uploads/sites/177/2018/12/shutterstock_390619714.png)",
           textAlign: "center",
           position: "fixed",
           left: "0",
           bottom: "0",
-          height: window.outerHeight * 0.1,
+          height: 70,
           width: "100%",
           boxShadow: "0px -1px 3px rgba(50, 50, 50, 0.50)",
         }}
@@ -50,28 +51,21 @@ class CartBar extends Component {
               {this.props.cartItems.length}
             </h2>
           </div>
-          <Button
-            style={{
-              backgroundColor: "transparent",
-              width: "15%",
-            }}
-            disableRipple={true}
+          <Link
             onMouseEnter={this.handleMouseEnterViewCart}
             onMouseLeave={this.handleMouseLeavingViewCart}
+            to={`/${this.props.foodTransportationMethod}/cart`}
+            style={{
+              width: "15%",
+              textDecoration: "none",
+              color: this.state.mouseOverViewCart ? "grey" : "black",
+              flexWrap: "wrap",
+            }}
           >
-            <Link
-              to={`/${this.props.foodTransportationMethod}/cart`}
-              style={{
-                textDecoration: "none",
-                color: this.state.mouseOverViewCart ? "grey" : "black",
-              }}
-            >
-              <h3>View Cart</h3>
-            </Link>
-          </Button>
+            <h2>View Cart</h2>
+          </Link>
           <h2
             style={{
-              fontSize: 20,
               width: "15%",
             }}
           >

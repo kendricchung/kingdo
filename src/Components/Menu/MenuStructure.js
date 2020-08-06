@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import MenuItem from "./MenuItem";
+import List from "@material-ui/core/List";
 
 class MenuStructure extends Component {
   state = {
@@ -15,14 +16,7 @@ class MenuStructure extends Component {
   formGrid = () => {
     // should do a map here and do some calculations based on the list of items
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          maxWidth: "100%",
-          flexWrap: "wrap",
-        }}
-      >
+      <List style={{ paddingLeft: "2%", paddingRight: "2%" }}>
         {this.state.sectionItems.map((item) => (
           <MenuItem
             key={item.id}
@@ -30,7 +24,7 @@ class MenuStructure extends Component {
             itemInfo={item}
           ></MenuItem>
         ))}
-      </div>
+      </List>
     );
   };
 

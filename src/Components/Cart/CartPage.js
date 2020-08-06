@@ -5,60 +5,83 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { Redirect } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import IconButton from "@material-ui/core/IconButton";
+import { Helmet } from "react-helmet";
+
+export const parseItemIntoStack = (items) => {
+  let map = new Map();
+  for (const item of items) {
+    if (!map.has(item.id)) {
+      map.set(item.id, [item]);
+    } else {
+      let listOfItemsWithGivenId = map.get(item.id);
+      listOfItemsWithGivenId.push(item);
+      map.set(item.id, listOfItemsWithGivenId);
+    }
+  }
+  let numberOfItemsCounter = 0;
+  let listOfItems = [];
+  map.forEach((value, key) => {
+    listOfItems.push({
+      quantity: value.length,
+      item: value[0],
+    });
+    numberOfItemsCounter += value.length;
+  });
+
+  return [listOfItems, numberOfItemsCounter];
+};
+
+export const calculateAmountsGivenStackItems = (stackItems) => {
+  if (stackItems.length === 0) {
+    return [0, 0, 0];
+  }
+  let price = 0;
+  stackItems.forEach((value) => {
+    price +=
+      value.quantity *
+      parseFloat(
+        (Math.round(parseFloat(value.item.price, 10) * 100) / 100).toFixed(2)
+      );
+  });
+
+  const subtotalPrice = parseFloat(
+    (Math.round(parseFloat(price, 10) * 100) / 100).toFixed(2)
+  );
+  const taxPrice = parseFloat(
+    (Math.round(subtotalPrice * 0.05 * 100) / 100).toFixed(2)
+  );
+
+  const totalPrice = parseFloat(
+    (Math.round(parseFloat(subtotalPrice + taxPrice, 10) * 100) / 100).toFixed(
+      2
+    )
+  );
+
+  return [subtotalPrice, taxPrice, totalPrice];
+};
 
 class CartPage extends Component {
   constructor(props) {
     super(props);
-    let map = new Map();
+
     const storageCartItems = JSON.parse(sessionStorage.getItem("cartItems"))
       ? JSON.parse(sessionStorage.getItem("cartItems"))
       : [];
-    for (const item of storageCartItems) {
-      if (!map.has(item.id)) {
-        map.set(item.id, [item]);
-      } else {
-        let listOfItemsWithGivenId = map.get(item.id);
-        listOfItemsWithGivenId.push(item);
-        map.set(item.id, listOfItemsWithGivenId);
-      }
-    }
-    let numberOfItemsCounter = 0;
-    let listOfItems = [];
-    map.forEach((value, key) => {
-      listOfItems.push({
-        quantity: value.length,
-        item: value[0],
-      });
-      numberOfItemsCounter += value.length;
-    });
 
-    let price = 0;
-    listOfItems.forEach((value) => {
-      price +=
-        value.quantity *
-        parseFloat(
-          (Math.round(parseFloat(value.item.price, 10) * 100) / 100).toFixed(2)
-        );
-    });
-
-    const subtotalPrice = parseFloat(
-      (Math.round(parseFloat(price, 10) * 100) / 100).toFixed(2)
-    );
-    const taxPrice = parseFloat(
-      (Math.round(subtotalPrice * 0.05 * 100) / 100).toFixed(2)
+    const [listOfItems, numberOfItemsCounter] = parseItemIntoStack(
+      storageCartItems
     );
 
-    const totalPrice = parseFloat(
-      (
-        Math.round(parseFloat(subtotalPrice + taxPrice, 10) * 100) / 100
-      ).toFixed(2)
-    );
+    const [
+      subtotalPrice,
+      taxPrice,
+      totalPrice,
+    ] = calculateAmountsGivenStackItems(listOfItems);
 
     this.state = {
       itemStack: listOfItems,
@@ -77,35 +100,6 @@ class CartPage extends Component {
   handleRedirectToOrderConfirmationPage = () => {
     this.setState({ redirectToOrderConfirmationPage: true });
   };
-
-  calculateAmountsGivenStackItems(stackItems) {
-    if (stackItems.length === 0) {
-      return [0, 0, 0];
-    }
-    let price = 0;
-    stackItems.forEach((value) => {
-      price +=
-        value.quantity *
-        parseFloat(
-          (Math.round(parseFloat(value.item.price, 10) * 100) / 100).toFixed(2)
-        );
-    });
-
-    const subtotalPrice = parseFloat(
-      (Math.round(parseFloat(price, 10) * 100) / 100).toFixed(2)
-    );
-    const taxPrice = parseFloat(
-      (Math.round(subtotalPrice * 0.05 * 100) / 100).toFixed(2)
-    );
-
-    const totalPrice = parseFloat(
-      (
-        Math.round(parseFloat(subtotalPrice + taxPrice, 10) * 100) / 100
-      ).toFixed(2)
-    );
-
-    return [subtotalPrice, taxPrice, totalPrice];
-  }
 
   handleRemoveItems = (itemId) => {
     let currentStackItems = this.state.itemStack;
@@ -131,7 +125,7 @@ class CartPage extends Component {
       subtotalPrice,
       taxPrice,
       totalPrice,
-    ] = this.calculateAmountsGivenStackItems(newStackItems);
+    ] = calculateAmountsGivenStackItems(newStackItems);
 
     this.setState({
       buttonDisabled: newStackItems.length === 0,
@@ -167,7 +161,7 @@ class CartPage extends Component {
       subtotalPrice,
       taxPrice,
       totalPrice,
-    ] = this.calculateAmountsGivenStackItems(currentStackItems);
+    ] = calculateAmountsGivenStackItems(currentStackItems);
 
     this.setState({
       itemStack: currentStackItems,
@@ -217,7 +211,7 @@ class CartPage extends Component {
       subtotalPrice,
       taxPrice,
       totalPrice,
-    ] = this.calculateAmountsGivenStackItems(updatedStackItems);
+    ] = calculateAmountsGivenStackItems(updatedStackItems);
 
     this.setState({
       buttonDisabled: updatedStackItems.length === 0,
@@ -244,19 +238,17 @@ class CartPage extends Component {
 
     return (
       <div>
+        <Helmet>
+          <title>King Do Restaurant | Cart</title>
+        </Helmet>
         <ScrollToTop
           smooth
           style={{
             position: "fixed",
-            bottom: "11%",
-            left: "46%",
-            width: window.outerWidth*0.09,
-            height: window.outerHeight * 0.09,
             borderStyle: "solid",
             borderWidth: 1,
             borderColor: "#83858a",
           }}
-          component={<h4 style={{ fontSize: 14 }}>Back to Top</h4>}
         />
         <TopBar />
         <div style={{ display: "flex" }}>
@@ -272,12 +264,15 @@ class CartPage extends Component {
               </div>
             ) : (
               this.state.itemStack.map((value) => (
-                <div style={{ 
-                  paddingLeft: window.outerWidth*0.02,
-                  paddingRight: window.outerWidth*0.05, 
-                  paddingTop: window.outerHeight*0.05,
-                  paddingBottom: window.outerHeight*0.05,
-                  width: window.outerWidth*0.3,}}>
+                <div
+                  style={{
+                    paddingLeft: window.outerWidth * 0.02,
+                    paddingRight: window.outerWidth * 0.05,
+                    paddingTop: window.outerHeight * 0.05,
+                    paddingBottom: window.outerHeight * 0.05,
+                    width: window.outerWidth * 0.4,
+                  }}
+                >
                   <Card>
                     <CardContent>
                       <Typography variant="h5" component="h2">
@@ -292,7 +287,7 @@ class CartPage extends Component {
                           {value.quantity}
                         </Typography>
                         <IconButton
-                          color="primary"
+                          color="grey"
                           onClick={() =>
                             this.handleIncreaseQuantityByOne(value.item.id)
                           }
@@ -300,7 +295,7 @@ class CartPage extends Component {
                           <AddCircleIcon />
                         </IconButton>
                         <IconButton
-                          color="secondary"
+                          color="grey"
                           onClick={() =>
                             this.handleDecreaseQuantityByOne(value.item.id)
                           }
@@ -311,7 +306,7 @@ class CartPage extends Component {
                     </CardContent>
                     <CardActions>
                       <Button
-                        size="small"
+                        size="large"
                         color="secondary"
                         onClick={() => this.handleRemoveItems(value.item.id)}
                       >
@@ -325,11 +320,11 @@ class CartPage extends Component {
           </div>
           <div
             style={{
-              paddingLeft: window.outerWidth*0.05,
-              paddingRight: window.outerWidth*0.02, 
-              paddingTop: window.outerHeight*0.05,
-              paddingBottom: window.outerHeight*0.05,
-              width: window.outerWidth*0.45,
+              paddingLeft: window.outerWidth * 0.05,
+              paddingRight: window.outerWidth * 0.02,
+              paddingTop: window.outerHeight * 0.05,
+              paddingBottom: window.outerHeight * 0.05,
+              width: window.outerWidth * 0.45,
               position: "fixed",
               right: 0,
             }}
@@ -374,8 +369,12 @@ class CartPage extends Component {
                       ${this.state.taxPrice}
                     </Typography>
                   </div>
-                  <div style={{ paddingTop: window.outerHeight*0.02,
-              paddingBottom: window.outerHeight*0.02,  }}>
+                  <div
+                    style={{
+                      paddingTop: window.outerHeight * 0.02,
+                      paddingBottom: window.outerHeight * 0.02,
+                    }}
+                  >
                     <div
                       style={{
                         width: "100%",

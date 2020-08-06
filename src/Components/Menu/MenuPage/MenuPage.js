@@ -3,7 +3,9 @@ import TopBar from "./TopBar";
 import CartBar from "../../Cart/CartBar";
 import Menu from "../Menu";
 import ScrollToTop from "react-scroll-to-top";
-import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Center from "react-center";
+import { Helmet } from "react-helmet";
 
 class MenuPage extends Component {
   constructor(props) {
@@ -41,24 +43,28 @@ class MenuPage extends Component {
       this.state.foodTransportation !== "delivery" &&
       this.state.foodTransportation !== "pickup"
     ) {
-      return <Redirect to="/404" />;
+      return (
+        <Center>
+          <h1>
+            Please return to the main page <Link to="/">here</Link>.
+          </h1>
+        </Center>
+      );
     }
 
     return (
       <div>
+        <Helmet>
+          <title>King Do Restaurant | Menu</title>
+        </Helmet>
         <ScrollToTop
           smooth
           style={{
             position: "fixed",
-            bottom: "11%",
-            left: "46%",
-            width: window.outerWidth*0.09,
-            height: window.outerHeight * 0.09,
             borderStyle: "solid",
             borderWidth: 1,
             borderColor: "#83858a",
           }}
-          component={<h4 style={{ fontSize: 14 }}>Back to Top</h4>}
         />
         <TopBar />
         <Menu addMenuItemToCart={this.addMenuItemToCart} />
