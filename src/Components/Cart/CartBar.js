@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
+import cartBarBackground from "../kingdo_background.png";
 
 class CartBar extends Component {
   state = {
@@ -20,8 +20,7 @@ class CartBar extends Component {
     return (
       <div
         style={{
-          backgroundImage:
-            "linear-gradient( rgba(0, 0, 0, -0.5), rgba(0, 0, 0, -0.5) ), url(https://www.kingdorestaurant.com/wp-content/uploads/sites/177/2018/12/shutterstock_390619714.png)",
+          backgroundImage: `linear-gradient( rgba(0, 0, 0, -0.5), rgba(0, 0, 0, -0.5) ), url(${cartBarBackground})`,
           textAlign: "center",
           position: "fixed",
           left: "0",

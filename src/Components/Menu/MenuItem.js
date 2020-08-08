@@ -23,16 +23,24 @@ class MenuItem extends Component {
       <ListItem>
         <ListItemAvatar>
           <WhatshotIcon
+            fontSize="large"
             style={{ color: this.state.isSpicy ? "red" : "transparent" }}
           />
         </ListItemAvatar>
         <div>
-          <ListItemText primary={this.state.name} />
-          <ListItemText primary="Chinese goes here" />
+          <ListItemText>
+            <h3 style={{ fontWeight: "normal" }}>{this.state.name}</h3>
+          </ListItemText>
+          <ListItemText>
+            <h3 style={{ fontWeight: "normal" }}>
+              Chinese translation goes here
+            </h3>
+          </ListItemText>
         </div>
-        <ListItemSecondaryAction>
-          {this.state.price}
+        <ListItemSecondaryAction style={{ fontSize: 22 }}>
+          ${this.state.price}
           <IconButton
+            size="medium"
             onClick={() =>
               this.props.addMenuItemToCart({
                 id: this.state.id,

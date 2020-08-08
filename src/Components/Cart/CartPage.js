@@ -11,6 +11,8 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import IconButton from "@material-ui/core/IconButton";
 import { Helmet } from "react-helmet";
+import Box from "@material-ui/core/Box";
+import buttonBackground from "../kingdo_background.png";
 
 export const parseItemIntoStack = (items) => {
   let map = new Map();
@@ -402,11 +404,15 @@ class CartPage extends Component {
                   onClick={this.handleRedirectToOrderConfirmationPage}
                   variant="contained"
                   style={{
+                    backgroundImage: `url(${buttonBackground})`,
                     fontSize: 20,
-                    color: "white",
-                    backgroundColor: this.state.buttonDisabled
-                      ? "grey"
-                      : "green",
+                    color: "black",
+                    filter: this.state.buttonDisabled
+                      ? "grayscale(100%)"
+                      : "grayscale(0%)",
+                    borderWidth: 2,
+                    borderColor: "black",
+                    borderStyle: "solid",
                   }}
                 >
                   Confirm Order

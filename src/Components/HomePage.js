@@ -5,6 +5,7 @@ import PickUpButton from "./HomePageActionButtons/PickUpButton";
 import DeliveryButton from "./HomePageActionButtons/DeliveryButton";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import backgroundImage from "./kingdo_homepage_background.png";
 
 class HomePage extends Component {
   state = {
@@ -26,8 +27,7 @@ class HomePage extends Component {
         style={{
           height: "100%",
           width: "100%",
-          backgroundImage:
-            "linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(https://www.kingdorestaurant.com/wp-content/uploads/sites/177/2018/12/shutterstock_703582972.png)",
+          backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(${backgroundImage})`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center center",
           backgroundSize: "cover",
