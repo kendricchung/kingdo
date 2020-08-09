@@ -15,6 +15,7 @@ class MenuItem extends Component {
       name: props.itemInfo.name,
       price: props.itemInfo.price,
       isSpicy: props.itemInfo.isSpicy,
+      chineseTranslation: props.itemInfo.chineseTranslation,
     };
   }
 
@@ -33,7 +34,7 @@ class MenuItem extends Component {
           </ListItemText>
           <ListItemText>
             <h3 style={{ fontWeight: "normal" }}>
-              Chinese translation goes here
+              {this.state.chineseTranslation}
             </h3>
           </ListItemText>
         </div>
@@ -41,6 +42,7 @@ class MenuItem extends Component {
           ${this.state.price}
           <IconButton
             size="medium"
+            style={{ color: "black" }}
             onClick={() =>
               this.props.addMenuItemToCart({
                 id: this.state.id,

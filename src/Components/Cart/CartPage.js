@@ -289,7 +289,8 @@ class CartPage extends Component {
                           {value.quantity}
                         </Typography>
                         <IconButton
-                          color="grey"
+                          size="large"
+                          color="inherit"
                           onClick={() =>
                             this.handleIncreaseQuantityByOne(value.item.id)
                           }
@@ -297,7 +298,8 @@ class CartPage extends Component {
                           <AddCircleIcon />
                         </IconButton>
                         <IconButton
-                          color="grey"
+                          size="large"
+                          color="secondary"
                           onClick={() =>
                             this.handleDecreaseQuantityByOne(value.item.id)
                           }

@@ -93,7 +93,7 @@ class TopBar extends Component {
             }}
           >
             <h2>7 DAYS A WEEK</h2>
-            <h3>Monday-Sunday</h3>
+            <h3>Monday - Sunday</h3>
             <h3>10:30am - 10:00pm</h3>
             <h3>604-582-6911</h3>
           </div>

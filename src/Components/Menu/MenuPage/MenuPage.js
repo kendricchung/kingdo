@@ -62,8 +62,9 @@ class MenuPage extends Component {
           style={{
             position: "fixed",
             borderStyle: "solid",
-            borderWidth: 1,
-            borderColor: "#83858a",
+            borderWidth: 2,
+            borderColor: "black",
+            backgroundColor: "#f5f2d0",
           }}
         />
         <TopBar />
