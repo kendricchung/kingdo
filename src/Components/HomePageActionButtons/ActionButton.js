@@ -32,9 +32,10 @@ class ActionButton extends Component {
         color="#808080"
         variant="contained"
         size="large"
+        // TODO: need to change it to medium/small if it is mobile
         onClick={this.handleRedirecToNextPage}
         buttonStyle={{ borderRadius: 10 }}
-        style={{ borderRadius: 10, fontSize: 20 }}
+        style={{ borderRadius: 10, fontSize: 25 }}
       >
         {this.state.buttonName}
       </Button>

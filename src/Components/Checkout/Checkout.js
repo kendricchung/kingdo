@@ -33,6 +33,7 @@ class Checkout extends Component {
         <Center>
           <div
             style={{
+              textAlign: "center",
               height: "20px",
               paddingTop: "14%",
               paddingRight: "5%",

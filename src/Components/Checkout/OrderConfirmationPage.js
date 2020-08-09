@@ -11,10 +11,10 @@ import Center from "react-center";
 import Axios from "axios";
 import { Helmet } from "react-helmet";
 import { parseItemIntoStack } from "../Cart/CartPage";
-import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import buttonBackground from "../kingdo_background.png";
 
 const hostEndpoint = process.env.KINGDO_HOST_ENDPOINT
   ? process.env.KINGDO_HOST_ENDPOINT
@@ -43,10 +43,10 @@ class OrderConfirmationPage extends Component {
       disabled:
         event.target.value.length === 0 ||
         this.state.lastNameText.length === 0 ||
-        this.state.phoneNumber.length === 0 ||
-        this.state.foodTransportationMethod === "delivery"
+        this.state.phoneNumber.length <= 2 ||
+        (this.state.foodTransportationMethod === "delivery"
           ? this.state.deliveryAddress.length === 0
-          : false,
+          : false),
     });
   };
 
@@ -56,10 +56,10 @@ class OrderConfirmationPage extends Component {
       disabled:
         event.target.value.length === 0 ||
         this.state.firstNameText.length === 0 ||
-        this.state.phoneNumber.length === 0 ||
-        this.state.foodTransportationMethod === "delivery"
+        this.state.phoneNumber.length <= 2 ||
+        (this.state.foodTransportationMethod === "delivery"
           ? this.state.deliveryAddress.length === 0
-          : false,
+          : false),
     });
   };
 
@@ -69,7 +69,7 @@ class OrderConfirmationPage extends Component {
       disabled:
         event.target.value.length === 0 ||
         this.state.firstNameText.length === 0 ||
-        this.state.phoneNumber.length === 0 ||
+        this.state.phoneNumber.length <= 2 ||
         this.state.lastNameText.length === 0,
     });
   };
@@ -78,12 +78,12 @@ class OrderConfirmationPage extends Component {
     this.setState({
       phoneNumber: value.replace(/\(|\)|-|\s/g, ""),
       disabled:
-        value.length === 0 ||
+        value.length <= 2 ||
         this.state.lastNameText.length === 0 ||
         this.state.firstNameText.length === 0 ||
-        this.state.foodTransportationMethod === "delivery"
+        (this.state.foodTransportationMethod === "delivery"
           ? this.state.deliveryAddress.length === 0
-          : false,
+          : false),
     });
   };
 
@@ -115,7 +115,15 @@ class OrderConfirmationPage extends Component {
   };
 
   handleFoodTransportationMethodChange = (event) => {
-    this.setState({ foodTransportationMethod: event.target.value });
+    this.setState({
+      foodTransportationMethod: event.target.value,
+      disabled:
+        event.target.value === "delivery"
+          ? true
+          : this.state.firstNameText.length === 0 ||
+            this.state.phoneNumber.length <= 2 ||
+            this.state.lastNameText.length === 0,
+    });
   };
 
   render() {
@@ -216,7 +224,7 @@ class OrderConfirmationPage extends Component {
                   autoComplete
                   variant="outlined"
                   style={{ paddingBottom: 10 }}
-                  onChange={this.handleLastNameEdit}
+                  onChange={(event) => this.handleLastNameEdit(event)}
                 />
                 <Typography component="h2" style={{ fontSize: 20 }}>
                   Phone Number
@@ -264,9 +272,15 @@ class OrderConfirmationPage extends Component {
                   variant="contained"
                   style={{
                     padding: "2%",
-                    fontSize: 20,
-                    color: "white",
-                    backgroundColor: this.state.disabled ? "grey" : "green",
+                    fontSize: 25,
+                    color: "black",
+                    backgroundImage: `url(${buttonBackground})`,
+                    filter: this.state.disabled
+                      ? "grayscale(100%)"
+                      : "grayscale(0%)",
+                    borderWidth: 2,
+                    borderColor: "black",
+                    borderStyle: "solid",
                   }}
                 >
                   Place Order

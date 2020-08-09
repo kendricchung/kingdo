@@ -14,7 +14,7 @@ class HomePageTitle extends Component {
           to="/"
           style={{
             textDecoration: "none",
-            fontSize: 70,
+            fontSize: 75,
             color: "white",
             flexWrap: "wrap",
           }}

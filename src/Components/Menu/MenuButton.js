@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+import buttonBackground from "../kingdo_background.png";
 
 class MenuButton extends Component {
   constructor(props) {
@@ -16,8 +18,14 @@ class MenuButton extends Component {
         color="#808080"
         variant="contained"
         size="large"
-        buttonStyle={{ borderRadius: 10 }}
-        style={{ borderRadius: 10, fontSize: 15 }}
+        style={{
+          fontSize: 18,
+          fontWeight: "bolder",
+          backgroundImage: `url(${buttonBackground})`,
+          borderWidth: 2,
+          borderColor: "black",
+          borderStyle: "solid",
+        }}
       >
         {this.state.buttonName}
       </Button>

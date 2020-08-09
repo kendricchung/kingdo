@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import { Link } from "react-router-dom";
+import topBarBackground from "../../kingdo_background.png";
 
 class TopBar extends Component {
   state = {
@@ -32,8 +32,7 @@ class TopBar extends Component {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            backgroundImage:
-              "url(https://www.kingdorestaurant.com/wp-content/uploads/sites/177/2018/12/shutterstock_390619714.png)",
+            backgroundImage: `url(${topBarBackground})`,
             alignItems: "center",
           }}
         >
@@ -74,7 +73,7 @@ class TopBar extends Component {
             onMouseLeave={this.handleMouseLeavingTitle}
             to="/"
             style={{
-              fontSize: 18,
+              fontSize: 20,
               flexWrap: "wrap",
               textDecoration: "none",
               color: this.state.mouseOverTitle ? "grey" : "black",
@@ -94,7 +93,7 @@ class TopBar extends Component {
             }}
           >
             <h2>7 DAYS A WEEK</h2>
-            <h3>Monday-Sunday</h3>
+            <h3>Monday - Sunday</h3>
             <h3>10:30am - 10:00pm</h3>
             <h3>604-582-6911</h3>
           </div>

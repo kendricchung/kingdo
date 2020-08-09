@@ -18,7 +18,9 @@ class MenuSection extends Component {
   render() {
     return (
       <div>
-        <h2 style={{ paddingLeft: "2%" }}>{this.state.sectionName}</h2>
+        <h2 style={{ paddingLeft: "2%", fontSize: 30 }}>
+          {this.state.sectionName}
+        </h2>
         <Divider
           style={{
             height: "1px",
