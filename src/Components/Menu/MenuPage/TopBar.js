@@ -45,7 +45,9 @@ class TopBar extends Component {
             <h1>
               {`This Order is for 
               ${
-                this.props.foodTransportationMethod === "delivery"
+                sessionStorage
+                  .getItem("foodTransportMethod")
+                  .includes("delivery")
                   ? "Delivery"
                   : "Pickup"
               }`}

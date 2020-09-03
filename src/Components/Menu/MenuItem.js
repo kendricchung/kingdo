@@ -16,6 +16,7 @@ class MenuItem extends Component {
       price: props.itemInfo.price,
       isSpicy: props.itemInfo.isSpicy,
       chineseTranslation: props.itemInfo.chineseTranslation,
+      menuItemNumber: props.itemInfo.menuItemNumber,
     };
   }
 
@@ -48,6 +49,7 @@ class MenuItem extends Component {
                 id: this.state.id,
                 name: this.state.name,
                 price: this.state.price,
+                menuItemNumber: this.state.menuItemNumber,
               })
             }
           >

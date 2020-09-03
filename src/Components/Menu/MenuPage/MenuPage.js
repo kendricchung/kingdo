@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import TopBar from "./TopBar";
 import CartBar from "../../Cart/CartBar";
 import Menu from "../Menu";
-import ScrollToTop from "react-scroll-to-top";
 import { Link } from "react-router-dom";
 import Center from "react-center";
 import { Helmet } from "react-helmet";
@@ -18,7 +17,11 @@ class MenuPage extends Component {
       totalPrice += item.price;
     }
     this.state = {
-      foodTransportation: props.location.pathname.substring(1),
+      foodTransportation: sessionStorage
+        .getItem("foodTransportMethod")
+        .includes("delivery")
+        ? "delivery"
+        : "pickup",
       cartItems: items,
       cartAmount: (Math.round(totalPrice * 100) / 100).toFixed(2),
     };
@@ -40,8 +43,8 @@ class MenuPage extends Component {
 
   render() {
     if (
-      this.state.foodTransportation !== "delivery" &&
-      this.state.foodTransportation !== "pickup"
+      !this.state.foodTransportation.includes("delivery") &&
+      !this.state.foodTransportation.includes("pickup")
     ) {
       return (
         <Center>
@@ -57,20 +60,9 @@ class MenuPage extends Component {
         <Helmet>
           <title>King Do Restaurant | Menu</title>
         </Helmet>
-        <ScrollToTop
-          smooth
-          style={{
-            position: "fixed",
-            borderStyle: "solid",
-            borderWidth: 2,
-            borderColor: "black",
-            backgroundColor: "#f5f2d0",
-          }}
-        />
         <TopBar />
         <Menu addMenuItemToCart={this.addMenuItemToCart} />
         <CartBar
-          foodTransportationMethod={this.state.foodTransportation}
           cartAmount={this.state.cartAmount}
           cartItems={this.state.cartItems}
         />
