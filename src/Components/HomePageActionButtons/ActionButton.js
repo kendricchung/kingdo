@@ -17,6 +17,7 @@ class ActionButton extends Component {
   }
 
   handleRedirecToNextPage = () => {
+    sessionStorage.setItem("foodTransportMethod", this.state.nextPageRoute);
     this.setState({ redirectToNextPage: true });
   };
 

@@ -91,7 +91,9 @@ class CartPage extends Component {
       taxPrice: taxPrice,
       totalPrice: totalPrice,
       totalNumberOfItems: numberOfItemsCounter,
-      foodTransportationMethod: props.location.pathname.includes("delivery")
+      foodTransportationMethod: sessionStorage
+        .getItem("foodTransportMethod")
+        .includes("delivery")
         ? "delivery"
         : "pickup",
       redirectToOrderConfirmationPage: false,

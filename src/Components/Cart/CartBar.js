@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import cartBarBackground from "../kingdo_background.png";
+import { isMobile } from "react-device-detect";
 
 class CartBar extends Component {
   state = {
@@ -17,6 +18,12 @@ class CartBar extends Component {
   };
 
   render() {
+    const nextPath = sessionStorage
+      .getItem("foodTransportMethod")
+      .includes("delivery")
+      ? "/delivery/cart"
+      : "/pickup/cart";
+
     return (
       <div
         style={{
@@ -25,7 +32,7 @@ class CartBar extends Component {
           position: "fixed",
           left: "0",
           bottom: "0",
-          height: 70,
+          height: isMobile ? 50 : 70,
           width: "100%",
           boxShadow: "0px -1px 3px rgba(50, 50, 50, 0.50)",
         }}
@@ -53,7 +60,7 @@ class CartBar extends Component {
           <Link
             onMouseEnter={this.handleMouseEnterViewCart}
             onMouseLeave={this.handleMouseLeavingViewCart}
-            to={`/${this.props.foodTransportationMethod}/cart`}
+            to={nextPath}
             style={{
               width: "15%",
               textDecoration: "none",

@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import MenuSection from "./MenuSection";
-import MenuButton from "./MenuButton";
 import { Link, Element, Events, scrollSpy } from "react-scroll";
+import Button from "@material-ui/core/Button";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import buttonBackground from "../kingdo_background.png";
+import { isMobile } from "react-device-detect";
 
 const menu = [
   {
@@ -433,9 +439,65 @@ const menu = [
       },
     ],
   },
+  {
+    menuSectionName: "CHINESE HERE - CHICKEN AND DUCK",
+    menuSectionItems: [
+      {
+        id: 51,
+        name: "Szechuan Chicken",
+        price: 13.95,
+        isSpicy: false,
+        chineseTranslation: "chineseTranslation",
+        menuItemNumber: 50,
+      },
+    ],
+  },
+  {
+    menuSectionName: "CHINESE HERE - CHICKEN AND DUCK",
+    menuSectionItems: [
+      {
+        id: 51,
+        name: "Szechuan Chicken",
+        price: 13.95,
+        isSpicy: false,
+        chineseTranslation: "chineseTranslation",
+        menuItemNumber: 50,
+      },
+    ],
+  },
+  {
+    menuSectionName: "CHINESE HERE - CHICKEN AND DUCK",
+    menuSectionItems: [
+      {
+        id: 51,
+        name: "Szechuan Chicken",
+        price: 13.95,
+        isSpicy: false,
+        chineseTranslation: "chineseTranslation",
+        menuItemNumber: 50,
+      },
+    ],
+  },
+  {
+    menuSectionName: "CHINESE HERE - CHICKEN AND DUCK",
+    menuSectionItems: [
+      {
+        id: 51,
+        name: "Szechuan Chicken",
+        price: 13.95,
+        isSpicy: false,
+        chineseTranslation: "chineseTranslation",
+        menuItemNumber: 50,
+      },
+    ],
+  },
 ];
 
 class Menu extends Component {
+  state = {
+    selectedMenuSection: null,
+  };
+
   componentDidMount() {
     Events.scrollEvent.register("begin");
 
@@ -449,37 +511,59 @@ class Menu extends Component {
     Events.scrollEvent.remove("end");
   }
 
+  handleSelect = (event) => {
+    this.setState({ selectedMenuSection: event.target.value });
+  };
+
   render() {
     return (
       <div style={{ paddingBottom: 100 }}>
-        <div
-          style={{
-            paddingLeft: window.outerWidth * 0.02,
-            paddingRight: window.outerWidth * 0.02,
-            paddingTop: window.outerHeight * 0.02,
-            paddingBottom: window.outerHeight * 0.02,
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          {menu.map((section) => (
-            <Link
-              activeClass="active"
-              to={section.menuSectionName}
-              spy={true}
-              smooth={true}
-              offset={50}
-              duration={500}
-              onSetActive={this.handleSetActive}
-              key={section.menuSectionName}
+        <div style={{ padding: 30 }}>
+          <FormControl fullWidth style={{ paddingBottom: 20 }}>
+            <InputLabel> Menu Sections (required) </InputLabel>
+            <Select onChange={this.handleSelect}>
+              {menu.map((section) => (
+                <MenuItem value={section.menuSectionName}>
+                  {section.menuSectionName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Link
+            activeClass="active"
+            to={this.state.selectedMenuSection}
+            spy={true}
+            smooth={true}
+            offset={50}
+            duration={500}
+            key={this.state.selectedMenuSection}
+          >
+            <Button
+              label={`Go to ${
+                this.state.selectedMenuSection
+                  ? this.state.selectedMenuSection
+                  : "..."
+              }`}
+              color="#808080"
+              variant="contained"
+              size={isMobile ? "medium" : "large"}
+              style={{
+                fontSize: isMobile ? 15 : 18,
+                fontWeight: "bolder",
+                backgroundImage: `url(${buttonBackground})`,
+                borderWidth: 2,
+                borderColor: "black",
+                borderStyle: "solid",
+              }}
             >
-              <MenuButton
-                key={section.menuSectionName}
-                buttonName={section.menuSectionName}
-              ></MenuButton>
-            </Link>
-          ))}
+              Go to{" "}
+              {this.state.selectedMenuSection
+                ? this.state.selectedMenuSection
+                : "..."}
+            </Button>
+          </Link>
         </div>
+
         {menu.map((menuSection) => (
           <Element
             key={menuSection.menuSectionName}

@@ -29,7 +29,9 @@ class OrderConfirmationPage extends Component {
       phoneNumber: "",
       deliveryAddress: "",
       token: props.location.state,
-      foodTransportationMethod: props.location.pathname.includes("delivery")
+      foodTransportationMethod: sessionStorage
+        .getItem("foodTransportMethod")
+        .includes("delivery")
         ? "delivery"
         : "pickup",
       disabled: true,
@@ -94,10 +96,6 @@ class OrderConfirmationPage extends Component {
       );
       Axios(`${hostEndpoint}/twilio/sms`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
         params: {
           customerPhoneNumber: this.state.phoneNumber,
           firstName: this.state.firstNameText,
@@ -106,7 +104,10 @@ class OrderConfirmationPage extends Component {
           deliveryAddress: this.state.deliveryAddress,
         },
         data: { stackItems, cartItemsAmount },
-      }).then((response) => sessionStorage.removeItem("cartItems"));
+      }).then((response) => {
+        console.log(response);
+        sessionStorage.removeItem("cartItems");
+      });
       // TODO: need to check if number of valid if not show that they need to pick up on next screen
     } catch (error) {
       console.log(error);
@@ -115,6 +116,10 @@ class OrderConfirmationPage extends Component {
   };
 
   handleFoodTransportationMethodChange = (event) => {
+    sessionStorage.setItem(
+      "foodTransportMethod",
+      event.target.value === "delivery" ? "delivery" : "pickup"
+    );
     this.setState({
       foodTransportationMethod: event.target.value,
       disabled:
