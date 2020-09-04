@@ -8,6 +8,20 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import buttonBackground from "../kingdo_background.png";
 import { isMobile } from "react-device-detect";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+
+// Photo imports
+import bbq_2_topping_rice from "./FeatureItemImages/bbq_2_topping_rice.png";
+import soya_chicken_rice from "./FeatureItemImages/soya_chicken_rice.png";
+import bbq_pork_rice from "./FeatureItemImages/bbq_pork_rice.png";
+import bbq_rib_rice from "./FeatureItemImages/bbq_rib_rice.png";
+import roast_pork_rice from "./FeatureItemImages/roast_pork_rice.png";
 
 const menu = [
   {
@@ -585,6 +599,115 @@ const menu = [
   },
 ];
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: 300,
+    maxHeight: 500,
+  },
+  media: {
+    height: 230,
+  },
+}));
+
+function FeaturedItemCard({ addMenuItemToCart, itemInfo }) {
+  const classes = useStyles();
+
+  return (
+    <Card className={classes.root}>
+      <CardMedia
+        className={classes.media}
+        image={itemInfo.pathToPhoto}
+        title={itemInfo.name}
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h6" component="h2">
+          {itemInfo.name}
+        </Typography>
+        <Typography gutterBottom variant="h6" component="h2">
+          {itemInfo.chineseTranslation}
+        </Typography>
+        <Typography gutterBottom variant="h6" component="h2">
+          ${itemInfo.price}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button
+          size="large"
+          variant="contained"
+          style={{ backgroundColor: "black", color: "white" }}
+          onClick={() =>
+            addMenuItemToCart({
+              id: itemInfo.id,
+              name: itemInfo.name,
+              price: itemInfo.price,
+              menuItemNumber: itemInfo.menuItemNumber,
+            })
+          }
+        >
+          Add to Cart
+        </Button>
+      </CardActions>
+    </Card>
+  );
+}
+
+const featuredItems = [
+  {
+    id: 1,
+    name: "BBQ 2 Topping Rice",
+    price: 13.95,
+    isSpicy: false,
+    chineseTranslation: "chineseTranslation",
+    menuItemNumber: 0,
+    pathToPhoto: bbq_2_topping_rice,
+  },
+  {
+    id: 2,
+    name: "Soya Chicken Rice (HALF)",
+    price: 13.95,
+    isSpicy: false,
+    chineseTranslation: "chineseTranslation",
+    menuItemNumber: 0,
+    pathToPhoto: soya_chicken_rice,
+  },
+  {
+    id: 3,
+    name: "Soya Chicken Rice (WHOLE)",
+    price: 25.95,
+    isSpicy: false,
+    chineseTranslation: "chineseTranslation",
+    menuItemNumber: 0,
+    pathToPhoto: soya_chicken_rice,
+  },
+  {
+    id: 4,
+    name: "BBQ Pork Rice (HALF)",
+    price: 11.95,
+    isSpicy: false,
+    chineseTranslation: "chineseTranslation",
+    menuItemNumber: 0,
+    pathToPhoto: bbq_pork_rice,
+  },
+  {
+    id: 5,
+    name: "BBQ Rib Rice (HALF)",
+    price: 11.95,
+    isSpicy: false,
+    chineseTranslation: "chineseTranslation",
+    menuItemNumber: 0,
+    pathToPhoto: bbq_rib_rice,
+  },
+  {
+    id: 6,
+    name: "Roast Pork Rice",
+    price: 12.95,
+    isSpicy: false,
+    chineseTranslation: "chineseTranslation",
+    menuItemNumber: 0,
+    pathToPhoto: roast_pork_rice,
+  },
+];
+
 class Menu extends Component {
   state = {
     selectedMenuSection: null,
@@ -654,6 +777,34 @@ class Menu extends Component {
                 : "..."}
             </Button>
           </Link>
+        </div>
+        <div style={{ padding: 20 }}>
+          <h2 style={{ paddingLeft: 10, fontSize: 32 }}>FEATURED</h2>
+          <Divider
+            style={{
+              height: "1px",
+              width: "96%",
+              left: "2%",
+              position: "absolute",
+              backgroundColor: "black",
+            }}
+          />
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+            }}
+          >
+            {featuredItems.map((featuredItem) => (
+              <div style={{ padding: 20 }}>
+                <FeaturedItemCard
+                  key={featuredItem.id}
+                  itemInfo={featuredItem}
+                  addMenuItemToCart={this.props.addMenuItemToCart}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {menu.map((menuSection) => (
