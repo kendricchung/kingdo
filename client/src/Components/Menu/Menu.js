@@ -583,58 +583,6 @@ const menu = [
       },
     ],
   },
-  {
-    menuSectionName: "CHINESE HERE - CHICKEN AND DUCK",
-    menuSectionItems: [
-      {
-        id: 51,
-        name: "Szechuan Chicken",
-        price: 13.95,
-        isSpicy: false,
-        chineseTranslation: "chineseTranslation",
-        menuItemNumber: 50,
-      },
-    ],
-  },
-  {
-    menuSectionName: "CHINESE HERE - CHICKEN AND DUCK",
-    menuSectionItems: [
-      {
-        id: 51,
-        name: "Szechuan Chicken",
-        price: 13.95,
-        isSpicy: false,
-        chineseTranslation: "chineseTranslation",
-        menuItemNumber: 50,
-      },
-    ],
-  },
-  {
-    menuSectionName: "CHINESE HERE - CHICKEN AND DUCK",
-    menuSectionItems: [
-      {
-        id: 51,
-        name: "Szechuan Chicken",
-        price: 13.95,
-        isSpicy: false,
-        chineseTranslation: "chineseTranslation",
-        menuItemNumber: 50,
-      },
-    ],
-  },
-  {
-    menuSectionName: "CHINESE HERE - CHICKEN AND DUCK",
-    menuSectionItems: [
-      {
-        id: 51,
-        name: "Szechuan Chicken",
-        price: 13.95,
-        isSpicy: false,
-        chineseTranslation: "chineseTranslation",
-        menuItemNumber: 50,
-      },
-    ],
-  },
 ];
 
 class Menu extends Component {
