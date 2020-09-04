@@ -4,7 +4,7 @@ import twilio from "twilio";
 import cors from "cors";
 
 const app = express();
-const port = 3001;
+const port = 4000;
 
 // @purpose: map to keep track of orders that need to be sent to the restaurant
 // orders will be deleted 10 minutes after it has been made
