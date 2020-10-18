@@ -31,11 +31,9 @@ class MenuItem extends Component {
         </ListItemAvatar>
         <div>
           <ListItemText>
-            <h3 style={{ fontWeight: "normal" }}>{this.state.name}</h3>
-          </ListItemText>
-          <ListItemText>
             <h3 style={{ fontWeight: "normal" }}>
-              {this.state.chineseTranslation}
+              {this.state.menuItemNumber} {this.state.name}{" "}
+              {`(${this.state.chineseTranslation})`}
             </h3>
           </ListItemText>
         </div>
