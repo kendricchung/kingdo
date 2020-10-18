@@ -52,6 +52,7 @@ class HomePage extends Component {
           <Center>
             <h2>
               <Link
+                to="#"
                 component={() => (
                   <a
                     onMouseEnter={this.handleMouseEnterLocation}

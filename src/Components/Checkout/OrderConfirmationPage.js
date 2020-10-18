@@ -157,7 +157,14 @@ class OrderConfirmationPage extends Component {
     return (
       <div>
         <TopBar />
-        <div style={{ padding: "2%", paddingRight: "5%", paddingLeft: "5%" }}>
+        <div
+          style={{
+            padding: "2%",
+            paddingRight: "5%",
+            paddingLeft: "5%",
+            minWidth: "1440px",
+          }}
+        >
           <Card>
             <CardContent>
               <div
@@ -275,8 +282,8 @@ class OrderConfirmationPage extends Component {
                   style={{
                     padding: "2%",
                     fontSize: 25,
-                    color: "black",
-                    backgroundImage: `url(${buttonBackground})`,
+                    color: "white",
+                    backgroundColor: "#161c20",
                     filter: this.state.disabled
                       ? "grayscale(100%)"
                       : "grayscale(0%)",

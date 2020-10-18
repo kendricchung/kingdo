@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import TopBar from "../Menu/MenuPage/TopBar";
 import Center from "react-center";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
 
 class Checkout extends Component {
   constructor(props) {
@@ -35,6 +34,7 @@ class Checkout extends Component {
               paddingTop: "14%",
               paddingRight: "5%",
               paddingLeft: "5%",
+              minWidth: "1440px",
             }}
           >
             <h1>THANK YOU!</h1>

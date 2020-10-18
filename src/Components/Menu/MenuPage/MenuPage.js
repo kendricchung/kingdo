@@ -56,7 +56,7 @@ class MenuPage extends Component {
     }
 
     return (
-      <div>
+      <div style={{ minWidth: "1440px" }}>
         <TopBar />
         <Menu addMenuItemToCart={this.addMenuItemToCart} />
         <CartBar

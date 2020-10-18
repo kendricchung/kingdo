@@ -32,7 +32,7 @@ class MenuItem extends Component {
         <div>
           <ListItemText>
             <h3 style={{ fontWeight: "normal" }}>
-              {this.state.menuItemNumber} {this.state.name}{" "}
+              {this.state.menuItemNumber}. {this.state.name}{" "}
               {`(${this.state.chineseTranslation})`}
             </h3>
           </ListItemText>

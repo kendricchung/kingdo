@@ -95,7 +95,7 @@ class Menu extends Component {
 
   render() {
     return (
-      <div style={{ paddingBottom: 100 }}>
+      <div style={{ paddingBottom: 100, minWidth: "1440px" }}>
         <div style={{ padding: 30 }}>
           <FormControl fullWidth style={{ paddingBottom: 20 }}>
             <InputLabel> Menu Sections (required) </InputLabel>
@@ -122,17 +122,18 @@ class Menu extends Component {
                   ? this.state.selectedMenuSection
                   : "..."
               }`}
-              color="#808080"
               variant="contained"
-              size={isMobile ? "medium" : "large"}
+              size="large"
               style={{
-                fontSize: isMobile ? 15 : 18,
+                fontSize: 18,
                 fontWeight: "bolder",
-                backgroundImage: `url(${buttonBackground})`,
+                backgroundColor: "#161c20",
                 borderWidth: 2,
                 borderColor: "black",
                 borderStyle: "solid",
+                color: "white",
               }}
+              disabled={this.state.selectedMenuSection ? false : true}
             >
               Go to{" "}
               {this.state.selectedMenuSection

@@ -252,7 +252,13 @@ class CartPage extends Component {
           }}
         />
         <TopBar />
-        <div style={{ display: "flex" }}>
+        <div
+          style={{
+            display: "flex",
+            minWidth: "1440px",
+            justifyContent: "space-between",
+          }}
+        >
           <div>
             {this.state.itemStack.length === 0 ? (
               <div style={{ padding: 40 }}>
@@ -265,15 +271,7 @@ class CartPage extends Component {
               </div>
             ) : (
               this.state.itemStack.map((value) => (
-                <div
-                  style={{
-                    paddingLeft: window.outerWidth * 0.02,
-                    paddingRight: window.outerWidth * 0.05,
-                    paddingTop: window.outerHeight * 0.05,
-                    paddingBottom: window.outerHeight * 0.05,
-                    width: window.outerWidth * 0.4,
-                  }}
-                >
+                <div style={{ width: "500px", padding: "30px" }}>
                   <Card>
                     <CardContent>
                       <Typography variant="h5" component="h2">
@@ -323,13 +321,9 @@ class CartPage extends Component {
           </div>
           <div
             style={{
-              paddingLeft: window.outerWidth * 0.05,
-              paddingRight: window.outerWidth * 0.02,
-              paddingTop: window.outerHeight * 0.05,
-              paddingBottom: window.outerHeight * 0.05,
-              width: window.outerWidth * 0.45,
-              position: "fixed",
-              right: 0,
+              paddingRight: "30px",
+              paddingTop: "30px",
+              width: "600px",
             }}
           >
             <Card>
@@ -405,12 +399,11 @@ class CartPage extends Component {
                   onClick={this.handleRedirectToOrderConfirmationPage}
                   variant="contained"
                   style={{
-                    backgroundImage: `url(${buttonBackground})`,
+                    backgroundColor: this.state.buttonDisabled
+                      ? "grey"
+                      : "#161c20",
                     fontSize: 20,
-                    color: "black",
-                    filter: this.state.buttonDisabled
-                      ? "grayscale(100%)"
-                      : "grayscale(0%)",
+                    color: "white",
                     borderWidth: 2,
                     borderColor: "black",
                     borderStyle: "solid",
