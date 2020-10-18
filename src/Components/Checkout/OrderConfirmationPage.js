@@ -156,9 +156,6 @@ class OrderConfirmationPage extends Component {
 
     return (
       <div>
-        <Helmet>
-          <title>King Do Restaurant | Order Confirm</title>
-        </Helmet>
         <TopBar />
         <div style={{ padding: "2%", paddingRight: "5%", paddingLeft: "5%" }}>
           <Card>

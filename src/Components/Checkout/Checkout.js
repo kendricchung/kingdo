@@ -26,9 +26,6 @@ class Checkout extends Component {
 
     return (
       <div>
-        <Helmet>
-          <title>King Do Restaurant | Thank You</title>
-        </Helmet>
         <TopBar />
         <Center>
           <div

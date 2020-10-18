@@ -57,9 +57,6 @@ class MenuPage extends Component {
 
     return (
       <div>
-        <Helmet>
-          <title>King Do Restaurant | Menu</title>
-        </Helmet>
         <TopBar />
         <Menu addMenuItemToCart={this.addMenuItemToCart} />
         <CartBar

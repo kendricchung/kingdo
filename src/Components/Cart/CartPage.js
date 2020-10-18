@@ -242,9 +242,6 @@ class CartPage extends Component {
 
     return (
       <div>
-        <Helmet>
-          <title>King Do Restaurant | Cart</title>
-        </Helmet>
         <ScrollToTop
           smooth
           style={{

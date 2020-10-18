@@ -34,9 +34,6 @@ class HomePage extends Component {
           position: "fixed",
         }}
       >
-        <Helmet>
-          <title>King Do Restaurant</title>
-        </Helmet>
         <div style={{ paddingTop: "15%" }}>
           <Center>
             <HomePageTitle />
