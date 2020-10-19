@@ -10,9 +10,7 @@ import { Redirect } from "react-router-dom";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import IconButton from "@material-ui/core/IconButton";
-import { Helmet } from "react-helmet";
-import Box from "@material-ui/core/Box";
-import buttonBackground from "../kingdo_background.png";
+import { isMobile } from "react-device-detect";
 
 export const parseItemIntoStack = (items) => {
   let map = new Map();
@@ -240,6 +238,183 @@ class CartPage extends Component {
       );
     }
 
+    if (isMobile) {
+      return (
+        <div>
+          <TopBar />
+          <div>
+            {this.state.itemStack.length === 0 ? (
+              <div style={{ padding: 20 }}>
+                <Typography variant="h5">
+                  You currently don't have any items in your cart.
+                </Typography>
+                <Typography variant="h5">
+                  Please add them from the menu page to proceed to checkout.
+                </Typography>
+              </div>
+            ) : (
+              this.state.itemStack.map((value) => (
+                <div style={{ padding: "20px" }}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h5" style={{ fontSize: 20 }}>
+                        {value.item.name}
+                      </Typography>
+                      <Typography
+                        color="textSecondary"
+                        style={{ fontSize: 16 }}
+                      >
+                        ${value.item.price}
+                      </Typography>
+                      <Typography
+                        color="textSecondary"
+                        style={{ fontSize: 16 }}
+                      >
+                        Quantity:
+                      </Typography>
+                      <div style={{ display: "flex" }}>
+                        <Typography style={{ fontSize: 20, padding: 10 }}>
+                          {value.quantity}
+                        </Typography>
+                        <IconButton
+                          size="medium"
+                          color="inherit"
+                          onClick={() =>
+                            this.handleIncreaseQuantityByOne(value.item.id)
+                          }
+                        >
+                          <AddCircleIcon />
+                        </IconButton>
+                        <IconButton
+                          size="medium"
+                          color="secondary"
+                          onClick={() =>
+                            this.handleDecreaseQuantityByOne(value.item.id)
+                          }
+                        >
+                          <RemoveCircleIcon />
+                        </IconButton>
+                      </div>
+                    </CardContent>
+                    <CardActions>
+                      <Button
+                        size="medium"
+                        color="secondary"
+                        onClick={() => this.handleRemoveItems(value.item.id)}
+                      >
+                        Delete
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </div>
+              ))
+            )}
+          </div>
+          <div style={{ padding: "20px" }}>
+            <Card>
+              <CardContent>
+                <Typography
+                  variant="h5"
+                  component="h2"
+                  style={{ fontSize: 20 }}
+                >
+                  Order Summary
+                </Typography>
+                <span style={{ padding: "10%" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Typography component="h2" style={{ fontSize: 17 }}>
+                      Items:
+                    </Typography>
+                    <Typography component="h2" style={{ fontSize: 17 }}>
+                      {this.state.totalNumberOfItems}
+                    </Typography>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Typography component="h2" style={{ fontSize: 17 }}>
+                      Subtotal:
+                    </Typography>
+                    <Typography component="h2" style={{ fontSize: 17 }}>
+                      ${this.state.subtotalPrice}
+                    </Typography>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Typography component="h2" style={{ fontSize: 17 }}>
+                      Tax (GST):
+                    </Typography>
+                    <Typography component="h2" style={{ fontSize: 17 }}>
+                      ${this.state.taxPrice}
+                    </Typography>
+                  </div>
+                  <div
+                    style={{
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "100%",
+                        height: 1,
+                        backgroundColor: "black",
+                      }}
+                    ></div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Typography component="h2" style={{ fontSize: 17 }}>
+                      Total:
+                    </Typography>
+                    <Typography component="h2" style={{ fontSize: 17 }}>
+                      ${this.state.totalPrice}
+                    </Typography>
+                  </div>
+                </span>
+              </CardContent>
+              <div style={{ padding: "2%" }}>
+                <Button
+                  fullWidth
+                  disabled={this.state.buttonDisabled}
+                  onClick={this.handleRedirectToOrderConfirmationPage}
+                  variant="contained"
+                  style={{
+                    backgroundColor: this.state.buttonDisabled
+                      ? "grey"
+                      : "green",
+                    fontSize: 14,
+                    color: "black",
+                    borderWidth: 1,
+                    borderColor: "black",
+                    borderStyle: "solid",
+                  }}
+                >
+                  Confirm Order
+                </Button>
+              </div>
+            </Card>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div>
         <ScrollToTop
@@ -401,10 +576,10 @@ class CartPage extends Component {
                   style={{
                     backgroundColor: this.state.buttonDisabled
                       ? "grey"
-                      : "#161c20",
+                      : "green",
                     fontSize: 20,
-                    color: "white",
-                    borderWidth: 2,
+                    color: "black",
+                    borderWidth: 1,
                     borderColor: "black",
                     borderStyle: "solid",
                   }}
