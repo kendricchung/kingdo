@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { isMobile } from "react-device-detect";
 
 class HomePageTitle extends Component {
   render() {
@@ -8,13 +9,14 @@ class HomePageTitle extends Component {
         style={{
           textShadow:
             "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000",
+          textAlign: "center",
         }}
       >
         <Link
           to="/"
           style={{
             textDecoration: "none",
-            fontSize: 75,
+            fontSize: isMobile ? 40 : 75,
             color: "white",
             flexWrap: "wrap",
           }}
@@ -22,7 +24,6 @@ class HomePageTitle extends Component {
           King Do Restaurant
         </Link>
       </h1>
-      // TODO: need to pick font family
     );
   }
 }

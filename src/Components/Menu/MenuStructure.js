@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import MenuItem from "./MenuItem";
 import List from "@material-ui/core/List";
+import { isMobile } from "react-device-detect";
 
 class MenuStructure extends Component {
   state = {
@@ -14,9 +15,13 @@ class MenuStructure extends Component {
     };
   }
   formGrid = () => {
-    // should do a map here and do some calculations based on the list of items
     return (
-      <List style={{ paddingLeft: "2%", paddingRight: "2%" }}>
+      <List
+        style={{
+          paddingLeft: isMobile ?? "2%",
+          paddingRight: isMobile ?? "2%",
+        }}
+      >
         {this.state.sectionItems.map((item) => (
           <MenuItem
             key={item.id}
