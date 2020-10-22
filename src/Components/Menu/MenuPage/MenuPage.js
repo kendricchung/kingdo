@@ -4,7 +4,7 @@ import CartBar from "../../Cart/CartBar";
 import Menu from "../Menu";
 import { Link } from "react-router-dom";
 import Center from "react-center";
-import { Helmet } from "react-helmet";
+import { isMobile } from "react-device-detect";
 
 class MenuPage extends Component {
   constructor(props) {
@@ -56,10 +56,7 @@ class MenuPage extends Component {
     }
 
     return (
-      <div>
-        <Helmet>
-          <title>King Do Restaurant | Menu</title>
-        </Helmet>
+      <div style={{ minWidth: isMobile ?? "1440px" }}>
         <TopBar />
         <Menu addMenuItemToCart={this.addMenuItemToCart} />
         <CartBar

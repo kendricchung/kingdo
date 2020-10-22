@@ -9,12 +9,13 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Center from "react-center";
 import Axios from "axios";
-import { Helmet } from "react-helmet";
 import { parseItemIntoStack } from "../Cart/CartPage";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import buttonBackground from "../kingdo_background.png";
+import { isMobile } from "react-device-detect";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 
 const hostEndpoint = process.env.KINGDO_HOST_ENDPOINT
   ? process.env.KINGDO_HOST_ENDPOINT
@@ -36,6 +37,7 @@ class OrderConfirmationPage extends Component {
         : "pickup",
       disabled: true,
       redirectToPlaceOrderConfirmPage: false,
+      error: false,
     };
   }
 
@@ -89,12 +91,12 @@ class OrderConfirmationPage extends Component {
     });
   };
 
-  handleRedirectToPlaceOrderConfirmPage = () => {
+  handleRedirectToPlaceOrderConfirmPage = async () => {
     try {
       const [stackItems, cartItemsAmount] = parseItemIntoStack(
         JSON.parse(sessionStorage.getItem("cartItems"))
       );
-      Axios(`${hostEndpoint}/twilio/sms`, {
+      await Axios(`${hostEndpoint}/twilio/sms`, {
         method: "POST",
         params: {
           customerPhoneNumber: this.state.phoneNumber,
@@ -104,15 +106,13 @@ class OrderConfirmationPage extends Component {
           deliveryAddress: this.state.deliveryAddress,
         },
         data: { stackItems, cartItemsAmount },
-      }).then((response) => {
-        console.log(response);
-        sessionStorage.removeItem("cartItems");
       });
-      // TODO: need to check if number of valid if not show that they need to pick up on next screen
+
+      sessionStorage.removeItem("cartItems");
+      this.setState({ redirectToPlaceOrderConfirmPage: true });
     } catch (error) {
-      console.log(error);
+      this.setState({ error: true });
     }
-    this.setState({ redirectToPlaceOrderConfirmPage: true });
   };
 
   handleFoodTransportationMethodChange = (event) => {
@@ -129,6 +129,10 @@ class OrderConfirmationPage extends Component {
             this.state.phoneNumber.length <= 2 ||
             this.state.lastNameText.length === 0,
     });
+  };
+
+  handleClose = () => {
+    this.setState({ error: false });
   };
 
   render() {
@@ -154,13 +158,169 @@ class OrderConfirmationPage extends Component {
       );
     }
 
+    if (isMobile) {
+      return (
+        <div>
+          <TopBar />
+          <div
+            style={{
+              padding: "10px",
+            }}
+          >
+            <Card>
+              <CardContent>
+                <div
+                  style={{
+                    padding: "2%",
+                  }}
+                >
+                  <Typography component="h2" style={{ fontSize: 17 }}>
+                    Please fill in the following to confirm that you will be
+                    paying for your order.
+                  </Typography>
+                  <Typography
+                    component="h2"
+                    style={{ fontSize: 17, paddingBottom: "10px" }}
+                  >
+                    Your payment will be received upon
+                    {this.state.foodTransportationMethod === "deliver"
+                      ? " delivery"
+                      : " pick up"}
+                    .
+                  </Typography>
+                  <Typography
+                    component="h2"
+                    style={{ fontSize: 17, paddingBottom: "10px" }}
+                  >
+                    You can still change between delivery and pick up here:
+                  </Typography>
+                  <FormControl
+                    variant="outlined"
+                    style={{ width: "150px", paddingBottom: "10px" }}
+                  >
+                    <Select
+                      labelId="demo-simple-select-outlined-label"
+                      id="demo-simple-select-outlined"
+                      value={this.state.foodTransportationMethod}
+                      onChange={(event) =>
+                        this.handleFoodTransportationMethodChange(event)
+                      }
+                    >
+                      <MenuItem value={"delivery"}>Delivery</MenuItem>
+                      <MenuItem value={"pickup"}>Pick Up</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <div
+                    style={{
+                      width: "100%",
+                      height: 1,
+                      backgroundColor: "black",
+                    }}
+                  ></div>
+                  <Typography
+                    component="h2"
+                    style={{ fontSize: 17, paddingTop: "2%" }}
+                  >
+                    First Name
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    autoComplete
+                    variant="outlined"
+                    style={{ paddingBottom: 10 }}
+                    onChange={this.handleFirstNameEdit}
+                  />
+                  <Typography component="h2" style={{ fontSize: 17 }}>
+                    Last Name
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    autoComplete
+                    variant="outlined"
+                    style={{ paddingBottom: 10 }}
+                    onChange={(event) => this.handleLastNameEdit(event)}
+                  />
+                  <Typography component="h2" style={{ fontSize: 17 }}>
+                    Phone Number
+                  </Typography>
+                  <PhoneInput
+                    fullWidth
+                    autoComplete
+                    style={{ height: "40px", paddingTop: "5px" }}
+                    onChange={this.handlePhoneNumberEdit}
+                    defaultCountry="ca"
+                    disableDropdown="true"
+                    countryCodeEditable="false"
+                  />
+                  {/* TODO: split by city name, street, and postal code */}
+                  {this.state.foodTransportationMethod === "delivery" ? (
+                    <Typography component="h2" style={{ fontSize: 17 }}>
+                      Delivery Address
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                  {this.state.foodTransportationMethod === "delivery" ? (
+                    <TextField
+                      fullWidth
+                      autoComplete
+                      variant="outlined"
+                      style={{ paddingBottom: 10 }}
+                      onChange={this.handleDeliveryAddressEdit}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div
+                  style={{
+                    padding: "10px",
+                  }}
+                >
+                  <Button
+                    fullWidth
+                    disabled={this.state.disabled}
+                    onClick={this.handleRedirectToPlaceOrderConfirmPage}
+                    variant="contained"
+                    style={{
+                      padding: "5px",
+                      fontSize: 18,
+                      color: "black",
+                      backgroundColor: this.state.disabled ? "grey" : "green",
+                      borderWidth: 1,
+                      borderColor: "black",
+                      borderStyle: "solid",
+                    }}
+                  >
+                    Place Order
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          <Snackbar
+            open={this.state.error}
+            autoHideDuration={6000}
+            onClose={this.handleClose}
+          >
+            <Alert severity="error" elevation={6} variant="filled">
+              Please check that you have entered your information correctly.
+            </Alert>
+          </Snackbar>
+        </div>
+      );
+    }
+
     return (
       <div>
-        <Helmet>
-          <title>King Do Restaurant | Order Confirm</title>
-        </Helmet>
         <TopBar />
-        <div style={{ padding: "2%", paddingRight: "5%", paddingLeft: "5%" }}>
+        <div
+          style={{
+            padding: "2%",
+            paddingRight: "5%",
+            paddingLeft: "5%",
+          }}
+        >
           <Card>
             <CardContent>
               <div
@@ -215,7 +375,6 @@ class OrderConfirmationPage extends Component {
                 </Typography>
                 <TextField
                   fullWidth
-                  autoFocus
                   autoComplete
                   variant="outlined"
                   style={{ paddingBottom: 10 }}
@@ -279,11 +438,8 @@ class OrderConfirmationPage extends Component {
                     padding: "2%",
                     fontSize: 25,
                     color: "black",
-                    backgroundImage: `url(${buttonBackground})`,
-                    filter: this.state.disabled
-                      ? "grayscale(100%)"
-                      : "grayscale(0%)",
-                    borderWidth: 2,
+                    backgroundColor: this.state.disabled ? "grey" : "green",
+                    borderWidth: 1,
                     borderColor: "black",
                     borderStyle: "solid",
                   }}
@@ -294,6 +450,20 @@ class OrderConfirmationPage extends Component {
             </CardContent>
           </Card>
         </div>
+        <Snackbar
+          open={this.state.error}
+          autoHideDuration={6000}
+          onClose={this.handleClose}
+        >
+          <Alert
+            severity="error"
+            elevation={6}
+            variant="filled"
+            style={{ height: 75, width: 500, fontSize: 22 }}
+          >
+            Please check that you have entered your information correctly.
+          </Alert>
+        </Snackbar>
       </div>
     );
   }

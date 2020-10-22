@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router-dom";
+import { isMobile } from "react-device-detect";
 
 class ActionButton extends Component {
   state = {
@@ -24,6 +25,22 @@ class ActionButton extends Component {
   render() {
     if (this.state.redirectToNextPage) {
       return <Redirect push to={this.state.nextPageRoute} />;
+    }
+
+    if (isMobile) {
+      return (
+        <Button
+          fullWidth
+          label="Submit"
+          color="#808080"
+          variant="contained"
+          size="medium"
+          onClick={this.handleRedirecToNextPage}
+          style={{ borderRadius: 10, fontSize: 16, width: "120px" }}
+        >
+          {this.state.buttonName}
+        </Button>
+      );
     }
 
     return (

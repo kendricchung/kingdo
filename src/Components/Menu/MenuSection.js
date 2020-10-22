@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import MenuStructure from "./MenuStructure";
 import Divider from "@material-ui/core/Divider";
+import { isMobile } from "react-device-detect";
 
 class MenuSection extends Component {
   state = {
@@ -18,7 +19,7 @@ class MenuSection extends Component {
   render() {
     return (
       <div>
-        <h2 style={{ paddingLeft: "2%", fontSize: 30 }}>
+        <h2 style={{ paddingLeft: "2%", fontSize: isMobile ? 18 : 30 }}>
           {this.state.sectionName}
         </h2>
         <Divider
