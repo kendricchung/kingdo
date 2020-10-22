@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     height: isMobile ? 100 : 230,
   },
   text: {
-    fontSize: 12,
+    fontSize: isMobile ? 12 : 18,
   },
 }));
 
@@ -230,7 +230,7 @@ class Menu extends Component {
               flexWrap: "wrap",
             }}
           >
-            {featuredItems.map((featuredItem) => (
+            {featuredItems.menuSectionItems.map((featuredItem) => (
               <div style={{ padding: 20 }}>
                 <FeaturedItemCard
                   key={featuredItem.id}

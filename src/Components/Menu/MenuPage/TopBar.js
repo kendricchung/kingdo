@@ -95,7 +95,7 @@ class TopBar extends Component {
                   <h4>Hours of Operation:</h4>
                   <h5>7 DAYS A WEEK</h5>
                   <h5>Monday - Sunday</h5>
-                  <h5>10:30am - 10:00pm</h5>
+                  <h5>11:00am - 9:00pm</h5>
                   <h4>Contact us at:</h4>
                   <h5>604-582-6911</h5>
                 </div>
@@ -108,7 +108,7 @@ class TopBar extends Component {
               style={{
                 position: "absolute",
                 left: "50%",
-                top: "55px",
+                top: "46px",
                 transform: "translate(-50%, -50%)",
               }}
             >
@@ -180,7 +180,7 @@ class TopBar extends Component {
               src={topBarLogo}
               height="100px"
               width="100px"
-              style={{ transform: "scale(3.5)" }}
+              style={{ transform: "scale(4)" }}
             />
           </Link>
           <div
@@ -194,7 +194,7 @@ class TopBar extends Component {
           >
             <h2>7 DAYS A WEEK</h2>
             <h3>Monday - Sunday</h3>
-            <h3>10:30am - 10:00pm</h3>
+            <h3>11:00am - 9:00pm</h3>
             <h3>604-582-6911</h3>
           </div>
         </div>
