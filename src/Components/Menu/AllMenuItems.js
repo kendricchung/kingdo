@@ -114,7 +114,7 @@ export const menu = [
       },
       {
         id: 14,
-        name: "Crabmeat with Fish Maw Soup",
+        name: "Crabmeat with Fish Maw Soup (S)",
         price: 13.95,
         isSpicy: false,
         menuItemNumber: 12,
@@ -122,7 +122,7 @@ export const menu = [
       },
       {
         id: 15,
-        name: "Crabmeat with Fish Maw Soup",
+        name: "Crabmeat with Fish Maw Soup (L)",
         price: 13.95,
         isSpicy: false,
         menuItemNumber: 12,
