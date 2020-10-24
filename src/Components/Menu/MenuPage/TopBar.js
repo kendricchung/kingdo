@@ -9,17 +9,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 
 class TopBar extends Component {
   state = {
-    mouseOverTitle: false,
     mouseOverLocation: false,
     drawerIsOpen: false,
-  };
-
-  handleMouseEnterTitle = () => {
-    this.setState({ mouseOverTitle: true });
-  };
-
-  handleMouseLeavingTitle = () => {
-    this.setState({ mouseOverTitle: false });
   };
 
   handleMouseEnterLocation = () => {
@@ -102,8 +93,6 @@ class TopBar extends Component {
               </div>
             </Drawer>
             <Link
-              onMouseEnter={this.handleMouseEnterTitle}
-              onMouseLeave={this.handleMouseLeavingTitle}
               to="/"
               style={{
                 position: "absolute",
@@ -170,11 +159,7 @@ class TopBar extends Component {
               ></Link>
             </h3>
           </div>
-          <Link
-            onMouseEnter={this.handleMouseEnterTitle}
-            onMouseLeave={this.handleMouseLeavingTitle}
-            to="/"
-          >
+          <Link to="/">
             <img
               alt="log"
               src={topBarLogo}

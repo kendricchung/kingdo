@@ -5,8 +5,8 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import WhatshotIcon from "@material-ui/icons/Whatshot";
 import { isMobile } from "react-device-detect";
+import spicy from "../spicy.png";
 
 class Item extends Component {
   constructor(props) {
@@ -33,13 +33,23 @@ class Item extends Component {
                 alignItems: "center",
               }}
             >
-              <WhatshotIcon
-                fontSize="small"
-                style={{
-                  color: this.state.isSpicy ? "red" : "transparent",
-                  paddingRight: "10px",
-                }}
-              />
+              {this.state.isSpicy ? (
+                <img
+                  alt="spicy"
+                  src={spicy}
+                  height="20px"
+                  width="20px"
+                  style={{ paddingRight: "10px" }}
+                />
+              ) : (
+                <div
+                  style={{
+                    height: "20px",
+                    width: "20px",
+                    paddingRight: "20px",
+                  }}
+                ></div>
+              )}
               <h3 style={{ fontWeight: "normal", fontSize: 14 }}>
                 {this.state.menuItemNumber}. {this.state.name}{" "}
                 {`(${this.state.chineseTranslation})`}
@@ -69,12 +79,11 @@ class Item extends Component {
     return (
       <ListItem>
         <ListItemAvatar>
-          <WhatshotIcon
-            fontSize="large"
-            style={{
-              color: this.state.isSpicy ? "red" : "transparent",
-            }}
-          />
+          {this.state.isSpicy ? (
+            <img alt="spicy" src={spicy} height="50px" width="50px" />
+          ) : (
+            <div style={{ height: "50px", width: "50px" }}></div>
+          )}
         </ListItemAvatar>
         <div>
           <ListItemText>
