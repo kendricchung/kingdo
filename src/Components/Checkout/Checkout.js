@@ -10,6 +10,9 @@ class Checkout extends Component {
     this.state = {
       token: props.location.state,
       phoneNumber: props.location.phoneNumber,
+      foodTransportationMethod: props.location.pathname.includes("delivery")
+        ? "delivery"
+        : "pick up",
     };
   }
 
@@ -40,9 +43,11 @@ class Checkout extends Component {
             >
               <h2>THANK YOU!</h2>
               <h4>
-                We have sent you a text message to confirm that you will pick up
-                your order. Please reply "CONFIRM" to your text message so that
-                we can start preparing your order. We will see you soon!
+                {`We have sent you a text message to confirm your ${this.state.foodTransportationMethod} order.`}
+              </h4>
+              <h4>
+                Please reply "CONFIRM" to your text message so that we can start
+                preparing your order. We will see you soon!
               </h4>
             </div>
           </Center>
@@ -64,12 +69,14 @@ class Checkout extends Component {
               minWidth: "1440px",
             }}
           >
-            <h2>THANK YOU!</h2>
-            <h4>
-              We have sent you a text message to confirm that you will pick up
-              your order. Please reply "CONFIRM" to your text message so that we
-              can start preparing your order. We will see you soon!
-            </h4>
+            <h1>THANK YOU!</h1>
+            <h3>
+              {`We have sent you a text message to confirm your ${this.state.foodTransportationMethod} order.`}
+            </h3>
+            <h3>
+              Please reply "CONFIRM" to your text message so that we can start
+              preparing your order. We will see you soon!
+            </h3>
           </div>
         </Center>
       </div>

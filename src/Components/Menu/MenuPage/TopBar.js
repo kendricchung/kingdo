@@ -100,7 +100,7 @@ class TopBar extends Component {
               style={{
                 position: "absolute",
                 left: "50%",
-                top: "46px",
+                top: "48px",
                 transform: "translate(-50%, -50%)",
               }}
             >
@@ -108,8 +108,7 @@ class TopBar extends Component {
                 alt="log"
                 src={topBarLogo}
                 height="75px"
-                width="75px"
-                style={{ transform: "scale(2.5)" }}
+                style={{ transform: "scale(1.2)" }}
               />
             </Link>
           </div>
@@ -166,7 +165,7 @@ class TopBar extends Component {
             <img
               alt="log"
               src={topBarLogo}
-              style={{ transform: "scale(4)", height: "100px", width: "100px" }}
+              style={{ transform: "scale(1.8)", height: "100px" }}
             />
           </Link>
           <div

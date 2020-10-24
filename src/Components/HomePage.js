@@ -181,14 +181,51 @@ class HomePage extends Component {
             <div
               style={{
                 backgroundColor: "white",
-                height: "50%",
+                height: "320px",
                 width: "80%",
                 position: "absolute",
                 top: "50%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
               }}
-            ></div>
+            >
+              <IconButton onClick={this.handleCloseDeliveryModal}>
+                <CloseIcon fontSize="medium" />
+              </IconButton>
+              <div style={{ paddingLeft: "10px", paddingRight: "10px" }}>
+                <h4>
+                  Please note that we do not deliver more than 8 km away from
+                  us.
+                </h4>
+                <h4>
+                  Delivery fees that are within 5 km from us will be free and if
+                  you are located more than 5 km, a $5 fee will be charged upon
+                  delivery up to 8km.
+                </h4>
+              </div>
+              <div
+                style={{
+                  paddingLeft: "10px",
+                  paddingRight: "10px",
+                }}
+              >
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={() => this.handleRedirecToNextPage("/delivery")}
+                  style={{
+                    backgroundColor: "green",
+                    fontSize: 14,
+                    color: "black",
+                    borderWidth: 1,
+                    borderColor: "black",
+                    borderStyle: "solid",
+                  }}
+                >
+                  Continue with Delivery
+                </Button>
+              </div>
+            </div>
           </Modal>
         </div>
       );
