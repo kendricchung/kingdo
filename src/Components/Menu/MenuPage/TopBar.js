@@ -1,25 +1,17 @@
 import React, { Component } from "react";
-import { Box, IconButton, Button } from "@material-ui/core";
+import { Box, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import topBarLogo from "../../logo_transparent.png";
 import { isMobile } from "react-device-detect";
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import MenuIcon from "@material-ui/icons/Menu";
+import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 
 class TopBar extends Component {
   state = {
-    mouseOverTitle: false,
     mouseOverLocation: false,
     drawerIsOpen: false,
-  };
-
-  handleMouseEnterTitle = () => {
-    this.setState({ mouseOverTitle: true });
-  };
-
-  handleMouseLeavingTitle = () => {
-    this.setState({ mouseOverTitle: false });
   };
 
   handleMouseEnterLocation = () => {
@@ -73,24 +65,26 @@ class TopBar extends Component {
                     }`}
                   </h3>
                   <Divider />
-                  <h3>
-                    <Link
-                      to="#"
-                      component={() => (
-                        <a
-                          onMouseEnter={this.handleMouseEnterLocation}
-                          onMouseLeave={this.handleMouseLeavingLocation}
-                          style={{
-                            textDecoration: "none",
-                            color: "black",
-                          }}
-                          href="https://www.google.com/maps/place/New+King+Do+Seafood+Restaurant/@49.191253,-122.8387086,17z/data=!3m1!4b1!4m5!3m4!1s0x5485d77f3574a219:0x593120f0f17c1726!8m2!3d49.191253!4d-122.8365199"
-                        >
-                          Location
-                        </a>
-                      )}
-                    ></Link>
-                  </h3>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <h3>
+                      <Link
+                        to="#"
+                        component={() => (
+                          <a
+                            style={{
+                              textDecoration: "none",
+                              color: "black",
+                            }}
+                            href="https://www.google.com/maps/place/New+King+Do+Seafood+Restaurant/@49.191253,-122.8387086,17z/data=!3m1!4b1!4m5!3m4!1s0x5485d77f3574a219:0x593120f0f17c1726!8m2!3d49.191253!4d-122.8365199"
+                          >
+                            Location
+                          </a>
+                        )}
+                      ></Link>
+                    </h3>
+                    <div style={{ width: "5px" }} />
+                    <OpenInNewIcon fontSize="small" />
+                  </div>
                   <Divider />
                   <h4>Hours of Operation:</h4>
                   <h5>7 DAYS A WEEK</h5>
@@ -102,13 +96,11 @@ class TopBar extends Component {
               </div>
             </Drawer>
             <Link
-              onMouseEnter={this.handleMouseEnterTitle}
-              onMouseLeave={this.handleMouseLeavingTitle}
               to="/"
               style={{
                 position: "absolute",
                 left: "50%",
-                top: "46px",
+                top: "48px",
                 transform: "translate(-50%, -50%)",
               }}
             >
@@ -116,8 +108,7 @@ class TopBar extends Component {
                 alt="log"
                 src={topBarLogo}
                 height="75px"
-                width="75px"
-                style={{ transform: "scale(2.5)" }}
+                style={{ transform: "scale(1.2)" }}
               />
             </Link>
           </div>
@@ -170,17 +161,11 @@ class TopBar extends Component {
               ></Link>
             </h3>
           </div>
-          <Link
-            onMouseEnter={this.handleMouseEnterTitle}
-            onMouseLeave={this.handleMouseLeavingTitle}
-            to="/"
-          >
+          <Link to="/">
             <img
               alt="log"
               src={topBarLogo}
-              height="100px"
-              width="100px"
-              style={{ transform: "scale(4)" }}
+              style={{ transform: "scale(1.8)", height: "100px" }}
             />
           </Link>
           <div

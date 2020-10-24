@@ -97,6 +97,9 @@ class Menu extends Component {
       return (
         <div style={{ paddingBottom: 75 }}>
           <div style={{ padding: 10 }}>
+            <h4 style={{ textTransform: "none", fontWeight: 400 }}>
+              Please select a section to go to:
+            </h4>
             <FormControl fullWidth style={{ paddingBottom: 20 }}>
               <Select onChange={this.handleSelect}>
                 {menu.map((section) => (
@@ -117,13 +120,10 @@ class Menu extends Component {
               offset={50}
               duration={500}
               key={this.state.selectedMenuSection}
+              hidden={this.state.selectedMenuSection ? false : true}
             >
               <Button
-                label={`Go to ${
-                  this.state.selectedMenuSection
-                    ? this.state.selectedMenuSection
-                    : "..."
-                }`}
+                label={`Go to ${this.state.selectedMenuSection}`}
                 variant="contained"
                 size="large"
                 style={{
@@ -135,12 +135,8 @@ class Menu extends Component {
                   borderStyle: "solid",
                   color: "white",
                 }}
-                disabled={this.state.selectedMenuSection ? false : true}
               >
-                Go to{" "}
-                {this.state.selectedMenuSection
-                  ? this.state.selectedMenuSection
-                  : "..."}
+                Go to {this.state.selectedMenuSection}
               </Button>
             </Link>
           </div>
@@ -168,8 +164,10 @@ class Menu extends Component {
     return (
       <div style={{ paddingBottom: 100, minWidth: "1440px" }}>
         <div style={{ padding: 30 }}>
-          <FormControl fullWidth style={{ paddingBottom: 20 }}>
-            <InputLabel> Menu Sections (required) </InputLabel>
+          <h2 style={{ textTransform: "none", fontWeight: 400 }}>
+            Please select a section to go to:
+          </h2>
+          <FormControl fullWidth size="medium" style={{ paddingBottom: 20 }}>
             <Select onChange={this.handleSelect}>
               {menu.map((section) => (
                 <MenuItem value={section.menuSectionName}>
@@ -186,13 +184,10 @@ class Menu extends Component {
             offset={50}
             duration={500}
             key={this.state.selectedMenuSection}
+            hidden={this.state.selectedMenuSection ? false : true}
           >
             <Button
-              label={`Go to ${
-                this.state.selectedMenuSection
-                  ? this.state.selectedMenuSection
-                  : "..."
-              }`}
+              label={`Go to ${this.state.selectedMenuSection}`}
               variant="contained"
               size="large"
               style={{
@@ -204,12 +199,8 @@ class Menu extends Component {
                 borderStyle: "solid",
                 color: "white",
               }}
-              disabled={this.state.selectedMenuSection ? false : true}
             >
-              Go to{" "}
-              {this.state.selectedMenuSection
-                ? this.state.selectedMenuSection
-                : "..."}
+              Go to {this.state.selectedMenuSection}
             </Button>
           </Link>
         </div>

@@ -16,6 +16,9 @@ import Select from "@material-ui/core/Select";
 import { isMobile } from "react-device-detect";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import Modal from "@material-ui/core/Modal";
+import CloseIcon from "@material-ui/icons/Close";
+import IconButton from "@material-ui/core/IconButton";
 
 const hostEndpoint = process.env.KINGDO_HOST_ENDPOINT
   ? process.env.KINGDO_HOST_ENDPOINT
@@ -29,6 +32,8 @@ class OrderConfirmationPage extends Component {
       lastNameText: "",
       phoneNumber: "",
       deliveryAddress: "",
+      city: "",
+      postalCode: "",
       token: props.location.state,
       foodTransportationMethod: sessionStorage
         .getItem("foodTransportMethod")
@@ -38,6 +43,10 @@ class OrderConfirmationPage extends Component {
       disabled: true,
       redirectToPlaceOrderConfirmPage: false,
       error: false,
+      isModalOpen: false,
+      modalMessage: "",
+      isWithinRange: true, // NOTE: within the 8km range but more than 5km
+      isLoading: false,
     };
   }
 
@@ -74,7 +83,35 @@ class OrderConfirmationPage extends Component {
         event.target.value.length === 0 ||
         this.state.firstNameText.length === 0 ||
         this.state.phoneNumber.length <= 2 ||
-        this.state.lastNameText.length === 0,
+        this.state.lastNameText.length === 0 ||
+        this.state.city.length === 0 ||
+        this.state.postalCode.length === 0,
+    });
+  };
+
+  handleCityEdit = (event) => {
+    this.setState({
+      city: event.target.value,
+      disabled:
+        event.target.value.length === 0 ||
+        this.state.firstNameText.length === 0 ||
+        this.state.phoneNumber.length <= 2 ||
+        this.state.lastNameText.length === 0 ||
+        this.state.deliveryAddress.length === 0 ||
+        this.state.postalCode.length === 0,
+    });
+  };
+
+  handlePostalCodeEdit = (event) => {
+    this.setState({
+      city: event.target.value,
+      disabled:
+        event.target.value.length === 0 ||
+        this.state.firstNameText.length === 0 ||
+        this.state.phoneNumber.length <= 2 ||
+        this.state.lastNameText.length === 0 ||
+        this.state.deliveryAddress.length === 0 ||
+        this.state.city.length === 0,
     });
   };
 
@@ -104,12 +141,57 @@ class OrderConfirmationPage extends Component {
           lastName: this.state.lastNameText,
           transportationMethod: this.state.foodTransportationMethod,
           deliveryAddress: this.state.deliveryAddress,
+          city: this.state.city,
+          postalCode: this.state.postalCode,
         },
         data: { stackItems, cartItemsAmount },
       });
 
       sessionStorage.removeItem("cartItems");
-      this.setState({ redirectToPlaceOrderConfirmPage: true });
+      this.setState({
+        // redirectToPlaceOrderConfirmPage: true,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.log(error);
+      this.setState({ error: true, isLoading: false });
+    }
+  };
+
+  handleIsWithinRange = async () => {
+    try {
+      this.setState({ isLoading: true });
+      const response = await Axios(`${hostEndpoint}/range`, {
+        method: "GET",
+        params: {
+          deliveryAddress: this.state.deliveryAddress,
+          city: this.state.city,
+          postalCode: this.state.postalCode,
+        },
+      });
+      const range = response.data.range;
+
+      if (range > 5) {
+        if (range > 8) {
+          this.setState({
+            isWithinRange: false,
+            modalMessage:
+              "Sorry but your location exceeds our delivery distance limit. Please change your order to 'Pick Up' to place your order.",
+            isModalOpen: true,
+            isLoading: false,
+          });
+        } else {
+          this.setState({
+            isWithinRange: true,
+            modalMessage:
+              "Your location is more than 5 km away from us. A delivery fee of $5 is going to be added to your purchase, do you wish to continue?",
+            isModalOpen: true,
+            isLoading: false,
+          });
+        }
+      } else {
+        this.handleRedirectToPlaceOrderConfirmPage();
+      }
     } catch (error) {
       this.setState({ error: true });
     }
@@ -133,6 +215,10 @@ class OrderConfirmationPage extends Component {
 
   handleClose = () => {
     this.setState({ error: false });
+  };
+
+  handleModalClose = () => {
+    this.setState({ isModalOpen: false });
   };
 
   render() {
@@ -183,7 +269,7 @@ class OrderConfirmationPage extends Component {
                     style={{ fontSize: 17, paddingBottom: "10px" }}
                   >
                     Your payment will be received upon
-                    {this.state.foodTransportationMethod === "deliver"
+                    {this.state.foodTransportationMethod === "delivery"
                       ? " delivery"
                       : " pick up"}
                     .
@@ -252,10 +338,9 @@ class OrderConfirmationPage extends Component {
                     disableDropdown="true"
                     countryCodeEditable="false"
                   />
-                  {/* TODO: split by city name, street, and postal code */}
                   {this.state.foodTransportationMethod === "delivery" ? (
                     <Typography component="h2" style={{ fontSize: 17 }}>
-                      Delivery Address
+                      Address
                     </Typography>
                   ) : (
                     ""
@@ -271,6 +356,42 @@ class OrderConfirmationPage extends Component {
                   ) : (
                     ""
                   )}
+                  {this.state.foodTransportationMethod === "delivery" ? (
+                    <Typography component="h2" style={{ fontSize: 17 }}>
+                      City
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                  {this.state.foodTransportationMethod === "delivery" ? (
+                    <TextField
+                      fullWidth
+                      autoComplete
+                      variant="outlined"
+                      style={{ paddingBottom: 10 }}
+                      onChange={this.handleCityEdit}
+                    />
+                  ) : (
+                    ""
+                  )}
+                  {this.state.foodTransportationMethod === "delivery" ? (
+                    <Typography component="h2" style={{ fontSize: 17 }}>
+                      Postal Code
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                  {this.state.foodTransportationMethod === "delivery" ? (
+                    <TextField
+                      fullWidth
+                      autoComplete
+                      variant="outlined"
+                      style={{ paddingBottom: 10 }}
+                      onChange={this.handlePostalCodeEdit}
+                    />
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <div
                   style={{
@@ -280,7 +401,7 @@ class OrderConfirmationPage extends Component {
                   <Button
                     fullWidth
                     disabled={this.state.disabled}
-                    onClick={this.handleRedirectToPlaceOrderConfirmPage}
+                    onClick={this.handleIsWithinRange}
                     variant="contained"
                     style={{
                       padding: "5px",
@@ -307,6 +428,77 @@ class OrderConfirmationPage extends Component {
               Please check that you have entered your information correctly.
             </Alert>
           </Snackbar>
+          <Modal
+            open={this.state.isModalOpen}
+            onClose={this.handleModalClose}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            <div
+              style={{
+                backgroundColor: "white",
+                width: "80%",
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <IconButton onClick={this.handleModalClose}>
+                <CloseIcon fontSize="medium" />
+              </IconButton>
+              <div style={{ paddingLeft: "10px" }}>
+                <h4>{this.state.modalMessage}</h4>
+              </div>
+
+              {this.state.isWithinRange ? (
+                <div
+                  style={{
+                    padding: "5px",
+                    paddingBottom: "10px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Button
+                    fullWidth
+                    onClick={this.handleModalClose}
+                    variant="contained"
+                    style={{
+                      padding: "5px",
+                      fontSize: 16,
+                      color: "black",
+                      backgroundColor: "red",
+                      borderWidth: 1,
+                      borderColor: "black",
+                      borderStyle: "solid",
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <div style={{ width: "10px" }}></div>
+                  <Button
+                    fullWidth
+                    onClick={this.handleRedirectToPlaceOrderConfirmPage}
+                    variant="contained"
+                    style={{
+                      padding: "5px",
+                      fontSize: 16,
+                      color: "black",
+                      backgroundColor: "green",
+                      borderWidth: 1,
+                      borderColor: "black",
+                      borderStyle: "solid",
+                    }}
+                  >
+                    Place Order
+                  </Button>
+                </div>
+              ) : (
+                <div></div>
+              )}
+            </div>
+          </Modal>
         </div>
       );
     }
@@ -337,7 +529,7 @@ class OrderConfirmationPage extends Component {
                   style={{ fontSize: 20, paddingBottom: "2%" }}
                 >
                   Your payment will be received upon
-                  {this.state.foodTransportationMethod === "deliver"
+                  {this.state.foodTransportationMethod === "delivery"
                     ? " delivery"
                     : " pick up"}
                   .
@@ -350,7 +542,7 @@ class OrderConfirmationPage extends Component {
                 </Typography>
                 <FormControl
                   variant="outlined"
-                  style={{ width: "25%", paddingBottom: "2%" }}
+                  style={{ width: "200px", paddingBottom: "25px" }}
                 >
                   <Select
                     labelId="demo-simple-select-outlined-label"
@@ -359,6 +551,7 @@ class OrderConfirmationPage extends Component {
                     onChange={(event) =>
                       this.handleFoodTransportationMethodChange(event)
                     }
+                    style={{ fontSize: 20 }}
                   >
                     <MenuItem value={"delivery"}>Delivery</MenuItem>
                     <MenuItem value={"pickup"}>Pick Up</MenuItem>
@@ -402,10 +595,9 @@ class OrderConfirmationPage extends Component {
                   disableDropdown="true"
                   countryCodeEditable="false"
                 />
-                {/* TODO: split by city name, street, and postal code */}
                 {this.state.foodTransportationMethod === "delivery" ? (
                   <Typography component="h2" style={{ fontSize: 20 }}>
-                    Delivery Address
+                    Address
                   </Typography>
                 ) : (
                   ""
@@ -421,18 +613,55 @@ class OrderConfirmationPage extends Component {
                 ) : (
                   ""
                 )}
+                {this.state.foodTransportationMethod === "delivery" ? (
+                  <Typography component="h2" style={{ fontSize: 20 }}>
+                    City
+                  </Typography>
+                ) : (
+                  ""
+                )}
+                {this.state.foodTransportationMethod === "delivery" ? (
+                  <TextField
+                    fullWidth
+                    autoComplete
+                    variant="outlined"
+                    style={{ paddingBottom: 10 }}
+                    onChange={this.handleCityEdit}
+                  />
+                ) : (
+                  ""
+                )}
+                {this.state.foodTransportationMethod === "delivery" ? (
+                  <Typography component="h2" style={{ fontSize: 20 }}>
+                    Postal Code
+                  </Typography>
+                ) : (
+                  ""
+                )}
+                {this.state.foodTransportationMethod === "delivery" ? (
+                  <TextField
+                    fullWidth
+                    autoComplete
+                    variant="outlined"
+                    style={{ paddingBottom: 10 }}
+                    onChange={this.handlePostalCodeEdit}
+                  />
+                ) : (
+                  ""
+                )}
               </div>
               <div
                 style={{
                   padding: "2%",
                   paddingRight: "10%",
                   paddingLeft: "10%",
+                  pointerEvents: this.state.isLoading ? "none" : "auto",
                 }}
               >
                 <Button
                   fullWidth
                   disabled={this.state.disabled}
-                  onClick={this.handleRedirectToPlaceOrderConfirmPage}
+                  onClick={this.handleIsWithinRange}
                   variant="contained"
                   style={{
                     padding: "2%",
@@ -464,6 +693,93 @@ class OrderConfirmationPage extends Component {
             Please check that you have entered your information correctly.
           </Alert>
         </Snackbar>
+        <Modal
+          open={this.state.isModalOpen}
+          onClose={this.handleModalClose}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          <div
+            style={{
+              backgroundColor: "white",
+              width: "550px",
+              position: "absolute",
+              top: "35%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              outline: "none",
+              borderRadius: "10px",
+            }}
+          >
+            <IconButton onClick={this.handleModalClose}>
+              <CloseIcon fontSize="large" />
+            </IconButton>
+            <div style={{ paddingLeft: "20px", paddingRight: "20px" }}>
+              <h2>{this.state.modalMessage}</h2>
+            </div>
+
+            {this.state.isWithinRange ? (
+              <div
+                style={{
+                  paddingTop: "10px",
+                  paddingBottom: "20px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div
+                  style={{
+                    paddingLeft: "30px",
+                    paddingRight: "15px",
+                  }}
+                >
+                  <Button
+                    fullWidth
+                    onClick={this.handleModalClose}
+                    variant="contained"
+                    style={{
+                      fontSize: 20,
+                      color: "black",
+                      backgroundColor: "red",
+                      borderWidth: 1,
+                      borderColor: "black",
+                      borderStyle: "solid",
+                      width: "200px",
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <div
+                  style={{
+                    paddingLeft: "15px",
+                    paddingRight: "30px",
+                    pointerEvents: this.state.isLoading ? "none" : "auto",
+                  }}
+                >
+                  <Button
+                    fullWidth
+                    onClick={this.handleRedirectToPlaceOrderConfirmPage}
+                    variant="contained"
+                    style={{
+                      fontSize: 20,
+                      color: "black",
+                      backgroundColor: "green",
+                      borderWidth: 1,
+                      borderColor: "black",
+                      borderStyle: "solid",
+                      width: "200px",
+                    }}
+                  >
+                    Place Order
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div></div>
+            )}
+          </div>
+        </Modal>
       </div>
     );
   }
