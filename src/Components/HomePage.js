@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import HomePageTitle from "./HomePageTitle";
 import Center from "react-center";
-import PickUpButton from "./HomePageActionButtons/PickUpButton";
-import DeliveryButton from "./HomePageActionButtons/DeliveryButton";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
 import backgroundImage from "./kingdo_homepage_background.png";
 import { isMobile } from "react-device-detect";
+import Button from "@material-ui/core/Button";
+import Modal from "@material-ui/core/Modal";
 
 class HomePage extends Component {
   state = {
     mouseOverTitle: false,
     mouseOverLocation: false,
+    redirectToNextPage: false,
   };
 
   handleMouseEnterLocation = () => {
@@ -20,6 +20,87 @@ class HomePage extends Component {
 
   handleMouseLeavingLocation = () => {
     this.setState({ mouseOverLocation: false });
+  };
+
+  handleRedirecToNextPage = (nextPageRoute) => {
+    sessionStorage.setItem("foodTransportMethod", nextPageRoute);
+    this.setState({ redirectToNextPage: true });
+  };
+
+  pickUpButton = () => {
+    if (isMobile) {
+      return (
+        <Button
+          fullWidth
+          label="Submit"
+          color="#808080"
+          variant="contained"
+          size="medium"
+          onClick={() => this.handleRedirecToNextPage("/pickup")}
+          style={{
+            borderRadius: 10,
+            fontSize: 16,
+            width: "120px",
+            textTransform: "none",
+          }}
+        >
+          Pick Up
+        </Button>
+      );
+    }
+
+    return (
+      <Button
+        fullWidth
+        label="Submit"
+        color="#808080"
+        variant="contained"
+        size="large"
+        onClick={() => this.handleRedirecToNextPage("/pickup")}
+        buttonStyle={{ borderRadius: 10 }}
+        style={{ borderRadius: 10, fontSize: 25 }}
+      >
+        Pick Up
+      </Button>
+    );
+  };
+
+  deliveryButton = () => {
+    if (isMobile) {
+      return (
+        <Button
+          fullWidth
+          label="Submit"
+          color="#808080"
+          variant="contained"
+          size="medium"
+          onClick={() => this.handleRedirecToNextPage("/delivery")}
+          style={{
+            borderRadius: 10,
+            fontSize: 16,
+            width: "120px",
+            textTransform: "none",
+          }}
+        >
+          Delivery
+        </Button>
+      );
+    }
+
+    return (
+      <Button
+        fullWidth
+        label="Submit"
+        color="#808080"
+        variant="contained"
+        size="large"
+        onClick={() => this.handleRedirecToNextPage("/delivery")}
+        buttonStyle={{ borderRadius: 10 }}
+        style={{ borderRadius: 10, fontSize: 25 }}
+      >
+        Delivery
+      </Button>
+    );
   };
 
   render() {
@@ -51,9 +132,9 @@ class HomePage extends Component {
                 justifyContent: "space-between",
               }}
             >
-              <DeliveryButton />
+              {this.deliveryButton()}
               <div style={{ width: "10%" }}></div>
-              <PickUpButton />
+              {this.pickUpButton()}
             </div>
             <h5 style={{ textAlign: "center" }}>
               <Link
@@ -102,9 +183,9 @@ class HomePage extends Component {
               paddingLeft: "30%",
             }}
           >
-            <DeliveryButton />
+            {this.deliveryButton()}
             <div style={{ width: "10%" }}></div>
-            <PickUpButton />
+            {this.pickUpButton()}
           </div>
           <Center>
             <h2>
