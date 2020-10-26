@@ -23,7 +23,6 @@ class Item extends Component {
 
   render() {
     if (isMobile) {
-      console.log(this.state.chineseTranslation);
       return (
         <ListItem style={{ marginLeft: "-10px" }}>
           <ListItemText>
@@ -51,7 +50,7 @@ class Item extends Component {
                   }}
                 ></div>
               )}
-              <div>
+              <div style={{ maxWidth: "60%" }}>
                 <h3 style={{ fontWeight: "normal", fontSize: 14 }}>
                   {this.state.menuItemNumber}. {this.state.name}{" "}
                 </h3>
@@ -92,11 +91,13 @@ class Item extends Component {
             <div style={{ height: "50px", width: "50px" }}></div>
           )}
         </ListItemAvatar>
-        <div>
+        <div style={{ maxWidth: "60%" }}>
           <ListItemText>
             <h3 style={{ fontWeight: "normal", fontSize: 22 }}>
-              {this.state.menuItemNumber}. {this.state.name}{" "}
-              {`(${this.state.chineseTranslation})`}
+              {this.state.menuItemNumber}. {this.state.name}
+            </h3>
+            <h3 style={{ fontWeight: "normal", fontSize: 22 }}>
+              {this.state.chineseTranslation}
             </h3>
           </ListItemText>
         </div>
