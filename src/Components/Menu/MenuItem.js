@@ -62,7 +62,9 @@ class Item extends Component {
             </div>
           </ListItemText>
           <ListItemSecondaryAction style={{ fontSize: 15 }}>
-            ${this.state.price}
+            {this.state.price < 0
+              ? "Market Price (市价)"
+              : `$${this.state.price}`}
             <IconButton
               size="medium"
               style={{ color: "black" }}
@@ -99,7 +101,9 @@ class Item extends Component {
           </ListItemText>
         </div>
         <ListItemSecondaryAction style={{ fontSize: 22 }}>
-          ${this.state.price}
+          {this.state.price < 0
+            ? "Market Price (市价)"
+            : `$${this.state.price}`}
           <IconButton
             size="medium"
             style={{ color: "black" }}

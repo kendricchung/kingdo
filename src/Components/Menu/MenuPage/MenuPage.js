@@ -14,7 +14,9 @@ class MenuPage extends Component {
       : [];
     let totalPrice = 0;
     for (const item of items) {
-      totalPrice += item.price;
+      if (item.price > 0) {
+        totalPrice += item.price;
+      }
     }
     this.state = {
       foodTransportation: sessionStorage
@@ -33,7 +35,7 @@ class MenuPage extends Component {
       (Math.round(parseFloat(this.state.cartAmount, 10) * 100) / 100).toFixed(2)
     );
     currentCartItems.push(cartItem);
-    currentCartAmount += cartItem.price;
+    currentCartAmount += cartItem.price > 0 ? cartItem.price : 0;
     sessionStorage.setItem("cartItems", JSON.stringify(currentCartItems));
     this.setState({
       cartItems: currentCartItems,
