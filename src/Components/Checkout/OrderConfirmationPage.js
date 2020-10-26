@@ -172,6 +172,8 @@ class OrderConfirmationPage extends Component {
               isLoading: false,
             });
           }
+        } else {
+          this.handleRedirectToPlaceOrderConfirmPage();
         }
       } else {
         this.handleRedirectToPlaceOrderConfirmPage();
