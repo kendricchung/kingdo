@@ -22,7 +22,7 @@ export const menu = [
       {
         id: 3,
         name: "Braised Crispy Squab",
-        price: 0.0, // TODO: need to change this for later
+        price: -1, // -1 is considered as market price
         isSpicy: false,
         menuItemNumber: 3,
         chineseTranslation: "红烧乳鸽王",

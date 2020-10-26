@@ -42,11 +42,13 @@ export const calculateAmountsGivenStackItems = (stackItems) => {
   }
   let price = 0;
   stackItems.forEach((value) => {
-    price +=
-      value.quantity *
-      parseFloat(
-        (Math.round(parseFloat(value.item.price, 10) * 100) / 100).toFixed(2)
-      );
+    if (value.item.price > 0) {
+      price +=
+        value.quantity *
+        parseFloat(
+          (Math.round(parseFloat(value.item.price, 10) * 100) / 100).toFixed(2)
+        );
+    }
   });
 
   const subtotalPrice = parseFloat(
@@ -83,6 +85,14 @@ class CartPage extends Component {
       totalPrice,
     ] = calculateAmountsGivenStackItems(listOfItems);
 
+    let isMarketPrice = false;
+    listOfItems.forEach((itemStack) => {
+      if (itemStack.item.price < 0) {
+        isMarketPrice = true;
+        return;
+      }
+    });
+
     this.state = {
       itemStack: listOfItems,
       subtotalPrice: subtotalPrice,
@@ -96,6 +106,7 @@ class CartPage extends Component {
         : "pickup",
       redirectToOrderConfirmationPage: false,
       buttonDisabled: storageCartItems.length === 0 ? true : false,
+      hasMarketPrice: isMarketPrice,
     };
   }
 
@@ -129,6 +140,14 @@ class CartPage extends Component {
       totalPrice,
     ] = calculateAmountsGivenStackItems(newStackItems);
 
+    let isMarketPrice = false;
+    newStackItems.forEach((value) => {
+      if (value.item.price < 0) {
+        isMarketPrice = true;
+        return;
+      }
+    });
+
     this.setState({
       buttonDisabled: newStackItems.length === 0,
       itemStack: newStackItems,
@@ -136,6 +155,7 @@ class CartPage extends Component {
       subtotalPrice: subtotalPrice,
       taxPrice: taxPrice,
       totalPrice: totalPrice,
+      hasMarketPrice: isMarketPrice,
     });
   };
 
@@ -178,11 +198,15 @@ class CartPage extends Component {
     let currentStackItems = this.state.itemStack;
     let newStackItems = [];
     let removeItem = false;
+    let isMarketPrice = this.state.hasMarketPrice;
     currentStackItems.forEach((value) => {
       if (value.item.id === itemId) {
         value.quantity--;
         if (value.quantity === 0) {
           removeItem = true;
+          if (value.item.price < 0) {
+            isMarketPrice = false;
+          }
         }
         return;
       }
@@ -222,6 +246,7 @@ class CartPage extends Component {
       subtotalPrice: subtotalPrice,
       taxPrice: taxPrice,
       totalPrice: totalPrice,
+      hasMarketPrice: isMarketPrice,
     });
   };
 
@@ -262,9 +287,11 @@ class CartPage extends Component {
                       </Typography>
                       <Typography
                         color="textSecondary"
-                        style={{ fontSize: 16 }}
+                        style={{ fontSize: 18 }}
                       >
-                        ${value.item.price}
+                        {value.item.price < 0
+                          ? "Market Price"
+                          : `$${value.item.price}`}
                       </Typography>
                       <Typography
                         color="textSecondary"
@@ -387,9 +414,30 @@ class CartPage extends Component {
                       ${this.state.totalPrice}
                     </Typography>
                   </div>
+                  {this.state.hasMarketPrice ? (
+                    <Typography
+                      component="h2"
+                      style={{ fontSize: 13, paddingTop: "10px" }}
+                    >
+                      {`One of your items is listed a market price. This means
+                        that we cannot calculate it at the moment and you will
+                        receive the total amount paid upon ${
+                          this.state.foodTransportationMethod === "delivery"
+                            ? "delivery"
+                            : "pick up"
+                        }.\nIf you would like to know more about the market 
+                        price of your item, please call the restaurant at the phone number above.`}
+                    </Typography>
+                  ) : null}
                 </span>
               </CardContent>
-              <div style={{ padding: "2%" }}>
+              <div
+                style={{
+                  paddingBottom: "2%",
+                  paddingRight: "2%",
+                  paddingLeft: "2%",
+                }}
+              >
                 <Button
                   fullWidth
                   disabled={this.state.buttonDisabled}
@@ -452,8 +500,10 @@ class CartPage extends Component {
                       <Typography variant="h5" component="h2">
                         {value.item.name}
                       </Typography>
-                      <Typography color="textSecondary">
-                        ${value.item.price}
+                      <Typography color="textSecondary" variant="h6">
+                        {value.item.price < 0
+                          ? "Market Price"
+                          : `$${value.item.price}`}
                       </Typography>
                       <Typography color="textSecondary">Quantity:</Typography>
                       <div style={{ display: "flex" }}>
@@ -565,9 +615,30 @@ class CartPage extends Component {
                       ${this.state.totalPrice}
                     </Typography>
                   </div>
+                  {this.state.hasMarketPrice ? (
+                    <Typography
+                      component="h2"
+                      style={{ fontSize: 17, paddingTop: "20px" }}
+                    >
+                      {`One of your items is listed a market price. This means
+                        that we cannot calculate it at the moment and you will
+                        receive the total amount paid upon ${
+                          this.state.foodTransportationMethod === "delivery"
+                            ? "delivery"
+                            : "pick up"
+                        }.\nIf you would like to know more about the market 
+                        price of your item, please call the restaurant at the phone number above.`}
+                    </Typography>
+                  ) : null}
                 </span>
               </CardContent>
-              <div style={{ padding: "2%" }}>
+              <div
+                style={{
+                  paddingBottom: "2%",
+                  paddingRight: "2%",
+                  paddingLeft: "2%",
+                }}
+              >
                 <Button
                   fullWidth
                   disabled={this.state.buttonDisabled}

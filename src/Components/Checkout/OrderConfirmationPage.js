@@ -40,91 +40,49 @@ class OrderConfirmationPage extends Component {
         .includes("delivery")
         ? "delivery"
         : "pickup",
-      disabled: true,
       redirectToPlaceOrderConfirmPage: false,
       error: false,
       isModalOpen: false,
       modalMessage: "",
       isWithinRange: true, // NOTE: within the 8km range but more than 5km
       isLoading: false,
+      errorMessage: "",
     };
   }
 
   handleFirstNameEdit = (event) => {
     this.setState({
       firstNameText: event.target.value,
-      disabled:
-        event.target.value.length === 0 ||
-        this.state.lastNameText.length === 0 ||
-        this.state.phoneNumber.length <= 2 ||
-        (this.state.foodTransportationMethod === "delivery"
-          ? this.state.deliveryAddress.length === 0
-          : false),
     });
   };
 
   handleLastNameEdit = (event) => {
     this.setState({
       lastNameText: event.target.value,
-      disabled:
-        event.target.value.length === 0 ||
-        this.state.firstNameText.length === 0 ||
-        this.state.phoneNumber.length <= 2 ||
-        (this.state.foodTransportationMethod === "delivery"
-          ? this.state.deliveryAddress.length === 0
-          : false),
     });
   };
 
   handleDeliveryAddressEdit = (event) => {
     this.setState({
       deliveryAddress: event.target.value,
-      disabled:
-        event.target.value.length === 0 ||
-        this.state.firstNameText.length === 0 ||
-        this.state.phoneNumber.length <= 2 ||
-        this.state.lastNameText.length === 0 ||
-        this.state.city.length === 0 ||
-        this.state.postalCode.length === 0,
     });
   };
 
   handleCityEdit = (event) => {
     this.setState({
       city: event.target.value,
-      disabled:
-        event.target.value.length === 0 ||
-        this.state.firstNameText.length === 0 ||
-        this.state.phoneNumber.length <= 2 ||
-        this.state.lastNameText.length === 0 ||
-        this.state.deliveryAddress.length === 0 ||
-        this.state.postalCode.length === 0,
     });
   };
 
   handlePostalCodeEdit = (event) => {
     this.setState({
-      city: event.target.value,
-      disabled:
-        event.target.value.length === 0 ||
-        this.state.firstNameText.length === 0 ||
-        this.state.phoneNumber.length <= 2 ||
-        this.state.lastNameText.length === 0 ||
-        this.state.deliveryAddress.length === 0 ||
-        this.state.city.length === 0,
+      postalCode: event.target.value,
     });
   };
 
   handlePhoneNumberEdit = (value) => {
     this.setState({
       phoneNumber: value.replace(/\(|\)|-|\s/g, ""),
-      disabled:
-        value.length <= 2 ||
-        this.state.lastNameText.length === 0 ||
-        this.state.firstNameText.length === 0 ||
-        (this.state.foodTransportationMethod === "delivery"
-          ? this.state.deliveryAddress.length === 0
-          : false),
     });
   };
 
@@ -133,6 +91,7 @@ class OrderConfirmationPage extends Component {
       const [stackItems, cartItemsAmount] = parseItemIntoStack(
         JSON.parse(sessionStorage.getItem("cartItems"))
       );
+
       await Axios(`${hostEndpoint}/twilio/sms`, {
         method: "POST",
         params: {
@@ -149,51 +108,89 @@ class OrderConfirmationPage extends Component {
 
       sessionStorage.removeItem("cartItems");
       this.setState({
-        // redirectToPlaceOrderConfirmPage: true,
+        redirectToPlaceOrderConfirmPage: true,
         isLoading: false,
       });
     } catch (error) {
-      console.log(error);
-      this.setState({ error: true, isLoading: false });
+      this.setState({
+        errorMessage:
+          "Please check that you have entered your information correctly.",
+        error: true,
+        isLoading: false,
+      });
     }
   };
 
   handleIsWithinRange = async () => {
     try {
       this.setState({ isLoading: true });
-      const response = await Axios(`${hostEndpoint}/range`, {
-        method: "GET",
-        params: {
-          deliveryAddress: this.state.deliveryAddress,
-          city: this.state.city,
-          postalCode: this.state.postalCode,
-        },
-      });
-      const range = response.data.range;
 
-      if (range > 5) {
-        if (range > 8) {
-          this.setState({
-            isWithinRange: false,
-            modalMessage:
-              "Sorry but your location exceeds our delivery distance limit. Please change your order to 'Pick Up' to place your order.",
-            isModalOpen: true,
-            isLoading: false,
-          });
-        } else {
-          this.setState({
-            isWithinRange: true,
-            modalMessage:
-              "Your location is more than 5 km away from us. A delivery fee of $5 is going to be added to your purchase, do you wish to continue?",
-            isModalOpen: true,
-            isLoading: false,
-          });
+      if (
+        (this.state.foodTransportationMethod === "pickup" &&
+          (this.state.firstNameText.length === 0 ||
+            this.state.lastNameText.length === 0 ||
+            this.state.phoneNumber.length < 3)) ||
+        (this.state.foodTransportationMethod === "delivery" &&
+          (this.state.city.length === 0 ||
+            this.state.deliveryAddress.length === 0 ||
+            this.state.firstNameText.length === 0 ||
+            this.state.lastNameText.length === 0 ||
+            this.state.postalCode.length === 0 ||
+            this.state.phoneNumber.length < 3))
+      ) {
+        throw Error("missing_inputs");
+      }
+
+      if (this.state.foodTransportationMethod === "delivery") {
+        const response = await Axios(`${hostEndpoint}/range`, {
+          method: "GET",
+          params: {
+            deliveryAddress: this.state.deliveryAddress,
+            city: this.state.city,
+            postalCode: this.state.postalCode,
+          },
+        });
+
+        const range = response.data.range;
+
+        if (range > 5) {
+          if (range > 8) {
+            this.setState({
+              isWithinRange: false,
+              modalMessage:
+                "Sorry but your location exceeds our delivery distance limit. Please change your order to 'Pick Up' to place your order.",
+              isModalOpen: true,
+              isLoading: false,
+            });
+          } else {
+            this.setState({
+              isWithinRange: true,
+              modalMessage:
+                "Your location is more than 5 km away from us. A delivery fee of $5 is going to be added to your purchase, do you wish to continue?",
+              isModalOpen: true,
+              isLoading: false,
+            });
+          }
         }
       } else {
         this.handleRedirectToPlaceOrderConfirmPage();
       }
     } catch (error) {
-      this.setState({ error: true });
+      if (error.message === "missing_inputs" || error.response.status === 400) {
+        this.setState({
+          errorMessage:
+            "Please check that you have entered your information correctly.",
+          error: true,
+          isLoading: false,
+        });
+      } else {
+        this.setState({
+          errorMessage:
+            "There has been an error with our network. We are working on getting it fixed.",
+          error: true,
+          isLoading: false,
+        });
+      }
     }
   };
 
@@ -222,16 +219,6 @@ class OrderConfirmationPage extends Component {
   };
 
   render() {
-    if (!this.state.token) {
-      return (
-        <Center>
-          <h1>
-            Please return to the main page <Link to="/">here</Link>.
-          </h1>
-        </Center>
-      );
-    }
-
     if (this.state.redirectToPlaceOrderConfirmPage) {
       return (
         <Redirect
@@ -241,6 +228,19 @@ class OrderConfirmationPage extends Component {
             phoneNumber: this.state.phoneNumber,
           }}
         />
+      );
+    }
+
+    if (
+      !this.state.token ||
+      JSON.parse(sessionStorage.getItem("cartItems")) === null
+    ) {
+      return (
+        <Center>
+          <h1>
+            Please return to the main page <Link to="/">here</Link>.
+          </h1>
+        </Center>
       );
     }
 
@@ -400,14 +400,13 @@ class OrderConfirmationPage extends Component {
                 >
                   <Button
                     fullWidth
-                    disabled={this.state.disabled}
                     onClick={this.handleIsWithinRange}
                     variant="contained"
                     style={{
                       padding: "5px",
-                      fontSize: 18,
+                      fontSize: 20,
                       color: "black",
-                      backgroundColor: this.state.disabled ? "grey" : "green",
+                      backgroundColor: "green",
                       borderWidth: 1,
                       borderColor: "black",
                       borderStyle: "solid",
@@ -425,7 +424,7 @@ class OrderConfirmationPage extends Component {
             onClose={this.handleClose}
           >
             <Alert severity="error" elevation={6} variant="filled">
-              Please check that you have entered your information correctly.
+              {this.state.errorMessage}
             </Alert>
           </Snackbar>
           <Modal
@@ -660,14 +659,13 @@ class OrderConfirmationPage extends Component {
               >
                 <Button
                   fullWidth
-                  disabled={this.state.disabled}
                   onClick={this.handleIsWithinRange}
                   variant="contained"
                   style={{
                     padding: "2%",
                     fontSize: 25,
                     color: "black",
-                    backgroundColor: this.state.disabled ? "grey" : "green",
+                    backgroundColor: "green",
                     borderWidth: 1,
                     borderColor: "black",
                     borderStyle: "solid",
@@ -690,7 +688,7 @@ class OrderConfirmationPage extends Component {
             variant="filled"
             style={{ height: 75, width: 500, fontSize: 22 }}
           >
-            Please check that you have entered your information correctly.
+            {this.state.errorMessage}
           </Alert>
         </Snackbar>
         <Modal
