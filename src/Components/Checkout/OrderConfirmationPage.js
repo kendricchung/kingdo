@@ -20,8 +20,8 @@ import Modal from "@material-ui/core/Modal";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 
-const hostEndpoint = process.env.KINGDO_HOST_ENDPOINT
-  ? process.env.KINGDO_HOST_ENDPOINT
+const hostEndpoint = process.env.REACT_APP_KINGDO_HOST_ENDPOINT
+  ? process.env.REACT_APP_KINGDO_HOST_ENDPOINT
   : "http://localhost:4000";
 
 class OrderConfirmationPage extends Component {
