@@ -102,6 +102,7 @@ class CartBar extends Component {
           width: "100%",
           boxShadow: "0px -1px 3px rgba(50, 50, 50, 0.50)",
           color: "white",
+          minWidth: "1440px",
         }}
       >
         <div

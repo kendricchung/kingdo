@@ -5,6 +5,7 @@ import Menu from "../Menu";
 import { Link } from "react-router-dom";
 import Center from "react-center";
 import { isMobile } from "react-device-detect";
+import ScrollToTop from "react-scroll-to-top";
 
 class MenuPage extends Component {
   constructor(props) {

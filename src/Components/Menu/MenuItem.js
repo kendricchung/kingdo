@@ -52,7 +52,10 @@ class Item extends Component {
               )}
               <div style={{ maxWidth: "60%" }}>
                 <h3 style={{ fontWeight: "normal", fontSize: 14 }}>
-                  {this.state.menuItemNumber}. {this.state.name}{" "}
+                  {this.state.menuItemNumber === 0
+                    ? ""
+                    : this.state.menuItemNumber + ". "}
+                  {this.state.name}
                 </h3>
                 <h3
                   style={{ fontWeight: "normal", fontSize: 14 }}
@@ -82,6 +85,7 @@ class Item extends Component {
         </ListItem>
       );
     }
+
     return (
       <ListItem>
         <ListItemAvatar>
@@ -94,7 +98,10 @@ class Item extends Component {
         <div style={{ maxWidth: "60%" }}>
           <ListItemText>
             <h3 style={{ fontWeight: "normal", fontSize: 22 }}>
-              {this.state.menuItemNumber}. {this.state.name}
+              {this.state.menuItemNumber === 0
+                ? ""
+                : this.state.menuItemNumber + ". "}
+              {this.state.name}
             </h3>
             <h3 style={{ fontWeight: "normal", fontSize: 22 }}>
               {this.state.chineseTranslation}
