@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import MenuSection from "./MenuSection";
 import { Link, Element, Events, scrollSpy } from "react-scroll";
 import Button from "@material-ui/core/Button";
-import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { isMobile } from "react-device-detect";
@@ -17,7 +16,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import { menu } from "./AllMenuItems";
 import { featuredItems } from "./AllFeaturedItems";
-import Item from "./MenuItem";
 
 const useStyles = makeStyles((theme) => ({
   root: {
