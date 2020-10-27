@@ -48,6 +48,7 @@ class OrderConfirmationPage extends Component {
       isWithinRange: true, // NOTE: within the 8km range but more than 5km
       isLoading: false,
       errorMessage: "",
+      withIn5km: true,
     };
   }
 
@@ -103,6 +104,7 @@ class OrderConfirmationPage extends Component {
           deliveryAddress: this.state.deliveryAddress,
           city: this.state.city,
           postalCode: this.state.postalCode,
+          isWithIn5km: this.state.withIn5km,
         },
         data: { stackItems, cartItemsAmount },
       });
@@ -162,6 +164,7 @@ class OrderConfirmationPage extends Component {
                 "Sorry but your location exceeds our delivery distance limit. Please change your order to 'Pick Up' to place your order.",
               isModalOpen: true,
               isLoading: false,
+              withIn5km: false,
             });
           } else {
             this.setState({
@@ -170,9 +173,11 @@ class OrderConfirmationPage extends Component {
                 "Your location is more than 5 km away from us. A delivery fee of $5 is going to be added to your purchase, do you wish to continue?",
               isModalOpen: true,
               isLoading: false,
+              withIn5km: false,
             });
           }
         } else {
+          this.setState({ withIn5km: true });
           this.handleRedirectToPlaceOrderConfirmPage();
         }
       } else {
