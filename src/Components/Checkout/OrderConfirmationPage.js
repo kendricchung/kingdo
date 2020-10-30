@@ -94,6 +94,10 @@ class OrderConfirmationPage extends Component {
         JSON.parse(sessionStorage.getItem("cartItems"))
       );
 
+      const totalPrice = sessionStorage.getItem("totalPrice");
+      const subtotalPrice = sessionStorage.getItem("subtotalPrice");
+      const taxPrice = sessionStorage.getItem("taxPrice");
+
       await Axios(`${hostEndpoint}/twilio/sms`, {
         method: "POST",
         params: {
@@ -105,6 +109,9 @@ class OrderConfirmationPage extends Component {
           city: this.state.city,
           postalCode: this.state.postalCode,
           isWithIn5km: this.state.withIn5km,
+          totalPrice,
+          subtotalPrice,
+          taxPrice,
         },
         data: { stackItems, cartItemsAmount },
       });

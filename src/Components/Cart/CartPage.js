@@ -93,6 +93,10 @@ class CartPage extends Component {
       }
     });
 
+    sessionStorage.setItem("totalPrice", totalPrice);
+    sessionStorage.setItem("subtotalPrice", subtotalPrice);
+    sessionStorage.setItem("taxPrice", taxPrice);
+
     this.state = {
       itemStack: listOfItems,
       subtotalPrice: subtotalPrice,
@@ -148,6 +152,10 @@ class CartPage extends Component {
       }
     });
 
+    sessionStorage.setItem("totalPrice", totalPrice);
+    sessionStorage.setItem("subtotalPrice", subtotalPrice);
+    sessionStorage.setItem("taxPrice", taxPrice);
+
     this.setState({
       buttonDisabled: newStackItems.length === 0,
       itemStack: newStackItems,
@@ -184,6 +192,10 @@ class CartPage extends Component {
       taxPrice,
       totalPrice,
     ] = calculateAmountsGivenStackItems(currentStackItems);
+
+    sessionStorage.setItem("totalPrice", totalPrice);
+    sessionStorage.setItem("subtotalPrice", subtotalPrice);
+    sessionStorage.setItem("taxPrice", taxPrice);
 
     this.setState({
       itemStack: currentStackItems,
@@ -238,6 +250,10 @@ class CartPage extends Component {
       taxPrice,
       totalPrice,
     ] = calculateAmountsGivenStackItems(updatedStackItems);
+
+    sessionStorage.setItem("totalPrice", totalPrice);
+    sessionStorage.setItem("subtotalPrice", subtotalPrice);
+    sessionStorage.setItem("taxPrice", taxPrice);
 
     this.setState({
       buttonDisabled: updatedStackItems.length === 0,
