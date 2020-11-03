@@ -53,6 +53,7 @@ class OrderConfirmationPage extends Component {
       subtotalPrice: sessionStorage.getItem("subtotalPrice"),
       taxPrice: sessionStorage.getItem("taxPrice"),
       noValidForDeliveryModalOpen: false,
+      note: "",
     };
   }
 
@@ -65,6 +66,12 @@ class OrderConfirmationPage extends Component {
   handleLastNameEdit = (event) => {
     this.setState({
       lastNameText: event.target.value,
+    });
+  };
+
+  handleNoteEdit = (event) => {
+    this.setState({
+      note: event.target.value,
     });
   };
 
@@ -112,6 +119,7 @@ class OrderConfirmationPage extends Component {
           totalPrice: this.state.totalPrice,
           subtotalPrice: this.state.subtotalPrice,
           taxPrice: this.state.taxPrice,
+          note: this.state.note,
         },
         data: { stackItems, cartItemsAmount },
       });
@@ -423,6 +431,16 @@ class OrderConfirmationPage extends Component {
                   ) : (
                     ""
                   )}
+                  <Typography component="h2" style={{ fontSize: 17 }}>
+                    Send a note to the Chef (allergies and etc.)
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    autoComplete
+                    variant="outlined"
+                    style={{ paddingBottom: 10 }}
+                    onChange={(event) => this.handleNoteEdit(event)}
+                  />
                 </div>
                 <div
                   style={{
@@ -706,6 +724,16 @@ class OrderConfirmationPage extends Component {
                 ) : (
                   ""
                 )}
+                <Typography component="h2" style={{ fontSize: 20 }}>
+                  Send a note to the Chef (allergies and etc.)
+                </Typography>
+                <TextField
+                  fullWidth
+                  autoComplete
+                  variant="outlined"
+                  style={{ paddingBottom: 10 }}
+                  onChange={(event) => this.handleNoteEdit(event)}
+                />
               </div>
               <div
                 style={{
