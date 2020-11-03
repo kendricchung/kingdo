@@ -609,7 +609,7 @@ export const menu = [
       },
       {
         id: 71,
-        name: "Sauteed Scalops",
+        name: "Sauteed Scallops",
         price: 23.95,
         isSpicy: false,
         chineseTranslation: "油泡带子",
