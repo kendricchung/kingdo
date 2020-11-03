@@ -49,6 +49,10 @@ class OrderConfirmationPage extends Component {
       isLoading: false,
       errorMessage: "",
       withIn5km: true,
+      totalPrice: sessionStorage.getItem("totalPrice"),
+      subtotalPrice: sessionStorage.getItem("subtotalPrice"),
+      taxPrice: sessionStorage.getItem("taxPrice"),
+      noValidForDeliveryModalOpen: false,
     };
   }
 
@@ -94,10 +98,6 @@ class OrderConfirmationPage extends Component {
         JSON.parse(sessionStorage.getItem("cartItems"))
       );
 
-      const totalPrice = sessionStorage.getItem("totalPrice");
-      const subtotalPrice = sessionStorage.getItem("subtotalPrice");
-      const taxPrice = sessionStorage.getItem("taxPrice");
-
       await Axios(`${hostEndpoint}/twilio/sms`, {
         method: "POST",
         params: {
@@ -109,9 +109,9 @@ class OrderConfirmationPage extends Component {
           city: this.state.city,
           postalCode: this.state.postalCode,
           isWithIn5km: this.state.withIn5km,
-          totalPrice,
-          subtotalPrice,
-          taxPrice,
+          totalPrice: this.state.totalPrice,
+          subtotalPrice: this.state.subtotalPrice,
+          taxPrice: this.state.taxPrice,
         },
         data: { stackItems, cartItemsAmount },
       });
@@ -149,6 +149,13 @@ class OrderConfirmationPage extends Component {
             this.state.phoneNumber.length < 3))
       ) {
         throw Error("missing_inputs");
+      }
+
+      if (
+        this.state.subtotalPrice < 30 &&
+        this.state.foodTransportationMethod === "delivery"
+      ) {
+        throw Error("not_valid_for_delivery");
       }
 
       if (this.state.foodTransportationMethod === "delivery") {
@@ -191,7 +198,12 @@ class OrderConfirmationPage extends Component {
         this.handleRedirectToPlaceOrderConfirmPage();
       }
     } catch (error) {
-      if (error.message === "missing_inputs" || error.response.status === 400) {
+      if (error.message === "not_valid_for_delivery") {
+        this.setState({ noValidForDeliveryModalOpen: true, isLoading: false });
+      } else if (
+        error.message === "missing_inputs" ||
+        error.response.status === 400
+      ) {
         this.setState({
           errorMessage:
             "Please check that you have entered your information correctly.",
@@ -231,6 +243,10 @@ class OrderConfirmationPage extends Component {
 
   handleModalClose = () => {
     this.setState({ isModalOpen: false });
+  };
+
+  handleModalCloseNotValidForDelivery = () => {
+    this.setState({ noValidForDeliveryModalOpen: false });
   };
 
   render() {
@@ -442,6 +458,33 @@ class OrderConfirmationPage extends Component {
               {this.state.errorMessage}
             </Alert>
           </Snackbar>
+          <Modal
+            open={this.state.noValidForDeliveryModalOpen}
+            onClose={this.handleModalCloseNotValidForDelivery}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            <div
+              style={{
+                backgroundColor: "white",
+                width: "80%",
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <IconButton onClick={this.handleModalCloseNotValidForDelivery}>
+                <CloseIcon fontSize="medium" />
+              </IconButton>
+              <div style={{ paddingLeft: "10px" }}>
+                <h4>
+                  Your subtotal price must be at least $30 in order for
+                  delivery. Please add one or more item(s) to your cart.
+                </h4>
+              </div>
+            </div>
+          </Modal>
           <Modal
             open={this.state.isModalOpen}
             onClose={this.handleModalClose}
@@ -706,6 +749,33 @@ class OrderConfirmationPage extends Component {
             {this.state.errorMessage}
           </Alert>
         </Snackbar>
+        <Modal
+          open={this.state.noValidForDeliveryModalOpen}
+          onClose={this.handleModalCloseNotValidForDelivery}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          <div
+            style={{
+              backgroundColor: "white",
+              width: "80%",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <IconButton onClick={this.handleModalCloseNotValidForDelivery}>
+              <CloseIcon fontSize="medium" />
+            </IconButton>
+            <div style={{ paddingLeft: "10px" }}>
+              <h2>
+                Your subtotal price must be at least $30 in order for delivery.
+                Please add one or more item(s) to your cart.
+              </h2>
+            </div>
+          </div>
+        </Modal>
         <Modal
           open={this.state.isModalOpen}
           onClose={this.handleModalClose}

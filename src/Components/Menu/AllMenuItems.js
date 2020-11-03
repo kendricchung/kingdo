@@ -597,14 +597,14 @@ export const menu = [
     ],
   },
   {
-    menuSectionName: "CHICKEN AND DUCK - 海鲜类",
+    menuSectionName: "SEAFOOD - 海鲜类",
     menuSectionItems: [
       {
         id: 70,
         name: "Sauteed Seafood",
         price: 21.95,
         isSpicy: false,
-        chineseTranslation: "啫啫滑鸡煲",
+        chineseTranslation: "油泡海鲜",
         menuItemNumber: 66,
       },
       {
