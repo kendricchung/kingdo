@@ -480,8 +480,7 @@ class OrderConfirmationPage extends Component {
               <div style={{ paddingLeft: "10px" }}>
                 <h4>
                   Your subtotal price must be at least $30 in order for
-                  delivery. Please add one or more item(s) to your cart or
-                  select to pick up.
+                  delivery. Please add one or more item(s) to your cart.
                 </h4>
               </div>
             </div>
@@ -772,8 +771,7 @@ class OrderConfirmationPage extends Component {
             <div style={{ paddingLeft: "10px" }}>
               <h2>
                 Your subtotal price must be at least $30 in order for delivery.
-                Please add one or more item(s) to your cart or select to pick
-                up.
+                Please add one or more item(s) to your cart.
               </h2>
             </div>
           </div>
