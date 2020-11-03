@@ -1,7 +1,7 @@
 export const menu = [
   {
     // APPETIZERS
-    menuSectionName: "APPTIZERS - 头盘(前菜)",
+    menuSectionName: "APPETIZERS - 头盘(前菜)",
     menuSectionItems: [
       {
         id: 1,
