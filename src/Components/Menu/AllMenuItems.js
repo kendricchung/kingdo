@@ -359,7 +359,7 @@ export const menu = [
       },
       {
         id: 44,
-        name: "",
+        name: "Stir-Fried Pork Belly with Bell Peppers",
         price: 16.98,
         isSpicy: false,
         chineseTranslation: "农家小炒肉",
