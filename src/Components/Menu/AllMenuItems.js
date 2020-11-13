@@ -444,7 +444,7 @@ export const menu = [
       },
       {
         id: 100,
-        name: "Dai Chin Chicken (Boneless)",
+        name: "Szechuan Chicken (Boneless)",
         price: 18.98,
         isSpicy: true,
         chineseTranslation: "辣子鸡",
