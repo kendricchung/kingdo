@@ -361,7 +361,7 @@ class CartPage extends Component {
                   component="h2"
                   style={{ fontSize: 20 }}
                 >
-                  Order Summary
+                  Order Summary (prices subject to change)
                 </Typography>
                 <span style={{ padding: "10%" }}>
                   <div
@@ -574,7 +574,7 @@ class CartPage extends Component {
                   component="h2"
                   style={{ fontSize: 30 }}
                 >
-                  Order Summary
+                  Order Summary (prices subject to change)
                 </Typography>
                 <span style={{ padding: "10%" }}>
                   <div
