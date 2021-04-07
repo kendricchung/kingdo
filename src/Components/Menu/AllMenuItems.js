@@ -78,7 +78,7 @@ export const menu = [
       {
         id: 10,
         name: "Spring Roll (1pc)",
-        price: 2.65,
+        price: 1.65,
         isSpicy: false,
         menuItemNumber: 8,
         chineseTranslation: "炸春卷",
@@ -1434,7 +1434,7 @@ export const menu = [
         id: 172,
         name:
           "For Three (A) - Three egg rolls, sweet & sour pork, beef and broccoli, small deep-fried breaded chicken, and BBQ pork-fried rice.",
-        price: 45.95,
+        price: 47.95,
         isSpicy: false,
         chineseTranslation:
           "三人套餐 - 三个素春卷，咕噜肉，百家利牛肉，小份酥鸡，叉烧炒饭",
