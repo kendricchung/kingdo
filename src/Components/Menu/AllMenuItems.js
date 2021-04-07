@@ -1395,7 +1395,7 @@ export const menu = [
         id: 168,
         name:
           "Three Items Combo For One - Chicken Chow Mein, BBQ, Pork Fried Rice, Sweet & Sour Pork, Beef & Broccoli.",
-        price: 13.75,
+        price: 14.75,
         isSpicy: false,
         chineseTranslation:
           "三样组合 (一人食) - 鸡炒面，叉烧炒饭，咕噜肉，百家利牛肉",
@@ -1405,7 +1405,7 @@ export const menu = [
         id: 169,
         name:
           "Four Items Combo For One - Chicken Chow Mein, BBQ, Pork Fried Rice, Sweet & Sour Pork, Beef & Broccoli.",
-        price: 14.95,
+        price: 15.95,
         isSpicy: false,
         chineseTranslation:
           "四样组合 (一人食) - 鸡炒面，叉烧炒饭，咕噜肉，百家利牛肉",
