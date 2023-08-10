@@ -15,7 +15,7 @@ export const featuredItems = {
     {
       id: 184,
       name: "BBQ 2 Topping Rice",
-      price: 13.95,
+      price: 18.95,
       isSpicy: false,
       chineseTranslation: "烧味双拼饭",
       menuItemNumber: 0,
@@ -24,7 +24,7 @@ export const featuredItems = {
     {
       id: 185,
       name: "Soya Chicken (HALF)",
-      price: 13.95,
+      price: 17.95,
       isSpicy: false,
       chineseTranslation: "油鸡",
       menuItemNumber: 0,
@@ -33,7 +33,7 @@ export const featuredItems = {
     {
       id: 186,
       name: "Soya Chicken (WHOLE)",
-      price: 25.95,
+      price: 28.95,
       isSpicy: false,
       chineseTranslation: "油鸡",
       menuItemNumber: 0,
@@ -42,7 +42,7 @@ export const featuredItems = {
     {
       id: 187,
       name: "BBQ Pork Rice",
-      price: 11.95,
+      price: 14.95,
       isSpicy: false,
       chineseTranslation: "蜜汁叉烧饭",
       menuItemNumber: 0,
@@ -51,7 +51,7 @@ export const featuredItems = {
     {
       id: 188,
       name: "Roast Pork Rice",
-      price: 12.95,
+      price: 15.95,
       isSpicy: false,
       chineseTranslation: "脆皮烧肉饭",
       menuItemNumber: 0,
@@ -60,7 +60,7 @@ export const featuredItems = {
     {
       id: 189,
       name: "BBQ Duck (HALF)",
-      price: 14.95,
+      price: 26.95,
       isSpicy: false,
       chineseTranslation: "明爐烧鸭",
       menuItemNumber: 0,
@@ -69,7 +69,7 @@ export const featuredItems = {
     {
       id: 190,
       name: "BBQ Duck (WHOLE)",
-      price: 26.95,
+      price: 46.95,
       isSpicy: false,
       chineseTranslation: "明爐烧鸭",
       menuItemNumber: 0,
@@ -78,7 +78,7 @@ export const featuredItems = {
     {
       id: 191,
       name: "Roast Pork (WHOLE)",
-      price: 12.95,
+      price: 15.95,
       isSpicy: false,
       chineseTranslation: "脆皮烧肉",
       menuItemNumber: 0,
@@ -87,7 +87,7 @@ export const featuredItems = {
     {
       id: 192,
       name: "BBQ Pork (WHOLE)",
-      price: 9.5,
+      price: 12.95,
       isSpicy: false,
       chineseTranslation: "蜜汁叉烧",
       menuItemNumber: 0,
@@ -96,7 +96,7 @@ export const featuredItems = {
     {
       id: 193,
       name: "Express Chicken (HALF)",
-      price: 13.95,
+      price: 20.95,
       isSpicy: false,
       chineseTranslation: "贵妃鸡",
       menuItemNumber: 0,
@@ -105,7 +105,7 @@ export const featuredItems = {
     {
       id: 194,
       name: "Express Chicken (WHOLE)",
-      price: 25.95,
+      price: 37.80,
       isSpicy: false,
       chineseTranslation: "贵妃鸡",
       menuItemNumber: 0,
@@ -114,7 +114,7 @@ export const featuredItems = {
     {
       id: 195,
       name: "BBQ Duck Rice",
-      price: 12.95,
+      price: 16.95,
       isSpicy: false,
       chineseTranslation: "明爐烧鸭饭",
       menuItemNumber: 0,
@@ -123,7 +123,7 @@ export const featuredItems = {
     {
       id: 196,
       name: "Soya Chicken Rice",
-      price: 10.95,
+      price: 13.95,
       isSpicy: false,
       chineseTranslation: "油鸡饭",
       menuItemNumber: 0,
@@ -132,7 +132,7 @@ export const featuredItems = {
     {
       id: 197,
       name: "BBQ 3 Topping Rice",
-      price: 15.5,
+      price: 21.95,
       isSpicy: false,
       chineseTranslation: "烧味三拼饭",
       menuItemNumber: 0,
@@ -141,7 +141,7 @@ export const featuredItems = {
     {
       id: 198,
       name: "Daily Soup",
-      price: 2,
+      price: 18.95,
       isSpicy: false,
       chineseTranslation: "例汤",
       menuItemNumber: 0,
@@ -150,7 +150,7 @@ export const featuredItems = {
     {
       id: 199,
       name: "Stir Fried Vegetables",
-      price: 6,
+      price: 16.95,
       isSpicy: false,
       chineseTranslation: "油菜",
       menuItemNumber: 0,
