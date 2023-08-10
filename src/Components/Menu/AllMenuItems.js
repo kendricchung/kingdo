@@ -6,15 +6,15 @@ export const menu = [
       {
         id: 1,
         name: "Three Kind Appetizer Combinations",
-        price: 33.8,
+        price: 35.80,
         isSpicy: true,
         menuItemNumber: 1,
         chineseTranslation: "椒盐三拼",
       },
       {
         id: 2,
-        name: "New King Do Apptizer Combinations",
-        price: 37.8,
+        name: "New King Do Appetizer Combinations",
+        price: 39.80,
         isSpicy: false,
         menuItemNumber: 2,
         chineseTranslation: "新京都大拼盘",
@@ -30,7 +30,7 @@ export const menu = [
       {
         id: 4,
         name: "D.F. Crab Claws Wrapper with Minced Shrimp",
-        price: 7.5,
+        price: 8.95,
         isSpicy: false,
         menuItemNumber: 4,
         chineseTranslation: "白花酿蟹钳",
@@ -38,7 +38,7 @@ export const menu = [
       {
         id: 5,
         name: "Cold Marinated Jellyfish and Pork Hock",
-        price: 20.95,
+        price: 22.80,
         isSpicy: false,
         menuItemNumber: 5,
         chineseTranslation: "海蜇熏蹄",
@@ -46,7 +46,7 @@ export const menu = [
       {
         id: 6,
         name: "Deep-Fried Assorted Meat Combinations",
-        price: 29.8,
+        price: 33.80,
         isSpicy: false,
         menuItemNumber: 6,
         chineseTranslation: "酥炸拼盘",
@@ -54,7 +54,7 @@ export const menu = [
       {
         id: 7,
         name: "Lettuce Wrap (Chicken)",
-        price: 21.95,
+        price: 29.95,
         isSpicy: false,
         menuItemNumber: 7,
         chineseTranslation: "生菜包 (鸡)",
@@ -62,7 +62,7 @@ export const menu = [
       {
         id: 8,
         name: "Lettuce Wrap (Beef)",
-        price: 21.95,
+        price: 29.95,
         isSpicy: false,
         menuItemNumber: 7,
         chineseTranslation: "生菜包 (牛肉)",
@@ -70,7 +70,7 @@ export const menu = [
       {
         id: 9,
         name: "Lettuce Wrap (Seafood)",
-        price: 23.95,
+        price: 30.95,
         isSpicy: false,
         menuItemNumber: 7,
         chineseTranslation: "生菜包 (海鲜)",
@@ -78,7 +78,7 @@ export const menu = [
       {
         id: 10,
         name: "Spring Roll (1pc)",
-        price: 1.65,
+        price: 1.95,
         isSpicy: false,
         menuItemNumber: 8,
         chineseTranslation: "炸春卷",
@@ -86,7 +86,7 @@ export const menu = [
       {
         id: 11,
         name: "Deep-Fried Wonton",
-        price: 10.5,
+        price: 12.95,
         isSpicy: false,
         menuItemNumber: 9,
         chineseTranslation: "炸云吞",
@@ -94,7 +94,7 @@ export const menu = [
       {
         id: 12,
         name: "B.B.Q Pork",
-        price: 9.95,
+        price: 12.95,
         isSpicy: false,
         menuItemNumber: 10,
         chineseTranslation: "蜜汁叉烧",
