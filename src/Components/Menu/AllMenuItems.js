@@ -1454,7 +1454,7 @@ export const menu = [
         id: 174,
         name:
           "For Four (A) - Four egg rolls, sweet & sour pork, large dee-fried breaded chicken, beef chop suey, BBQ pork fried-rice, and chicken chow mein.",
-        price: 66.95,
+        price: 90.95,
         isSpicy: false,
         chineseTranslation:
           "四人套餐 - 四个素春卷，咕噜肉，大份酥鸡，牛肉杂菜，叉烧炒粉，鸡炒面",
