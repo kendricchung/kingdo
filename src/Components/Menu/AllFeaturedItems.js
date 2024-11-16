@@ -33,7 +33,7 @@ export const featuredItems = {
     {
       id: 186,
       name: "Soya Chicken (WHOLE)",
-      price: 28.95,
+      price: 33.95,
       isSpicy: false,
       chineseTranslation: "油鸡",
       menuItemNumber: 0,
@@ -41,8 +41,8 @@ export const featuredItems = {
     },
     {
       id: 187,
-      name: "BBQ Pork Rice",
-      price: 14.95,
+      name: "BBQ Pork on Rice",
+      price: 15.95,
       isSpicy: false,
       chineseTranslation: "蜜汁叉烧饭",
       menuItemNumber: 0,
@@ -50,7 +50,7 @@ export const featuredItems = {
     },
     {
       id: 188,
-      name: "Roast Pork Rice",
+      name: "Roast Pork on Rice",
       price: 15.95,
       isSpicy: false,
       chineseTranslation: "脆皮烧肉饭",
@@ -77,7 +77,7 @@ export const featuredItems = {
     },
     {
       id: 191,
-      name: "Roast Pork (WHOLE)",
+      name: "Roast Pork (LB)",
       price: 15.95,
       isSpicy: false,
       chineseTranslation: "脆皮烧肉",
@@ -86,8 +86,8 @@ export const featuredItems = {
     },
     {
       id: 192,
-      name: "BBQ Pork (WHOLE)",
-      price: 12.95,
+      name: "BBQ Pork (LB)",
+      price: 13.95,
       isSpicy: false,
       chineseTranslation: "蜜汁叉烧",
       menuItemNumber: 0,
@@ -95,8 +95,8 @@ export const featuredItems = {
     },
     {
       id: 193,
-      name: "Express Chicken (HALF)",
-      price: 20.95,
+      name: "Empress Chicken (HALF)",
+      price: 24.95,
       isSpicy: false,
       chineseTranslation: "贵妃鸡",
       menuItemNumber: 0,
@@ -104,8 +104,8 @@ export const featuredItems = {
     },
     {
       id: 194,
-      name: "Express Chicken (WHOLE)",
-      price: 37.80,
+      name: "Empress Chicken (WHOLE)",
+      price: 46.95,
       isSpicy: false,
       chineseTranslation: "贵妃鸡",
       menuItemNumber: 0,
@@ -113,7 +113,7 @@ export const featuredItems = {
     },
     {
       id: 195,
-      name: "BBQ Duck Rice",
+      name: "BBQ Duck on Rice",
       price: 16.95,
       isSpicy: false,
       chineseTranslation: "明爐烧鸭饭",
@@ -122,7 +122,7 @@ export const featuredItems = {
     },
     {
       id: 196,
-      name: "Soya Chicken Rice",
+      name: "Soya Chicken on Rice",
       price: 13.95,
       isSpicy: false,
       chineseTranslation: "油鸡饭",
