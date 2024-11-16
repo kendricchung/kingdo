@@ -1453,21 +1453,21 @@ export const menu = [
       {
         id: 174,
         name:
-          "For Four (A) - Four egg rolls, sweet & sour pork, wonton soup(8) large deep-fried breaded chicken, beef chop suey, BBQ pork fried-rice, and chicken chow mein.",
+          "For Four (A) - Four egg rolls, sweet & sour pork, wonton soup(8), large deep-fried breaded chicken, beef chop suey, BBQ pork fried-rice, and chicken chow mein.",
         price: 90.95,
         isSpicy: false,
         chineseTranslation:
-          "四人套餐 - 四个素春卷，咕噜肉，大份酥鸡，牛肉杂菜，叉烧炒粉，鸡炒面",
+          "四人套餐 - 四个素春卷，咕噜肉，云吞汤，大份酥鸡，牛肉杂菜，叉烧炒粉，鸡炒面",
         menuItemNumber: 0,
       },
       {
         id: 175,
         name:
-          "For Four (B) - Four egg rolls, honey pork, wonton soup(8) 16 pcs deep-fried prawns, beef and broccoli, BBQ pork-fried rice, and chicken chow mein.",
+          "For Four (B) - Four egg rolls, honey pork, wonton soup(8), 16 pcs deep-fried prawns, beef and broccoli, BBQ pork-fried rice, and chicken chow mein.",
         price: 92.95,
         isSpicy: false,
         chineseTranslation:
-          "四人套餐 - 四个素春卷，蜜汁猪，16块炸大虾，百家利牛肉，叉烧炒饭，鸡炒面",
+          "四人套餐 - 四个素春卷，蜜汁猪，云吞汤，16块炸大虾，百家利牛肉，叉烧炒饭，鸡炒面",
         menuItemNumber: 0,
       },
       {
