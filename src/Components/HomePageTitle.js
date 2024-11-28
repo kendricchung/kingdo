@@ -21,7 +21,7 @@ class HomePageTitle extends Component {
             flexWrap: "wrap",
           }}
         >
-          King Do Restaurant
+          King Do Restaurant (DO NOT ORDER! SYSTEM IS DOWN!)
         </Link>
       </h1>
     );
